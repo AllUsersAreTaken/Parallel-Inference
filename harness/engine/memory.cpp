@@ -56,6 +56,23 @@ static const std::vector<std::string> distractor_bullets = {
     "the budget is 12800 dollars", "the launch date is September 6",
 };
 
+// Distractor RAW exchanges (other conversations), same templates/vocabulary as
+// the real ones, so B1's index is stressed the same way as the bullet store.
+static const std::vector<std::string> distractor_raw = {
+    "User: Quick context: our new initiative is called Marlowe. Let's use that name from now on.\nAssistant: Understood, the initiative is called Marlowe.",
+    "User: By the way, the budget we agreed on for this is 21500 dollars.\nAssistant: Noted, the budget is 21500 dollars.",
+    "User: For the record, the client prefers phone calls over email.\nAssistant: Got it, the client prefers phone calls over email.",
+    "User: Heads up, the launch date is set for April 8.\nAssistant: Thanks, the launch date is April 8.",
+    "User: Quick context: our new initiative is called Sablewood. Let's use that name from now on.\nAssistant: Understood, the initiative is called Sablewood.",
+    "User: By the way, the budget we agreed on for this is 7300 dollars.\nAssistant: Noted, the budget is 7300 dollars.",
+    "User: For the record, the client prefers weekly written updates.\nAssistant: Got it, the client prefers weekly written updates.",
+    "User: Heads up, the launch date is set for January 27.\nAssistant: Thanks, the launch date is January 27.",
+    "User: Quick context: our new initiative is called Kestrel. Let's use that name from now on.\nAssistant: Understood, the initiative is called Kestrel.",
+    "User: By the way, the budget we agreed on for this is 18400 dollars.\nAssistant: Noted, the budget is 18400 dollars.",
+    "User: For the record, the client prefers afternoon calls.\nAssistant: Got it, the client prefers afternoon calls.",
+    "User: Heads up, the launch date is set for August 3.\nAssistant: Thanks, the launch date is August 3.",
+};
+
 static std::vector<std::string> words(const std::string & s) {
     std::vector<std::string> w; std::string cur;
     for (char c : s) {
@@ -166,7 +183,7 @@ int main(int argc, char ** argv) {
 
     auto convs = load_convs(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f) fprintf(f, "conv,arm,qtype,recall,inserted_tok,ttft_ms,total_ms,reply_tok,captured,retrieved,brief_has,use\\n");
+    if (f) fprintf(f, "conv,arm,qtype,recall,inserted_tok,ttft_ms,total_ms,reply_tok,captured,retrieved,brief_has,use\n");
 
     auto tok = [&](const std::string & s) {
         std::vector<llama_token> t(s.size() + 16);
@@ -230,9 +247,12 @@ int main(int argc, char ** argv) {
                     cap = all_in(q->value, bullets, nullptr);
                     std::vector<int> sel;
                     if (arm == 1) {
-                        BM25 bm; for (auto & x : exch_text) bm.add(x); bm.finish();
+                        BM25 bm;
+                        for (auto & x : exch_text) bm.add(x);
+                        for (int d = 0; d < distractors; ++d) bm.add(distractor_raw[(c.id * 11 + d) % distractor_raw.size()]);
+                        bm.finish();
                         auto hits = bm.query(q->text, topk);
-                        for (auto & h : hits) inject += exch_text[h.second] + "\n";
+                        for (auto & h : hits) if (h.second < (int)exch_text.size()) inject += exch_text[h.second] + "\n";
                         if (!inject.empty()) inject = "Relevant earlier notes:\n" + inject + "\n";
                         // retrieval over raw exchanges: all parts present in some hit?
                         ret = false;
@@ -240,7 +260,7 @@ int main(int argc, char ** argv) {
                             size_t s = 0; bool all = true;
                             while (s <= q->value.size()) {
                                 size_t t = q->value.find('|', s); if (t == std::string::npos) t = q->value.size();
-                                if (!contains(exch_text[h.second], q->value.substr(s, t - s))) { all = false; break; }
+                                if (h.second >= (int)exch_text.size() || !contains(exch_text[h.second], q->value.substr(s, t - s))) { all = false; break; }
                                 s = t + 1;
                             }
                             if (all) { ret = true; break; }

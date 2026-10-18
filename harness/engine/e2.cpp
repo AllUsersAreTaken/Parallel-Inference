@@ -188,7 +188,7 @@ int main(int argc, char ** argv) {
 
     std::ifstream fin(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a3_ans,a3_correct,a3_wall_ms,a3_finish\n");
+    if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a3_ans,a3_correct,a3_wall_ms,a3_finish,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish\n");
 
     std::string line;
     int id = 0;
@@ -211,31 +211,41 @@ int main(int argc, char ** argv) {
         if (pn < 0) { ptoks.resize(-pn); pn = llama_tokenize(e.vocab(), buf.data(), plen, ptoks.data(), (int)ptoks.size(), false, true); }
         ptoks.resize(pn);
 
-        for (int arm = 0; arm < 2; ++arm) {
-            int M = arm == 0 ? 1 : 16;
-            int kk = arm == 0 ? 1 : K;
+        // run one ensemble arm; returns answer + wall clock
+        auto run_arm = [&](int M, int kk, uint32_t seed, double & wall_out, std::string & ans_out, int & fin_out) {
             e.clear();
-            double pre_ms = 0;
-            { auto t0 = std::chrono::steady_clock::now();
-              if (!e.prefill(0, ptoks, true)) break;
-              e.sync();
-              pre_ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count(); }
-            llama_token seed = 0; { const float * lg = llama_get_logits_ith(e.ctx(), -1); int nv = e.n_vocab(); float bv = lg[0]; int bi = 0; for (int i=1;i<nv;++i) if (lg[i]>bv){bv=lg[i];bi=i;} seed=bi; }
-            auto * pe = new ProcessEnsemble(e, M, kk, max_trace, 1234);   // heap: engine keeps the pointer
-            pe->start((llama_pos)ptoks.size(), seed);
+            auto t0 = std::chrono::steady_clock::now();
+            e.prefill(0, ptoks, true);
+            e.sync();
+            double pre_ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
+            llama_token seed_tok = 0;
+            { const float * lg = llama_get_logits_ith(e.ctx(), -1); int nv = e.n_vocab(); float bv = lg[0]; int bi = 0; for (int i = 1; i < nv; ++i) if (lg[i] > bv) { bv = lg[i]; bi = i; } seed_tok = bi; }
+            auto * pe = new ProcessEnsemble(e, M, kk, max_trace, seed);
+            pe->start((llama_pos)ptoks.size(), seed_tok);
             e.add(pe);
             double wall = pre_ms;
-            while (!pe->done()) {
-                int active = 0;
-                double dt = e.tick(64, active);
-                if (dt < 0) break;
-                wall += dt;
-            }
-            int correct = (!pe->answer.empty() && pe->answer == gold) ? 1 : 0;
-            if (arm == 0) fprintf(f, "%d,%s,%s,%d,%.1f,", id, gold.c_str(), pe->answer.c_str(), correct, wall);
-            else          fprintf(f, "%s,%d,%.1f,%d\n", pe->answer.c_str(), correct, wall, pe->finish_len);
-            fflush(f);
+            while (!pe->done()) { int active = 0; double dt = e.tick(64, active); if (dt < 0) break; wall += dt; }
+            wall_out = wall; ans_out = pe->answer; fin_out = pe->finish_len;
+        };
+
+        double w0 = 0, w1 = 0, w2 = 0;
+        std::string a0, a1, a2;
+        int f0 = 0, f1 = 0, f2 = 0;
+        run_arm(1, 1, 1234, w0, a0, f0);                 // A1: single sampled trace
+        run_arm(16, K, 1234, w1, a1, f1);                // A3: N=16, first-K-agree
+        // A1r: single trace with loop detection + restart (up to 3 attempts)
+        for (int att = 0; att < 3; ++att) {
+            double w = 0; std::string a; int fin = 0;
+            run_arm(1, 1, 1234u + 777u * (uint32_t)att, w, a, fin);
+            w2 += w;
+            if (!a.empty()) { a2 = a; f2 = fin; break; }   // completed answer -> stop
         }
+        int c0 = (!a0.empty() && a0 == gold) ? 1 : 0;
+        int c1 = (!a1.empty() && a1 == gold) ? 1 : 0;
+        int c2 = (!a2.empty() && a2 == gold) ? 1 : 0;
+        fprintf(f, "%d,%s,%s,%d,%.1f,%s,%d,%.1f,%d,%s,%d,%.1f,%d\n",
+                id, gold.c_str(), a0.c_str(), c0, w0, a1.c_str(), c1, w1, f1, a2.c_str(), c2, w2, f2);
+        fflush(f);
         printf("id=%d done\n", id);
         fflush(stdout);
     }

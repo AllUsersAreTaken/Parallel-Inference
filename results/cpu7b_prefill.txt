@@ -1,0 +1,2 @@
+﻿| qwen2 7B Q4_K - Medium         |   4.36 GiB |     7.62 B | CUDA       |   0 |           pp512 |       959.02 ┬▒ 13.87 |
+| qwen2 7B Q4_K - Medium         |   4.36 GiB |     7.62 B | CUDA       |   0 |           tg128 |         12.56 ┬▒ 0.11 |

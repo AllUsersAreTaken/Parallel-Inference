@@ -1,11 +1,11 @@
 // RecycleLM Test 2 - long-term memory with push and pull.
 //
-// For each conversation, each arm is run independently:
+// Whole conversation goes through the model's real chat template with a system
+// prompt. Arms:
 //   B0 no memory (2k window, early turns evicted)
 //   B1 raw BM25 retrieval at the question turn (paste top-k raw exchanges)
-//   B2 memory processes: push writes a one-line bullet after each exchange
-//      (keeping names/numbers verbatim); at a question, BM25 over bullets plus
-//      a short brief is injected
+//   B2 memory processes: push writes a one-line bullet per exchange (keeping
+//      names/numbers verbatim); at a question, BM25 over bullets + a short brief
 //   B3 full history, large window (upper bound)
 //
 // Metrics: recall (string containment of the planted value), inserted tokens,
@@ -19,6 +19,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -27,6 +28,8 @@
 #include <map>
 #include <string>
 #include <vector>
+
+static const char * SYS = "You are a helpful assistant. Answer questions directly and briefly.";
 
 static std::vector<std::string> words(const std::string & s) {
     std::vector<std::string> w; std::string cur;
@@ -37,16 +40,20 @@ static std::vector<std::string> words(const std::string & s) {
     if (!cur.empty()) w.push_back(cur);
     return w;
 }
-static bool contains(const std::string & hay, const std::string & needle) {
-    if (needle.empty()) return false;
-    return hay.find(needle) != std::string::npos;
+static bool contains(const std::string & h, const std::string & n) { return !n.empty() && h.find(n) != std::string::npos; }
+// value may be "a|b" for multi-fact questions; require all parts
+static bool contains_all(const std::string & h, const std::string & v) {
+    size_t s = 0;
+    while (s <= v.size()) {
+        size_t t = v.find('|', s); if (t == std::string::npos) t = v.size();
+        if (!contains(h, v.substr(s, t - s))) return false;
+        s = t + 1;
+    }
+    return true;
 }
 
 struct BM25 {
-    std::vector<std::vector<std::string>> docs;
-    std::vector<int> len;
-    std::map<std::string, int> df;
-    double avg = 1;
+    std::vector<std::vector<std::string>> docs; std::vector<int> len; std::map<std::string, int> df; double avg = 1;
     void add(const std::string & t) {
         auto w = words(t); docs.push_back(w); len.push_back((int)w.size());
         std::map<std::string, int> seen; for (auto & x : w) seen[x]++;
@@ -74,13 +81,9 @@ struct BM25 {
     }
 };
 
+struct GenR { std::string text; int ntok = 0; double ttft = 0, total = 0; };
 struct Question { std::string type, value, text; };
-struct Conv {
-    int id = 0; std::string version;
-    std::vector<std::pair<std::string, std::string>> facts;
-    std::vector<Question> questions;
-    std::vector<std::string> turns;
-};
+struct Conv { int id = 0; std::string version; std::vector<std::pair<std::string, std::string>> facts; std::vector<Question> questions; std::vector<std::string> turns; std::vector<std::string> canned; };
 
 static std::vector<Conv> load_convs(const std::string & path) {
     std::vector<Conv> out; std::ifstream f(path); std::string line; Conv * cur = nullptr;
@@ -92,14 +95,14 @@ static std::vector<Conv> load_convs(const std::string & path) {
         else if (!cur) continue;
         else if (p[0] == "F") cur->facts.push_back({ p[1], p.size() > 2 ? p[2] : "" });
         else if (p[0] == "Q") cur->questions.push_back({ p[1], p.size() > 3 ? p[3] : "", p.size() > 4 ? p[4] : "" });
-        else if (p[0] == "T") cur->turns.push_back(p.size() > 1 ? p[1] : "");
+        else if (p[0] == "T") { cur->turns.push_back(p.size() > 1 ? p[1] : ""); cur->canned.push_back(p.size() > 2 ? p[2] : ""); }
     }
     return out;
 }
 
 int main(int argc, char ** argv) {
     std::string model, data, out;
-    int limit = 30, window = 2000, max_reply = 160, topk = 4, brief_max = 200;
+    int limit = 30, window = 2000, b3_window = 8000, max_reply = 150, topk = 4, brief_max = 120, only_arm = -1;
     for (int i = 1; i < argc; ++i) {
         std::string k = argv[i];
         auto nx = [&]() { return std::string(argv[++i]); };
@@ -108,15 +111,18 @@ int main(int argc, char ** argv) {
         else if (k == "--out") out = nx();
         else if (k == "--limit") limit = atoi(nx().c_str());
         else if (k == "--window") window = atoi(nx().c_str());
+        else if (k == "--b3-window") b3_window = atoi(nx().c_str());
         else if (k == "--max-reply") max_reply = atoi(nx().c_str());
         else if (k == "--topk") topk = atoi(nx().c_str());
+        else if (k == "--arm") only_arm = atoi(nx().c_str());
     }
     if (model.empty() || data.empty()) { fprintf(stderr, "need --model --data\n"); return 2; }
 
     Engine::Config cfg;
-    cfg.model = model; cfg.n_ctx = 16384; cfg.n_seq_max = 4; cfg.max_batch = 1024;
+    cfg.model = model; cfg.n_ctx = b3_window + 2048; cfg.n_seq_max = 4; cfg.max_batch = 2048;
     Engine e;
     if (!e.init(cfg)) { fprintf(stderr, "init failed\n"); return 1; }
+    const char * tmpl = e.model_chat_template();
 
     auto convs = load_convs(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
@@ -129,19 +135,23 @@ int main(int argc, char ** argv) {
         t.resize(n); return t;
     };
     auto piece = [&](llama_token t) { char b[64]; int n = llama_token_to_piece(e.vocab(), t, b, sizeof(b), 0, false); return std::string(b, n > 0 ? n : 0); };
-    auto fmt_user = [](const std::string & u) { return "<|im_start|>user\n" + u + "<|im_end|>\n<|im_start|>assistant\n"; };
+    auto apply = [&](std::vector<llama_chat_message> & msgs) {
+        std::vector<char> buf(1 << 20);
+        int n = llama_chat_apply_template(tmpl, msgs.data(), msgs.size(), true, buf.data(), (int)buf.size());
+        if (n > (int)buf.size()) { buf.resize(n); n = llama_chat_apply_template(tmpl, msgs.data(), msgs.size(), true, buf.data(), (int)buf.size()); }
+        return tok(std::string(buf.data(), n > 0 ? n : 0));
+    };
 
-    // generate greedily from a prefilled prompt on seq 0; returns text + timing
     auto gen = [&](const std::vector<llama_token> & prompt, int maxt) {
-        struct R { std::string text; int ntok; double ttft, total; } r{ "", 0, 0, 0 };
+        GenR r;
         e.clear();
         auto t0 = std::chrono::steady_clock::now();
-        e.prefill(0, prompt, true); e.sync();
-        auto tpre = std::chrono::steady_clock::now();
-        r.ttft = std::chrono::duration<double, std::milli>(tpre - t0).count();
+        if (!e.prefill(0, prompt, true)) return r;
+        e.sync();
+        r.ttft = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
         int nv = e.n_vocab();
-        auto argmax = [&](const float * lg) { int b = 0; float bv = lg[0]; for (int i = 1; i < nv; ++i) if (lg[i] > bv) { bv = lg[i]; b = i; } return b; };
-        llama_token cur = argmax(llama_get_logits_ith(e.ctx(), -1));
+        auto amax = [&](const float * lg) { int b = 0; float bv = lg[0]; for (int i = 1; i < nv; ++i) if (lg[i] > bv) { bv = lg[i]; b = i; } return b; };
+        llama_token cur = amax(llama_get_logits_ith(e.ctx(), -1));
         llama_pos pos = (llama_pos)prompt.size();
         for (int i = 0; i < maxt; ++i) {
             if (llama_vocab_is_eog(e.vocab(), cur)) break;
@@ -149,7 +159,7 @@ int main(int argc, char ** argv) {
             std::vector<llama_token> one = { cur };
             e.decode_from(0, one, pos, true); e.sync();
             pos += 1;
-            cur = argmax(llama_get_logits_ith(e.ctx(), -1));
+            cur = amax(llama_get_logits_ith(e.ctx(), -1));
         }
         r.total = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
         return r;
@@ -157,85 +167,94 @@ int main(int argc, char ** argv) {
 
     for (auto & c : convs) {
         if (c.id >= limit) continue;
+        int nturn = (int)c.turns.size();
         int nq = (int)c.questions.size();
-        int first_q = (int)c.turns.size() - nq;
-        if (first_q < 0) first_q = (int)c.turns.size();
 
         for (int arm = 0; arm < 4; ++arm) {
-            int wnd = (arm == 3) ? 16000 : window;
-            std::vector<llama_token> hist;             // logical full history tokens
-            std::vector<std::string> bullets;          // B2 pushed bullets
-            std::vector<std::string> exch_text;        // raw exchanges for B1
-            std::vector<int> exch_owner;               // exchange -> turn index
-            std::vector<int> bullet_src;               // bullet -> exchange index
+            if (only_arm >= 0 && arm != only_arm) continue;
+            int wnd = (arm == 3) ? b3_window : window;
+            std::vector<std::pair<std::string, std::string>> history;   // (user, assistant)
+            std::vector<std::string> bullets, exch_text;
 
-            for (int ti = 0; ti < (int)c.turns.size(); ++ti) {
-                bool is_q = ti >= first_q;
-                std::string user_msg = c.turns[ti];
+            for (int ti = 0; ti < nturn + nq; ++ti) {
+                bool is_q = ti >= nturn;
+                const Question * q = is_q ? &c.questions[ti - nturn] : nullptr;
+                std::string user_msg = is_q ? q->text : c.turns[ti];
                 std::string inject;
                 bool cap = false, ret = false;
-                const Question * q = is_q ? &c.questions[ti - first_q] : nullptr;
 
                 if (is_q && q) {
                     if (arm == 1) {
                         BM25 bm; for (auto & x : exch_text) bm.add(x); bm.finish();
                         auto hits = bm.query(q->text, topk);
                         for (auto & h : hits) { inject += exch_text[h.second] + "\n"; ret = ret || contains(exch_text[h.second], q->value); }
-                        inject = "Relevant earlier notes:\n" + inject + "\n";
+                        if (!inject.empty()) inject = "Relevant earlier notes:\n" + inject + "\n";
                     } else if (arm == 2) {
+                        for (auto & b : bullets) if (contains(b, q->value)) { cap = true; break; }
                         BM25 bm; for (auto & x : bullets) bm.add(x); bm.finish();
                         auto hits = bm.query(q->text, topk);
                         std::string notes;
                         for (auto & h : hits) { notes += "- " + bullets[h.second] + "\n"; ret = ret || contains(bullets[h.second], q->value); }
-                        cap = false; for (auto & b : bullets) if (contains(b, q->value)) { cap = true; break; }
                         if (!notes.empty()) {
-                            std::string bp = "<|im_start|>user\nQuestion: " + q->text + "\nNotes:\n" + notes +
-                                             "\nWrite a short brief answering the question using only these notes.<|im_end|>\n<|im_start|>assistant\n";
-                            auto g2 = gen(tok(bp), brief_max);
-                            inject = "Brief:\n" + g2.text + "\n\n";
+                            std::string brief_user = "Using only these notes, answer briefly: " + q->text + "\n" + notes;
+                            std::vector<llama_chat_message> bm_msgs = { { "system", SYS }, { "user", brief_user.c_str() } };
+                            auto bp = apply(bm_msgs);
+                            auto g2 = gen(bp, brief_max);
+                            inject = "Brief: " + g2.text + "\n\n";
                         }
                     }
                 }
 
-                // build the prompt: inject + last wnd tokens of history + this user turn
-                std::vector<llama_token> pt;
-                if (!inject.empty()) { auto it = tok(inject); pt.insert(pt.end(), it.begin(), it.end()); }
-                int start = std::max(0, (int)hist.size() - (wnd - (int)tok(fmt_user(user_msg)).size() - (int)pt.size()));
-                pt.insert(pt.end(), hist.begin() + start, hist.end());
-                auto ut = tok(fmt_user(user_msg)); pt.insert(pt.end(), ut.begin(), ut.end());
+                // build messages from full history, dropping oldest until it fits the window
+                std::string user_content = inject + user_msg + (is_q ? " Answer in one short sentence." : "");
+                std::vector<llama_token> prompt;
+                size_t drop = 0;
+                while (true) {
+                    std::vector<llama_chat_message> msgs;
+                    msgs.push_back({ "system", SYS });
+                    for (size_t h = drop; h < history.size(); ++h) {
+                        msgs.push_back({ "user", history[h].first.c_str() });
+                        msgs.push_back({ "assistant", history[h].second.c_str() });
+                    }
+                    msgs.push_back({ "user", user_content.c_str() });
+                    prompt = apply(msgs);
+                    if ((int)prompt.size() <= wnd || drop >= history.size()) break;
+                    drop += 1;
+                }
 
-                auto g = gen(pt, max_reply);
+                GenR g;
+                if (!is_q && ti < (int)c.canned.size() && !c.canned[ti].empty()) { g.text = c.canned[ti]; }
+                else { g = gen(prompt, max_reply); }
+
+                if (getenv("MEMDBG2")) {
+                    std::string pt;
+                    for (size_t z = prompt.size() > 160 ? prompt.size() - 160 : 0; z < prompt.size(); ++z) pt += piece(prompt[z]);
+                    fprintf(stderr, "PROMPT_TAIL c=%d arm=%d hist=%zu drop=%zu user_content=[%s]\nTAIL=[%s]\n",
+                            c.id, arm, history.size(), drop, user_content.c_str(), pt.c_str());
+                }
 
                 if (is_q && q) {
-                    bool ok = contains(g.text, q->value);
-                    if (getenv("MEMDBG")) fprintf(stderr, "DBG conv=%d arm=%d %s q=[%s] value=[%s] reply=[%s]\n",
-                                                  c.id, arm, q->type.c_str(), q->text.c_str(), q->value.c_str(), g.text.substr(0, 300).c_str());
-                    int inserted = (int)tok(inject).size();
-                    // "use": answered given the brief/notes were present
+                    bool ok = contains_all(g.text, q->value);
+                    if (getenv("MEMDBG")) fprintf(stderr, "PSZ=%zu DBG c=%d arm=%d %s q=[%s] v=[%s] reply=[%s]\n",
+                                                  prompt.size(), c.id, arm, q->type.c_str(), q->text.c_str(), q->value.c_str(), g.text.substr(0, 200).c_str());
                     fprintf(f, "%d,%d,%s,%d,%d,%.1f,%.1f,%d,%d,%d,%d\n",
-                            c.id, arm, q->type.c_str(), ok ? 1 : 0, inserted, g.ttft, g.total, g.ntok,
-                            (arm == 2 ? (cap ? 1 : 0) : -1), (arm == 2 ? (ret ? 1 : 0) : -1),
-                            (arm == 2 ? (ok ? 1 : 0) : -1));
+                            c.id, arm, q->type.c_str(), ok ? 1 : 0, (int)tok(inject).size(), g.ttft, g.total, g.ntok,
+                            arm == 2 ? (cap ? 1 : 0) : -1, arm == 2 ? (ret ? 1 : 0) : -1, arm == 2 ? (ok ? 1 : 0) : -1);
                     fflush(f);
                 }
 
-                // update history
-                auto ut2 = tok(fmt_user(user_msg)); hist.insert(hist.end(), ut2.begin(), ut2.end());
-                auto rt = tok(g.text); hist.insert(hist.end(), rt.begin(), rt.end());
-                auto et = tok("<|im_end|>\n"); hist.insert(hist.end(), et.begin(), et.end());
-
+                history.push_back({ user_msg, g.text });
                 exch_text.push_back("User: " + user_msg + "\nAssistant: " + g.text);
-                exch_owner.push_back(ti);
 
                 if (arm == 2) {
-                    // push a bullet for this exchange
-                    std::string cue = "<|im_start|>user\nSummarize the last exchange in one line. Keep names and numbers exactly as written.<|im_end|>\n<|im_start|>assistant\n";
-                    std::vector<llama_token> bp = hist; auto ct = tok(cue); bp.insert(bp.end(), ct.begin(), ct.end());
-                    auto gb = gen(bp, 32);
+                    std::string push_user = "Summarize this exchange in one line. Keep names and numbers exactly as written.\nUser: "
+                                            + user_msg + "\nAssistant: " + g.text;
+                    std::vector<llama_chat_message> bm_msgs = { { "system", SYS }, { "user", push_user.c_str() } };
+                    auto bp = apply(bm_msgs);
+                    auto gb = gen(bp, 40);
                     std::string line = gb.text;
                     size_t nl = line.find('\n'); if (nl != std::string::npos) line = line.substr(0, nl);
                     bullets.push_back(line);
-                    bullet_src.push_back((int)exch_text.size() - 1);
                 }
             }
         }

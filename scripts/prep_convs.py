@@ -23,6 +23,8 @@ with open(src, encoding="utf-8") as fi, open(dst, "w", encoding="utf-8") as fo:
             if isinstance(v, list):
                 v = "|".join(v)
             fo.write(f"Q\t{q['type']}\t{q['fact_idx']}\t{v}\t{q['text']}\n")
-        for t in c["turns"]:
-            fo.write("T\t" + t.replace("\t", " ").replace("\n", " ") + "\n")
+        for t, cn in zip(c["turns"], c["canned"]):
+            clean_t = t.replace("\t", " ").replace("\n", " ")
+            clean_c = cn.replace("\t", " ").replace("\n", " ")
+            fo.write(f"T\t{clean_t}\t{clean_c}\n")
 print(f"wrote {dst}")

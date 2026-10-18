@@ -128,11 +128,16 @@ public:
 
     // prefill a token list on a sequence, with logits on the last token
     bool prefill(llama_seq_id seq, const std::vector<llama_token> & toks, bool logits_last = true) {
+        return decode_from(seq, toks, 0, logits_last);
+    }
+
+    // decode tokens starting at an explicit position
+    bool decode_from(llama_seq_id seq, const std::vector<llama_token> & toks, llama_pos pos0, bool logits_last = true) {
         for (int off = 0; off < (int)toks.size(); off += max_batch_) {
             int n = std::min(max_batch_, (int)toks.size() - off);
             for (int i = 0; i < n; ++i) {
                 batch_.token[i] = toks[off + i];
-                batch_.pos[i] = off + i;
+                batch_.pos[i] = pos0 + (llama_pos)(off + i);
                 batch_.n_seq_id[i] = 1;
                 batch_.seq_id[i][0] = seq;
                 batch_.logits[i] = (logits_last && off + i + 1 == (int)toks.size()) ? 1 : 0;

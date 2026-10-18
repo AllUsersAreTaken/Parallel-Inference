@@ -190,11 +190,26 @@ int main(int argc, char ** argv) {
                         for (auto & h : hits) { inject += exch_text[h.second] + "\n"; ret = ret || contains(exch_text[h.second], q->value); }
                         if (!inject.empty()) inject = "Relevant earlier notes:\n" + inject + "\n";
                     } else if (arm == 2) {
-                        for (auto & b : bullets) if (contains(b, q->value)) { cap = true; break; }
+                        auto all_in = [&](const std::string & v, const std::vector<std::string> & pool, const std::vector<int> * idx) {
+                            size_t s = 0;
+                            while (s <= v.size()) {
+                                size_t t = v.find('|', s); if (t == std::string::npos) t = v.size();
+                                std::string part = v.substr(s, t - s);
+                                bool found = false;
+                                if (idx) { for (int i : *idx) if (contains(pool[i], part)) { found = true; break; } }
+                                else { for (auto & b : pool) if (contains(b, part)) { found = true; break; } }
+                                if (!found) return false;
+                                s = t + 1;
+                            }
+                            return true;
+                        };
+                        cap = all_in(q->value, bullets, nullptr);
                         BM25 bm; for (auto & x : bullets) bm.add(x); bm.finish();
                         auto hits = bm.query(q->text, topk);
+                        std::vector<int> hidx; for (auto & h : hits) hidx.push_back(h.second);
+                        ret = all_in(q->value, bullets, &hidx);
                         std::string notes;
-                        for (auto & h : hits) { notes += "- " + bullets[h.second] + "\n"; ret = ret || contains(bullets[h.second], q->value); }
+                        for (auto & h : hits) notes += "- " + bullets[h.second] + "\n";
                         if (!notes.empty()) {
                             std::string brief_user = "Using only these notes, answer briefly: " + q->text + "\n" + notes;
                             std::vector<llama_chat_message> bm_msgs = { { "system", SYS }, { "user", brief_user.c_str() } };

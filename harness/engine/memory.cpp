@@ -31,6 +31,31 @@
 
 static const char * SYS = "You are a helpful assistant. Answer questions directly and briefly.";
 
+// Distractor bullets (plausible facts from other conversations) to test retrieval
+// at scale. Values here are disjoint from the planted facts.
+static const std::vector<std::string> distractor_bullets = {
+    "the budget for Project Falcon is 21500 dollars", "the client prefers phone calls over email",
+    "the launch date is April 8", "the supplier is called Brightwater",
+    "the contract value is 9600 dollars", "the team lead is named Priya",
+    "the office moved to Lisbon", "the review cadence is every two weeks",
+    "the target is 45 percent", "the deadline is October 19",
+    "the project is called Marlowe", "the client prefers weekly written updates",
+    "the budget is 7300 dollars", "the launch date is January 27",
+    "the supplier is called Northwind", "the team lead is named Diego",
+    "the office moved to Tallinn", "the target is 62 percent",
+    "the project is called Sablewood", "the client prefers afternoon calls",
+    "the budget is 18400 dollars", "the launch date is August 3",
+    "the supplier is called Ironbridge", "the team lead is named Mei",
+    "the office moved to Porto", "the target is 38 percent",
+    "the deadline is December 12", "the project is called Kestrel",
+    "the client prefers async reviews", "the budget is 5200 dollars",
+    "the launch date is May 30", "the supplier is called Hollowbrook",
+    "the team lead is named Tomas", "the office moved to Riga",
+    "the target is 71 percent", "the deadline is November 24",
+    "the project is called Fernway", "the client prefers a biweekly digest",
+    "the budget is 12800 dollars", "the launch date is September 6",
+};
+
 static std::vector<std::string> words(const std::string & s) {
     std::vector<std::string> w; std::string cur;
     for (char c : s) {
@@ -47,6 +72,20 @@ static bool contains_all(const std::string & h, const std::string & v) {
     while (s <= v.size()) {
         size_t t = v.find('|', s); if (t == std::string::npos) t = v.size();
         if (!contains(h, v.substr(s, t - s))) return false;
+        s = t + 1;
+    }
+    return true;
+}
+// all parts of v present in the bullet pool (optionally restricted to indices)
+static bool all_in(const std::string & v, const std::vector<std::string> & pool, const std::vector<int> * idx) {
+    size_t s = 0;
+    while (s <= v.size()) {
+        size_t t = v.find('|', s); if (t == std::string::npos) t = v.size();
+        std::string part = v.substr(s, t - s);
+        bool found = false;
+        if (idx) { for (int i : *idx) if (i >= 0 && i < (int)pool.size() && contains(pool[i], part)) { found = true; break; } }
+        else { for (auto & b : pool) if (contains(b, part)) { found = true; break; } }
+        if (!found) return false;
         s = t + 1;
     }
     return true;
@@ -102,7 +141,7 @@ static std::vector<Conv> load_convs(const std::string & path) {
 
 int main(int argc, char ** argv) {
     std::string model, data, out;
-    int limit = 30, window = 2000, b3_window = 8000, max_reply = 150, topk = 4, brief_max = 120, only_arm = -1;
+    int limit = 30, window = 2000, b3_window = 8000, max_reply = 150, topk = 4, brief_max = 120, only_arm = -1, distractors = 0;
     for (int i = 1; i < argc; ++i) {
         std::string k = argv[i];
         auto nx = [&]() { return std::string(argv[++i]); };
@@ -115,6 +154,7 @@ int main(int argc, char ** argv) {
         else if (k == "--max-reply") max_reply = atoi(nx().c_str());
         else if (k == "--topk") topk = atoi(nx().c_str());
         else if (k == "--arm") only_arm = atoi(nx().c_str());
+        else if (k == "--distractors") distractors = atoi(nx().c_str());
     }
     if (model.empty() || data.empty()) { fprintf(stderr, "need --model --data\n"); return 2; }
 
@@ -126,7 +166,7 @@ int main(int argc, char ** argv) {
 
     auto convs = load_convs(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f) fprintf(f, "conv,arm,qtype,recall,inserted_tok,ttft_ms,total_ms,reply_tok,capture,retrieval,use\n");
+    if (f) fprintf(f, "conv,arm,qtype,recall,inserted_tok,ttft_ms,total_ms,reply_tok,captured,retrieved,brief_has,use\\n");
 
     auto tok = [&](const std::string & s) {
         std::vector<llama_token> t(s.size() + 16);
@@ -170,11 +210,14 @@ int main(int argc, char ** argv) {
         int nturn = (int)c.turns.size();
         int nq = (int)c.questions.size();
 
-        for (int arm = 0; arm < 4; ++arm) {
+        for (int arm = 0; arm < 5; ++arm) {
             if (only_arm >= 0 && arm != only_arm) continue;
             int wnd = (arm == 3) ? b3_window : window;
             std::vector<std::pair<std::string, std::string>> history;   // (user, assistant)
             std::vector<std::string> bullets, exch_text;
+            // distractor bullets (from other conversations) to test retrieval at scale
+            for (int d = 0; d < distractors; ++d)
+                bullets.push_back("Note: " + distractor_bullets[(c.id * 7 + d) % distractor_bullets.size()]);
 
             for (int ti = 0; ti < nturn + nq; ++ti) {
                 bool is_q = ti >= nturn;
@@ -184,38 +227,50 @@ int main(int argc, char ** argv) {
                 bool cap = false, ret = false;
 
                 if (is_q && q) {
+                    cap = all_in(q->value, bullets, nullptr);
+                    std::vector<int> sel;
                     if (arm == 1) {
                         BM25 bm; for (auto & x : exch_text) bm.add(x); bm.finish();
                         auto hits = bm.query(q->text, topk);
-                        for (auto & h : hits) { inject += exch_text[h.second] + "\n"; ret = ret || contains(exch_text[h.second], q->value); }
+                        for (auto & h : hits) inject += exch_text[h.second] + "\n";
                         if (!inject.empty()) inject = "Relevant earlier notes:\n" + inject + "\n";
-                    } else if (arm == 2) {
-                        auto all_in = [&](const std::string & v, const std::vector<std::string> & pool, const std::vector<int> * idx) {
-                            size_t s = 0;
-                            while (s <= v.size()) {
-                                size_t t = v.find('|', s); if (t == std::string::npos) t = v.size();
-                                std::string part = v.substr(s, t - s);
-                                bool found = false;
-                                if (idx) { for (int i : *idx) if (contains(pool[i], part)) { found = true; break; } }
-                                else { for (auto & b : pool) if (contains(b, part)) { found = true; break; } }
-                                if (!found) return false;
+                        // retrieval over raw exchanges: all parts present in some hit?
+                        ret = false;
+                        for (auto & h : hits) {
+                            size_t s = 0; bool all = true;
+                            while (s <= q->value.size()) {
+                                size_t t = q->value.find('|', s); if (t == std::string::npos) t = q->value.size();
+                                if (!contains(exch_text[h.second], q->value.substr(s, t - s))) { all = false; break; }
                                 s = t + 1;
                             }
-                            return true;
-                        };
-                        cap = all_in(q->value, bullets, nullptr);
+                            if (all) { ret = true; break; }
+                        }
+                    } else if (arm == 2 || arm == 4) {
                         BM25 bm; for (auto & x : bullets) bm.add(x); bm.finish();
-                        auto hits = bm.query(q->text, topk);
-                        std::vector<int> hidx; for (auto & h : hits) hidx.push_back(h.second);
-                        ret = all_in(q->value, bullets, &hidx);
+                        auto hits = bm.query(q->text, arm == 4 ? 6 : topk);
+                        for (auto & h : hits) sel.push_back(h.second);
+                        if (arm == 4) {
+                            // model reads the whole store and picks the relevant bullets
+                            std::string all;
+                            for (int i = 0; i < (int)bullets.size(); ++i) all += std::to_string(i) + ". " + bullets[i] + "\n";
+                            std::string sel_user = "Notes:\n" + all + "\nWhich note numbers are relevant to this question: " +
+                                                   q->text + "\nReply with only the numbers, comma separated.";
+                            std::vector<llama_chat_message> sm = { { "system", SYS }, { "user", sel_user.c_str() } };
+                            auto gs = gen(apply(sm), 24);
+                            std::vector<int> msel;
+                            for (auto & w : words(gs.text)) { int idx = atoi(w.c_str()); if (idx >= 0 && idx < (int)bullets.size()) msel.push_back(idx); }
+                            if (!msel.empty()) sel = msel;
+                        }
+                        ret = all_in(q->value, bullets, &sel);
                         std::string notes;
-                        for (auto & h : hits) notes += "- " + bullets[h.second] + "\n";
-                        if (!notes.empty()) {
+                        for (int i : sel) notes += "- " + bullets[i] + "\n";
+                        if (arm == 2 && !notes.empty()) {
                             std::string brief_user = "Using only these notes, answer briefly: " + q->text + "\n" + notes;
                             std::vector<llama_chat_message> bm_msgs = { { "system", SYS }, { "user", brief_user.c_str() } };
-                            auto bp = apply(bm_msgs);
-                            auto g2 = gen(bp, brief_max);
+                            auto g2 = gen(apply(bm_msgs), brief_max);
                             inject = "Brief: " + g2.text + "\n\n";
+                        } else if (arm == 4 && !notes.empty()) {
+                            inject = "Relevant notes:\n" + notes + "\n";   // verbatim, no rewrite
                         }
                     }
                 }
@@ -250,18 +305,19 @@ int main(int argc, char ** argv) {
 
                 if (is_q && q) {
                     bool ok = contains_all(g.text, q->value);
+                    bool bh = contains_all(inject, q->value);
                     if (getenv("MEMDBG")) fprintf(stderr, "PSZ=%zu DBG c=%d arm=%d %s q=[%s] v=[%s] reply=[%s]\n",
                                                   prompt.size(), c.id, arm, q->type.c_str(), q->text.c_str(), q->value.c_str(), g.text.substr(0, 200).c_str());
-                    fprintf(f, "%d,%d,%s,%d,%d,%.1f,%.1f,%d,%d,%d,%d\n",
+                    fprintf(f, "%d,%d,%s,%d,%d,%.1f,%.1f,%d,%d,%d,%d,%d\n",
                             c.id, arm, q->type.c_str(), ok ? 1 : 0, (int)tok(inject).size(), g.ttft, g.total, g.ntok,
-                            arm == 2 ? (cap ? 1 : 0) : -1, arm == 2 ? (ret ? 1 : 0) : -1, arm == 2 ? (ok ? 1 : 0) : -1);
+                            cap ? 1 : 0, ret ? 1 : 0, bh ? 1 : 0, ok ? 1 : 0);
                     fflush(f);
                 }
 
                 history.push_back({ user_msg, g.text });
                 exch_text.push_back("User: " + user_msg + "\nAssistant: " + g.text);
 
-                if (arm == 2) {
+                if (arm == 2 || arm == 4) {
                     std::string push_user = "Summarize this exchange in one line. Keep names and numbers exactly as written.\nUser: "
                                             + user_msg + "\nAssistant: " + g.text;
                     std::vector<llama_chat_message> bm_msgs = { { "system", SYS }, { "user", push_user.c_str() } };

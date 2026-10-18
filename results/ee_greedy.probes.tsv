@@ -1,0 +1,891 @@
+1	64	64	 24.  Wait, hold on, let me make sure I'm not
+1	64	128	 3 + 4 = 7 eggs used each day for breakfast and muff
+1	64	192	 9.  Wait, hold on, let me make sure I'm doing this
+1	64	256	 9 eggs multiplied by $2 per egg. Let me compute that: 
+1	64	320	 $18.  Wait, let me double-check my calculations to make sure I
+1	64	384	 $18.  **Final Answer** \boxed{18} </think>  
+1	64	448	 $18.  **Final Answer** \boxed{18} </think>  
+1	64	512	 \boxed{18}.
+1	64	576	: \[ \boxed{18} \]
+1	64	640	: \[ \boxed{18} \]
+2	64	64	 3 bolts in total. </think>  To determine the total number of bolts required
+2	64	128	:  \boxed{3}
+2	64	192	: \[ \text{White fiber} = \frac{1}{2
+2	64	256	:  \[ \boxed{3} \]
+2	64	320	 \boxed{3} bolts.
+3	64	64	 $130,000. </think>  **Solution:**  1
+3	64	128	 $200,000. </think>  **Solution:**  1
+3	64	192	:  \boxed{70000}
+3	64	256	:  \[ \boxed{70,\!000} \]
+3	64	320	:  \[ \boxed{70,\!000} \]
+3	64	384	:  \boxed{70000}
+4	64	64	 18 meters. </think>  **Solution:**  James runs **3 s
+4	64	128	:  \[ \boxed{180\ \text{meters}} 
+4	64	192	:  \[ \boxed{180} \]
+5	64	64	 60 cups. </think>  **Solution:**  Wendi feeds her flock
+5	64	128	 20 cups. </think>  To determine how many cups of feed Wendi
+5	64	192	:  \boxed{20}
+5	64	256	 calculated as follows:  1. **Total Daily Feed Requirement:**    \[ 
+5	64	320	:  \[ \boxed{20} \]
+5	64	384	:  \boxed{20}
+5	64	448	:  \[ \boxed{20} \]
+5	64	512	:  \[ \boxed{20} \]
+6	64	64	 $5 for the first glass and $3 for the second glass. </think>  
+6	64	128	 \boxed{105}.
+6	64	192	:  \[ \boxed{55.00} \]
+6	64	256	:  \boxed{5 + 3 + 1.80 + 
+6	64	320	:  \[ \boxed{\$10.00} \]
+6	64	384	:  \[ \boxed{\$24.99} \]
+6	64	448	:  \[ \boxed{\$12.99} \]
+6	64	512	:  \[ \boxed{\$24.99} \]
+6	64	576	:  \[ \boxed{\$10.88} \]
+6	64	640	:  \[ \boxed{\$10.00} \]
+6	64	704	:  \[ \boxed{\$3.02} \]
+6	64	768	:  \boxed{\$24.99}
+6	64	832	:  \[ \boxed{\$10.00} \]
+6	64	896	:  \[ \boxed{\$10.00} \]
+6	64	960	:  \boxed{10}
+7	64	64	 20 (Seattle) + 80 (Charleston) + 
+7	64	128	 260 sheep. </think>  Let's determine the number of sheep each
+7	64	192	 \(\boxed{260}\).
+7	64	256	:  \[ \boxed{260} \]
+7	64	320	:  \[ \boxed{260} \]
+7	64	384	 \boxed{260}.
+8	64	64	 \boxed{20} minutes. </think>  To determine how long it takes
+8	64	128	 \boxed{130} minutes. </think>  To determine the total load
+8	64	192	 80 minutes. </think>  To determine the total load time for Carla's
+8	64	256	 40 minutes to download the first 40%, 20 minutes
+8	64	320	 100 minutes. </think>  To determine the total load time for Carla
+8	64	384	:  \boxed{120\ \text{minutes}}
+8	64	448	 \boxed{120} minutes.
+8	64	512	 \boxed{120} minutes.
+8	64	576	:  \[ \boxed{120 \text{ minutes}} \]
+8	64	640	:  \[ \boxed{120 \text{ minutes}} \]
+8	64	704	:  \[ \boxed{120 \text{ minutes}} \]
+8	64	768	:  \[ \boxed{120 \text{ minutes}} \]
+9	64	64	 180 miles. Wait, hold on, let me make sure.
+9	64	128	 180 miles.  Wait, hold on. Let me make sure I
+9	64	192	 that he spends the first 2 hours not moving, so he doesn't cover
+9	64	256	 180 miles.  Wait, hold on. Let me make sure I
+9	64	320	 15 miles. Wait, but hold on, he's trying to get
+9	64	384	 180 miles. Wait, no, that's the distance he was
+9	64	448	 120 miles.  But wait, let me make sure I didn't
+9	64	512	 180 - 15 + 120 = 2
+9	64	576	 180 - 15 + 120 = 2
+9	64	640	 15 + 120 = 135 miles towards home
+9	64	704	 45 miles.  Wait, let me double-check my calculations.  First part
+9	64	768	 45 miles.  But wait, let me go through each part again to
+9	64	832	 45 miles from home.  Wait, but let me think again. When
+9	64	896	 45 miles from home.  But let me think again. Is the direction
+9	64	960	 45 miles.  But let me think again. Maybe I should consider the
+9	64	1024	 45 miles.  Wait, but let me make sure I didn't m
+10	64	64	 $400. </think>  To determine Eliza's earnings for the week
+10	64	128	 $400 + $60 = $460. </think>  
+10	64	192	:  \[ \boxed{460} \]
+10	64	256	:  \[ \boxed{\$460} \]
+10	64	320	:  \[ \boxed{\$460} \]
+10	64	384	 \boxed{460}.
+10	64	448	 the sum of her earnings from regular hours and overtime pay.  \[ \text
+11	64	64	 60 + 180 + 108 = 3
+11	64	128	 60 + 180 + 126 = 3
+11	64	192	:  \[ \boxed{366} \]
+11	64	256	:  \[ \boxed{366} \]
+11	64	320	:  \[ \boxed{366} \]
+11	64	384	 \(\boxed{366}\).
+12	64	64	 $1,224. </think>  To determine the total cost of the
+12	64	128	 the sum of the costs for donuts, cupcakes, and cheesecakes. 
+12	64	192	:  \[ \boxed{1066} \]
+12	64	256	:  \[ \boxed{204} \]
+12	64	320	:  \[ \boxed{204 + 160 + 
+12	64	384	 \(\boxed{694}\).
+13	64	64	 90 years. </think>  To determine how many years it will take for
+13	64	128	 $7.50 per year. </think>  To determine how many years it
+13	64	192	 12 years. </think>  To determine how many years it will take for
+13	64	256	:  \boxed{12}
+13	64	320	:  \[ \boxed{12} \]
+13	64	384	:  \[ \boxed{12} \]
+13	64	448	:  \[ \boxed{12} \]
+14	64	64	 18.  Wait, hold on, that seems too straightforward. Let me
+14	64	128	 going to be the number she started with, let's call that number N.
+14	64	192	 \boxed{18}.  Wait, hold on, let me make sure
+14	64	256	 \boxed{18}.  Wait, hold on, let me make sure
+14	64	320	 12.  Wait, let me make sure I did that correctly. Let
+14	64	384	 14.  Wait, hold on, let me make sure I did that
+14	64	448	 that she sold \( \frac{1}{3}x - 1 \
+14	64	512	 12.  Wait, hold on, let me verify that.  Wait,
+14	64	576	:  \( x - (\frac{2}{3}x + 1)
+14	64	640	 \( \frac{1}{3}x - 1 = 5 \
+14	64	704	 18.  Wait, let me verify that because sometimes when you set up
+14	64	768	 18.  Then, sold 2 to the red house: 6
+14	64	832	 18. Wait, but according to my calculation, she has 2
+14	64	896	 18, but according to my calculation, she would have 2 left
+14	64	960	 18, but according to the problem, she has 5 left,
+14	64	1024	 18, but according to the problem, she has 5 left,
+15	64	64	 25%. </think>  To determine the percentage of students enrolled in hip
+15	64	128	 12% of the entire students are enrolled in hip-hop dance. </think>
+15	64	192	:  \boxed{60\%}
+15	64	256	 \boxed{60\%}.
+15	64	320	:  \[ \boxed{60\%} \]
+15	64	384	:  \[ \boxed{60\%} \]
+15	64	448	:  \[ \boxed{60\%} \]
+15	64	512	 \(\boxed{60\%}\).
+16	64	64	 $125. </think>  To determine the profit the merchant can make by
+16	64	128	 $125 for the jewelry and $96 for the electronic gadgets. 
+16	64	192	:  \[ \boxed{\$2,\!971} \]
+16	64	256	:  \[ \boxed{2971} \]
+16	64	320	:  \[ \boxed{\$2,\!971} \]
+16	64	384	:  \[ \boxed{\$2,\!971} \]
+16	64	448	:  \boxed{2971}
+16	64	512	 \boxed{\$2,971}.
+17	64	64	 that each train covers a total of 160 miles over the two days
+17	64	128	 230 miles. </think>  To determine the total distance each train covers
+17	64	192	:  \[ \boxed{230 \text{ miles}} \]
+17	64	256	:  \[ \boxed{230 \text{ miles}} \]
+17	64	320	:  \[ \boxed{230 \text{ miles}} \]
+17	64	384	:  \[ \boxed{230 \text{ miles}} \]
+18	64	64	 $2,800 per week. </think>  To determine Jill's annual
+18	64	128	 $1,150 per week. </think>  To determine Jill's annual
+18	64	192	 $57,000. </think>  To determine Jill's annual salary
+18	64	256	:  \boxed{57500}
+18	64	320	 \(\boxed{\$700}\).  2. **Coaching Job
+18	64	384	:  \[ \boxed{\$57,\!500} \
+18	64	448	:  \[ \boxed{\$57,\!500} \
+19	64	64	 21 eggs per week.  Finally, to find out how many eggs she
+19	64	128	 84 eggs. </think>  **Solution:**  Claire makes a 
+19	64	192	:  \boxed{7}
+19	64	256	 \(\boxed{7}\)
+19	64	320	:  \[ \boxed{7} \]
+19	64	384	:  \[ \boxed{7} \]
+19	64	448	:  \[ \boxed{7} \]
+20	64	64	 4 mph. Wait, no, that's the desired average speed. But
+20	64	128	 3 hours. Wait, no, that doesn't make sense. Wait,
+20	64	192	 4 mph.  Wait, let me double-check that. She did the first
+20	64	256	 6 miles remaining. Now, she has 3 hours total and has already
+20	64	320	 6 mph.  Wait, let me double-check that. She needs to cover
+20	64	384	 6 mph. Hmm, that seems correct because she needs to cover 6
+20	64	448	 6 mph.  **Final Answer** Marissa needs to walk the remaining distance
+20	64	512	 6 mph. I think that's correct.  **Final Answer** Marissa
+20	64	576	 \boxed{6}.  **Final Answer** Marissa needs to walk the
+20	64	640	 \boxed{6} miles per hour.
+20	64	704	:  \[ \text{Total time} = \frac{12 \
+20	64	768	:  \[ \boxed{6} \]
+20	64	832	 \boxed{6} miles per hour.
+20	64	896	 \boxed{6} miles per hour.
+21	64	64	 10 liters of orange drink, which is two-thirds water. So,
+21	64	128	 20/3 liters, which is approximately 6.666
+21	64	192	 2.222 liters of water. But wait, let me make
+21	64	256	 2.222 - 1 = 1.222
+21	64	320	 9 liters of pineapple drink. Let me compute that: 15 divided
+21	64	384	 1.222 liters of water in the remaining 24 liters
+21	64	448	 24 liters. But the question is asking how much water is in the
+21	64	512	 1.222 + 9 = 10.22
+21	64	576	 1.222 + 9 = 10.22
+21	64	640	 10.222 liters. But let me write it as a
+21	64	704	 2/3 * 10 = 20/3 ≈
+21	64	768	 6 liters of water in the remaining 24 liters. Wait, but
+21	64	832	 6 + 9 = 15 liters of water.  Wait, hold
+21	64	896	 15 liters of water in the remaining 24 liters.  But let
+21	64	960	 15 liters of water in the remaining 24 liters.  Wait,
+21	64	1024	 15 liters of water in the remaining 24 liters.  Wait,
+22	64	64	 6 years ago.  Wait, hold on, let me make sure I'm
+22	64	128	 23 years ago. But wait, let me make sure I'm not
+22	64	192	 23 years ago. But let me make sure I'm not mixing up
+22	64	256	 23 years ago.  Wait, but let me make sure I'm not
+22	64	320	 1969. Wait, no, that's the birth year of
+22	64	384	 2023 - 31 = 1992.
+22	64	448	 1986. But wait, the question is asking how many years
+22	64	512	 23 years ago. Wait, but hold on, let me make sure
+22	64	576	 2023 - 23 = 1999.
+22	64	640	 1986. But wait, the question is asking how many years
+22	64	704	 23 years ago.  Wait, but hold on, let me make sure
+22	64	768	 23 years ago.  Wait, but hold on, the question is asking
+22	64	832	 13 years ago.  Wait, let me double-check. If the son
+22	64	896	 13 years ago.  But let me double-check everything because sometimes these problems
+22	64	960	 13 years ago.  Wait, but let me think about another way.
+22	64	1024	 13 years ago.  But let me make sure I didn't make any
+23	64	64	 3 + 4 = 7 DVDs. </think>  Let's break down
+23	64	128	:  \boxed{7}
+23	64	192	 \(\boxed{7}\).
+23	64	256	:  \[ \boxed{7} \]
+23	64	320	 \(\boxed{7}\).
+24	64	64	 8 centimeters shorter. </think>  To determine how many centimeters shorter the
+24	64	128	 8 centimeters shorter.  Wait, hold on, let me make sure I
+24	64	192	 8 centimeters shorter.  Wait, hold on. Let me make sure I
+24	64	256	 4 hours. Wait, hold on, 1:00 PM to
+24	64	320	 4 hours multiplied by 2 centimeters per hour. Let me write that
+24	64	384	 8 centimeters. So, the candle will be 8 centimeters shorter
+24	64	448	 8 centimeters shorter.  But just to double-check, let's think about
+24	64	512	 8 centimeters shorter.  But just to double-check, let's think about
+24	64	576	 8 centimeters shorter.  Wait, hold on, let me think again.
+24	64	640	 the decrease in height, which is 8 cm. So, regardless of the
+24	64	704	 8 centimeters.  Wait, just to make sure, let me visualize it
+24	64	768	 8 centimeters shorter.  Wait, just to make sure, let me visualize
+24	64	832	 8 centimeters shorter.  Wait, just to make sure, let me visualize
+24	64	896	 8 centimeters shorter.  Wait, just to make sure, let me visualize
+24	64	960	 \boxed{8} centimeters shorter.  \boxed{8} </think>  
+24	64	1024	 \boxed{8} centimeters.
+25	64	64	 $26. </think>  **Solution:**  Let's denote the original price
+25	64	128	 $26.00. </think>  To find the original price of the
+25	64	192	:  \[ \boxed{19.50} \]
+25	64	256	:  \boxed{19.50}
+25	64	320	:  \[ \boxed{26} \]
+25	64	384	:  \[ \boxed{26} \]
+26	64	64	 4 boxes of pizza. </think>  Let's determine how many boxes of pizza
+26	64	128	 4 boxes of pizza. </think>  Let's determine how many boxes of pizza
+26	64	192	 \boxed{4}. </think>  To determine how many boxes of pizza Marie ordered
+26	64	256	 2. </think>  Let's determine how many boxes of pizza Marie ordered.  
+26	64	320	 the number of pizza boxes, which we'll denote as \( x \).  **
+26	64	384	:  \[ \boxed{2} \]
+26	64	448	 \(\boxed{2}\).
+26	64	512	: \[ \boxed{2} \]
+26	64	576	 \(\boxed{2}\).
+27	64	64	 3 multiplied by $16.50. Let me write that down
+27	64	128	 3 * 16.50. Let me calculate that. 
+27	64	192	 $49.50 for the shorts. But wait, let me make
+27	64	256	 3 * 22.50. Let me break that down.
+27	64	320	 $49.50 for shorts plus $67.50 for
+27	64	384	 $49.50 + $67.50 + $1
+27	64	448	 $49.50 (shorts) + $67.5
+27	64	512	 $216.00.  Wait, let me double-check my calculations
+27	64	576	 $243.00.   Wait, let me double-check my
+27	64	640	 $243.00.   Wait, let me double-check my
+27	64	704	 $243.00.   But just to be thorough, let
+27	64	768	 $243.00.  **Final Answer** Mishka spent
+27	64	832	 126.00. Correct.  Adding them up: 4
+27	64	896	 116 + 1.50 is 117.
+27	64	960	 243.00. So Mishka spent $243
+27	64	1024	 $243.00.  I think that's correct. Let me
+28	64	64	 4 cartons. </think>  To determine how much Cynthia will spend on ice
+28	64	128	 \(\boxed{16}\).
+28	64	192	:  \  **Step 2: Determine the Number of cartons required**  
+28	64	256	 \boxed{16}.
+28	64	320	:  \[ \boxed{16} \]
+28	64	384	:  \[ \boxed{16} \]
+29	64	64	 35 miles. </think>  To determine how many miles Henry traveled between his
+29	64	128	 45 miles.  Wait, hold on, let me make sure I'm
+29	64	192	 45 minus 20, which is 25 miles. So
+29	64	256	 25 miles. Wait, let me make sure I didn't make a
+29	64	320	 25 miles. Hmm, that seems correct. But just to be thorough
+29	64	384	 25 miles. But just to be thorough, let me think if there
+29	64	448	 25 miles.  **Final Answer** The distance Henry traveled between his first
+29	64	512	 25 miles.  Wait, hold on, let me make sure I didn
+29	64	576	 25 miles. I think that's correct. I don't see any
+29	64	640	 25 miles.  But just to be thorough, let me write down the
+29	64	704	 25 miles.  But just to be thorough, let me write down the
+29	64	768	 25 miles.  Wait, just to make sure, let me write it
+29	64	832	 25 miles.  **Final Answer** The number of miles Henry traveled between
+29	64	896	 \boxed{25} miles.
+29	64	960	 \boxed{25} miles.
+30	64	64	 \boxed{122}.  Wait, hold on, let me make
+30	64	128	 118 dollars.  Wait, let me make sure I did that correctly
+30	64	192	 33 + 2*33 = 33 + 6
+30	64	256	 $99. But wait, let me make sure I didn't skip any
+30	64	320	 $104.  Wait, let me double-check my calculations.  First pair
+30	64	384	 $104.  But hold on, let me make sure I didn't
+30	64	448	 $104.  **Final Answer** The boots cost \boxed{1
+30	64	512	 B = $99 + $5 = $104.  Wait,
+30	64	576	 $104.  Wait, but let me think again. If the boots
+30	64	640	 $104.  I think that's correct. I don't see any
+30	64	704	 \boxed{104}. </think>  Gloria is shoe shopping and
+30	64	768	 \boxed{104}.
+30	64	832	 \(\boxed{104}\).
+31	64	64	 79. </think>  Let's solve the problem step by step.  **
+31	64	128	 11x, which is 99. So, Allen's age
+31	64	192	 109. </think>  Let's solve the problem step by step.  
+31	64	256	:  \[ \boxed{109} \]
+31	64	320	:  \[ \boxed{109} \]
+31	64	384	 \(\boxed{109}\).
+31	64	448	:  \[ \boxed{109} \]
+32	64	64	 40 + 20 = 60.  The third friend states
+32	64	128	 100. </think>  To find the average guess of the friends,
+32	64	192	 200 divided by 3, which equals approximately 66.
+32	64	256	:  \[ \boxed{80} \]
+32	64	320	:  \[ 40 + 20 = 60 \]  
+32	64	384	 \boxed{80}.
+32	64	448	:  \[ \boxed{80} \]
+32	64	512	:  \boxed{80}
+33	64	64	 35 hours per week. </think>  To determine how many hours John spends
+33	64	128	 \(\boxed{35}\) hours per week.**
+33	64	192	:  \[ \boxed{5 \text{ hours/week}} \]
+34	64	64	 \boxed{70}.  **Step-by-Step Explanation:**  1
+34	64	128	 80.  Wait, hold on, let me make sure I didn't
+34	64	192	 80. Wait, hold on, let me make sure I'm not
+34	64	256	 80. Wait, let me make sure I did that correctly. Let
+34	64	320	 80. Wait, hold on, let me check that again. If
+34	64	384	 40. Wait, let me check that again. If S is 
+34	64	448	 S = 40.  Wait, so the number of silver coins is 
+34	64	512	 40 + 30 = 70.  Wait, let me
+34	64	576	 70 gold coins.  **Final Answer** Gretchen has \boxed
+34	64	640	 70 gold coins.  **Final Answer** Gretchen has \boxed
+34	64	704	 \boxed{70}.
+34	64	768	 \boxed{70}.
+34	64	832	 \boxed{70}.
+35	64	64	 24. Wait, no, that's not right. Let me think
+35	64	128	 40. But wait, let me make sure I'm interpreting this correctly
+35	64	192	 20 + 5. Let me compute that: 20 +
+35	64	256	 22. Wait, hold on, let me double-check my calculations to
+35	64	320	 23. Hmm, that seems right.  But just to be thorough,
+35	64	384	 23.  **Final Answer** Siobhan has \boxed{2
+35	64	448	 \boxed{23}.
+35	64	512	 \boxed{23}.
+36	64	64	 4 points in the first 20 minutes and 5.5 points
+36	64	128	 5 points. </think>  **Solution:**  Mike plays ping pong for a
+36	64	192	:  \[ \boxed{5} \]
+36	64	256	:  \[ \boxed{5} \]
+37	64	64	 3 sets of 4 yogurt. </think>  **Solution:**  1.
+37	64	128	 \(\boxed{75}\).
+37	64	192	 \(\boxed{75}\).
+37	64	256	 \(\boxed{75}\).
+37	64	320	:  \[ \boxed{75} \]
+37	64	384	:  \[ \boxed{75} \]
+38	64	64	 13. </think>  **Solution:**  John sells his lego sets
+38	64	128	 13. </think>  Let's break down the problem step by step to
+38	64	192	 8 lego sets. </think>  Let's break down the problem step by
+38	64	256	 \(\boxed{13}\).
+38	64	320	 \(\boxed{13}\).
+38	64	384	:  \[ \boxed{13} \]
+38	64	448	:  \[ \boxed{13} \]
+38	64	512	:  \[ \boxed{2} \]
+38	64	576	 \boxed{11}.
+39	64	64	 20 miles per day. </think>  **Solution:**  John runs a
+39	64	128	 12 miles per hour. </think>  **Solution:**  John runs a
+39	64	192	:  \boxed{12 \text{ miles per hour}}
+39	64	256	 \(\boxed{12}\) miles per hour.
+39	64	320	 \(\boxed{10}\) miles per hour.
+39	64	384	: \[ \boxed{30} \]
+39	64	448	:  \[ \boxed{30 \text{ miles on the first day
+39	64	512	:  \[ \boxed{30 \text{ miles per day}} \
+39	64	576	:  \[ \boxed{30 \text{ miles per hour}} \
+40	64	64	 \boxed{12} miles.  Wait, hold on, let me make
+40	64	128	 12 miles. Wait, no, that's just the conclusion. I
+40	64	192	 \boxed{12} miles.  Wait, hold on, let me make
+40	64	256	 1.5 mph. Wait, but let me make sure I didn't
+40	64	320	 6 mph running and 1.5 mph walking. Wait, no,
+40	64	384	 2 hours running and 4 hours walking.  Now, to find the total
+40	64	448	 12 miles. Wait, let me double-check my calculations.  Walking speed
+40	64	512	 18 miles. Hmm, that seems straightforward, but let me make sure
+40	64	576	 18 miles.  **Final Answer** \boxed{18} </think>
+40	64	640	 18 miles.  **Final Answer** \boxed{18} </think>
+40	64	704	 18 miles.  **Final Answer** \boxed{18} </think>
+40	64	768	 18 miles.  **Final Answer** \boxed{18} </think>
+40	64	832	 \boxed{18}.
+40	64	896	 \boxed{18}.
+40	64	960	:  \[ \boxed{18} \]
+40	64	1024	:  \[ \boxed{18} \]
+41	64	64	 8 years old.  Wait, let me make sure I didn't skip any
+41	64	128	 two times Ben's age. So if Ben's is B, then Ben's
+41	64	192	 2 * 1 = 2. So, Ben's iPhone is 
+41	64	256	 8 years old.  Wait, let me make sure I didn't skip any
+41	64	320	 8. Let me just double-check to make sure I didn't make any
+41	64	384	 8. That seems straightforward. I don't think I missed anything here.
+41	64	448	 8.  **Final Answer** Brandon’s iPhone is \boxed{8}
+41	64	512	 8.  **Final Answer** Brandon’s iPhone is \boxed{8}
+41	64	576	 \boxed{8}. </think>  Given that Brandon's iPhone is four times as
+41	64	640	 \(\boxed{8}\) years old.
+41	64	704	 \boxed{8}.
+42	64	64	 \boxed{700}.  Wait, hold on, let me make
+42	64	128	 1200 feet. So, when Polly holds the gemstone,
+42	64	192	 1200 feet.  Wait, hold on. Let me make sure
+42	64	256	 200 feet. Because 1200 feet is 2
+42	64	320	 200 feet. Because 1200 - 10
+42	64	384	 200 feet.   Wait, but hold on. The problem says
+42	64	448	 200 feet.  Wait, hold on. Let me make sure I
+42	64	512	 200 feet.  But let me make sure I didn't miss anything
+42	64	576	 200 feet.  **Final Answer** Polly could stand \boxed
+42	64	640	 200 feet.  Wait, but let me think again. If she
+42	64	704	 200 feet.  **Final Answer** Polly could stand \boxed
+42	64	768	 200 feet.  **Final Answer** Polly could stand \boxed
+42	64	832	 \boxed{200} feet.
+42	64	896	 \boxed{200} feet.
+42	64	960	 \boxed{200} feet.
+43	64	64	 5 pies multiplied by 8 pieces per pie. So, 5 times
+43	64	128	 the total number of pieces minus the remaining pieces. So, that would be 
+43	64	192	 40 minus 14. Let me do that subtraction. 4
+43	64	256	 26 pieces were taken by the guests.  Wait, let me just double
+43	64	320	 26 pieces taken by the guests.  **Final Answer** The number of
+43	64	384	 26 pieces taken by the guests.  **Final Answer** The number of
+43	64	448	 26 pieces taken by the guests.  **Final Answer** The number of
+43	64	512	 \boxed{26}.
+43	64	576	 \boxed{26}.
+44	64	64	 1250 calories. </think>  To determine how many grams of chips
+44	64	128	 80 grams. </think>  **Solution:**  1. **Calculate the
+44	64	192	:  \boxed{400\ \text{grams}}
+44	64	256	 \boxed{400} \text{ grams}.
+44	64	320	:  \[ \boxed{400 \text{ grams}} \]
+44	64	384	:  \[ \boxed{400 \text{ grams}} \]
+44	64	448	:  \[ \boxed{400 \text{ grams}} \]
+44	64	512	 \(\boxed{400}\) grams.
+45	64	64	 200 candles. </think>  To determine Charlie's net profit from selling
+45	64	128	 20. </think>  To determine Charlie's net profit from selling beesw
+45	64	192	 $10.00. </think>  Let's break down the problem step
+45	64	256	 $1 </think>  Let's break down the problem step by step to determine
+45	64	320	:  \[ \boxed{10} \]  ### **2. Calculate
+45	64	384	:  \[ \boxed{10} \]
+45	64	448	:  \[ \boxed{10} \]
+45	64	512	:  \[ \boxed{\$10.00} \]
+45	64	576	:  \[ \boxed{10} \]
+46	64	64	 5 + (2/5)*5 = 7 articles on Tuesday.  
+46	64	128	 5 + 7 + 14 = 26 articles.  Since
+46	64	192	:  \boxed{104}
+46	64	256	 \boxed{104} hours.
+46	64	320	 \boxed{104} hours.
+46	64	384	 \(\boxed{104}\) hours.
+46	64	448	:  \[ \boxed{104} \]
+46	64	512	:  \[ \boxed{104} \]
+47	64	64	 23.  Wait, hold on, let me think again. She started
+47	64	128	 80 + P. But wait, no, that's not quite right
+47	64	192	 23.  Wait, hold on. Let me make sure I'm interpreting
+47	64	256	 23. Wait, no, that's not right. Let me check
+47	64	320	 163.  But let me make sure I didn't make a mistake
+47	64	384	 163.  **Final Answer** The package contained \boxed{1
+47	64	448	 163.  **Final Answer** The package contained \boxed{1
+47	64	512	 163.  **Final Answer** The package contained \boxed{1
+47	64	576	 163.  **Final Answer** The package contained \boxed{1
+47	64	640	 \(\boxed{163}\).
+47	64	704	 \(\boxed{163}\).
+47	64	768	 \boxed{163}.
+48	64	64	 200.  Wait, no, that's not right. Let me
+48	64	128	 $200, but wait, the question is asking how much he spent
+48	64	192	 the sum of the money spent on blue and red ties.  Let me write down
+48	64	256	 200 divided by 40, which is 5. So
+48	64	320	 500.  Wait, let me make sure I did that correctly.  
+48	64	384	 50% more than $40. Let me calculate that.  5
+48	64	448	 $200 on blue ties and $600 on red ties,
+48	64	512	 $200 (blue) + $600 (red) =
+48	64	576	 $200 + $600 = $800.  Wait
+48	64	640	 $800.  But let me just go through the problem again to ensure
+48	64	704	 $800.  But wait, let me make sure I didn't mis
+48	64	768	 \boxed{800}.
+48	64	832	 \boxed{800}.
+48	64	896	 \boxed{800}.
+48	64	960	 \boxed{800}.
+49	64	64	 8 pieces. </think>  To determine how many pieces of wire Tracy obtained,
+49	64	128	 8. </think>  **Solution:**  Tracy used a piece of wire
+49	64	192	:  \[ \boxed{8} \]
+49	64	256	:  \[ \boxed{8} \]
+50	64	64	 120. </think>  **Solution:**  1. **Determine
+50	64	128	 30 units. </think>  **Solution:**  1. **Calculate the
+50	64	192	 \boxed{300}.
+50	64	256	:  \[ \boxed{90} \]
+50	64	320	:  \[ \boxed{30} \]
+51	64	64	 147 dozen eggs per week.  Finally, to find out how much
+51	64	128	 $1470 per week. </think>  To determine how much Lloyd makes
+51	64	192	:  \boxed{352}
+51	64	256	:  \[ \boxed{1764} \]
+51	64	320	:  \[ \boxed{147 \text{ dozen eggs} \
+51	64	384	 \boxed{\$294}.
+52	64	64	 3 hours. </think>  To determine how long it takes Tom's ship to
+52	64	128	 5 hours. </think>  To determine how long it takes Tom's ship to
+52	64	192	:  \boxed{5\ \text{hours}}
+52	64	256	:  \boxed{5\ \text{hours}}
+52	64	320	:  \[ \boxed{5 \text{ hours}} \]
+52	64	384	:  \[ \boxed{5 \text{ hours}} \]
+53	64	64	 15 toys. </think>  **Solution:**  1. **Determine
+53	64	128	 30 toys. </think>  **Solution:**  1. **Calculate the
+53	64	192	: \[ \text{Total weight of comic books} = 30
+53	64	256	:  \[ \boxed{15} \]
+53	64	320	:  \[ \boxed{7.5} \]
+53	64	384	:  \[ \boxed{15} \]
+54	64	64	 \boxed{160}. </think>  To determine how much more revenue the
+54	64	128	 $120 more revenue on Thursday. </think>  Let's calculate the revenue
+54	64	192	: \[ 6 \text{ truck tires} \times \$60/\
+54	64	256	:  \[ \boxed{360} \]
+54	64	320	:  \[ \boxed{520} \]
+54	64	384	:  \[ \boxed{\$40} \]
+54	64	448	:  \[ \boxed{480} \]
+54	64	512	:  \[ \boxed{40} \]
+55	64	64	 36. </think>  Let's determine the total number of kittens the Doub
+55	64	128	 48. </think>  Let's determine the total number of kittens the Doub
+55	64	192	:  \boxed{60}
+55	64	256	:  \[ \boxed{60} \]
+55	64	320	 \(\boxed{48}\).
+56	64	64	 14 bags. </think>  **Solution:**  1. **Initial Number
+56	64	128	 \(\boxed{14}\).
+56	64	192	 \(\boxed{14}\).
+56	64	256	:  \[ \boxed{14} \]
+57	64	64	 3. </think>  **Solution:**  1. **Determine the total
+57	64	128	:  \[ \boxed{3} \]
+57	64	192	 \(\boxed{3}\).
+58	64	64	 \boxed{250}.  Wait, hold on, let me make
+58	64	128	 \boxed{250}.  Wait, hold on, let me make
+58	64	192	 200. Wait, no, that's not right. Wait,
+58	64	256	 83 boxes.  Wait, let me double-check my calculations. 5
+58	64	320	 83 boxes. Wait, let me check that again.  15 times
+58	64	384	 83 boxes.  Wait, let me double-check my calculations to make sure
+58	64	448	 83 boxes.  But hold on, let me make sure I didn't
+58	64	512	 83 boxes. But wait, let me think again. Is there a
+58	64	576	 83 boxes.  Wait, but just to be thorough, let me verify
+58	64	640	 83 boxes.  But just to be thorough, let me verify the total
+58	64	704	 83 boxes.  Wait, hold on, let me make sure that 
+58	64	768	 83 boxes.  Wait, hold on, 83 boxes times 
+58	64	832	 83 boxes.  Wait, but hold on, let me make sure that
+58	64	896	 83.  **Final Answer** The maximum number of boxes which can be
+58	64	960	 83. Because 83 boxes give exactly 5000
+58	64	1024	 83. Because 83 boxes is exactly 1245
+59	64	64	 $40.00. </think>  Let's break down the problem step
+59	64	128	 \boxed{40.00}. </think>  To determine the final price
+59	64	192	 $36.00. </think>  Let's determine the final price of
+59	64	256	 $26.40. </think>  Let's determine the final price of
+59	64	320	:  \[ \boxed{26.40} \]
+59	64	384	:  \[ \boxed{26.40} \]
+59	64	448	 \(\boxed{26.40}\).
+59	64	512	:  \[ \boxed{26.40} \]
+60	64	64	 127 raspberries.  Wait, hold on, let me make sure
+60	64	128	 6 clusters multiplied by 20 fruit each, plus 67 individual
+60	64	192	 6 clusters multiplied by 20 raspberries per cluster, plus 6
+60	64	256	 120 plus 67, which is 187 rasp
+60	64	320	 120 + 67. Let me do that addition. 
+60	64	384	 187 raspberries.  But just to make sure I didn't make
+60	64	448	 187 raspberries.  **Final Answer** The total number of rasp
+60	64	512	 187 raspberries.  Wait, but hold on another thought. Is
+60	64	576	 187 raspberries.  Wait, but let me think again. Is
+60	64	640	 187 raspberries.  Wait, but let me think again. Is
+60	64	704	 187.  **Final Answer** The total number of raspberries is
+60	64	768	 187.  I think that's solid. I don't see any
+60	64	832	 187 raspberries.  Wait, but let me think again. Is
+60	64	896	 187.  **Final Answer** The total number of raspberries is
+60	64	960	 187 raspberries.  **Final Answer** The total number of rasp
+60	64	1024	 187.  Wait, but let me just think again. Is the
+61	64	64	 5 unripe oranges. </think>  To determine how many oranges are **good
+61	64	128	 18 good oranges. </think>  To determine how many oranges are good,
+61	64	192	:  \boxed{18}
+61	64	256	:  \[ \boxed{18} \]
+61	64	320	:  \[ \boxed{18} \]
+61	64	384	 \boxed{18}.
+62	64	64	 $1,300. </think>  **Solution:**  1. **
+62	64	128	 $1,430. </think>  **Solution:**  To determine how
+62	64	192	:  \[ \boxed{1430} \]
+62	64	256	:  \[ \boxed{1430} \]
+62	64	320	:  \[ \boxed{\$1,\!430} \]
+62	64	384	 \boxed{1430}.
+63	64	64	 5% of $50,000, which is $2
+63	64	128	 \boxed{50000}.  Wait, no, that can
+63	64	192	 5% of $50,000, which is $2
+63	64	256	 $2,500 per year. But let me make sure I'm
+63	64	320	 $2,500 per year.  Wait, let me make sure I
+63	64	384	 $2,500 per year.  But let me double-check. So
+63	64	448	 $2,500 per year for 9 years. But the question
+63	64	512	 $2,500 per year.  But wait, let me make sure
+63	64	576	 $2,500 per year. But let me make sure I didn
+63	64	640	 $2,500 per year.  Wait, but let me make sure
+63	64	704	 $2,500 per year. But let me double-check my calculations
+63	64	768	 $2,500 per year. But wait, let me think again
+63	64	832	 $2,500 per year. But wait, let me think again
+63	64	896	 $2,500.  Wait, but let me think again. Maybe
+63	64	960	 $2,500.  Wait, but let me think again. If
+63	64	1024	 $2,500 per year. But wait, maybe the question is
+64	64	64	 $840 </think>  To calculate the total amount Aleena paid for
+64	64	128	 $840 for the first half and $1260 for the
+64	64	192	 $1,596. </think>  To determine the total amount Aleena
+64	64	256	 \(\boxed{1596}\).
+64	64	320	 \(\boxed{1596}\).
+64	64	384	: \[ \boxed{1596} \]
+64	64	448	:  \[ \boxed{1596} \]
+64	64	512	:  \[ \boxed{1596} \]
+65	64	64	 1200 miles.  Wait, hold on, let me make sure
+65	64	128	 300 miles.  Wait, let me make sure I did that right
+65	64	192	 120 miles.   But let me double-check that. She drove
+65	64	256	 8 gallons. But wait, the question is asking how many miles can Sophia
+65	64	320	 120 miles. Let me make sure I did that correctly.   
+65	64	384	 100 miles per 4 gallons. So, miles per gallon would
+65	64	448	 25 miles per gallon. But let me make sure I didn't make
+65	64	512	 300 miles.   But let me double-check my steps to make
+65	64	576	 300 miles.   But let me go through it again to double
+65	64	640	 300 miles.   But let me think again. Is there another
+65	64	704	 300 miles.   But let me just double-check everything. She
+65	64	768	 300 miles.  **Final Answer** Sophia can drive \boxed
+65	64	832	 300 miles.  **Final Answer** Sophia can drive \boxed
+65	64	896	 300 miles.  **Final Answer** Sophia can drive \boxed
+65	64	960	 \boxed{300}.
+65	64	1024	 \boxed{300}.
+66	64	64	 42 hours. </think>  **Solution:**  Jim spends a total of
+66	64	128	 36 hours. </think>  Let's break down the problem step by step
+66	64	192	:  \[ \boxed{36} \]
+66	64	256	 \(\boxed{36}\) hours.
+66	64	320	:  \[ \boxed{36} \]
+67	64	64	 100. </think>  To determine the total number of people sent to
+67	64	128	 40 players + 8 coaches = 48 people in total. 
+67	64	192	:  \[ \boxed{48} \]
+67	64	256	 \(\boxed{48}\).
+67	64	320	:  \[ \boxed{48} \]
+67	64	384	:  \[ \boxed{48} \]
+68	64	64	 140 rubies.  Then, the number of emeralds is
+68	64	128	 280 gems in total. </think>  To determine the total number of
+68	64	192	 \(\boxed{600}\).
+68	64	256	 \(\boxed{600}\).
+68	64	320	:  \[ \boxed{600} \]
+68	64	384	 \(\boxed{600}\).
+68	64	448	 \(\boxed{600}\).
+69	64	64	 10 teachers. Hmm, let me make sure I did that right.  
+69	64	128	 12 teachers.  Wait, let me make sure I did that right.
+69	64	192	 120. Wait, hold on, let me make sure I'm
+69	64	256	 120 boys + 60 girls = 180 students
+69	64	320	 120 + 60, which is 180.
+69	64	384	 the total number of students divided by the number of students per teacher.  Number of
+69	64	448	 36 teachers. Hmm, that seems straightforward, but let me just make
+69	64	512	 36 teachers.  But just to make sure I didn't make any mistakes
+69	64	576	 36 teachers.  **Final Answer** The number of teachers at Dr.
+69	64	640	 36 teachers.  **Final Answer** The number of teachers at Dr.
+69	64	704	 \boxed{36}.
+69	64	768	 \boxed{36}.
+69	64	832	:  \[ \boxed{36} \]
+69	64	896	 \boxed{36}.
+70	64	64	 $40. </think>  Let's determine how much money Bailey started with.  
+70	64	128	 $60. </think>  Let's determine how much money Bailey started with.  
+70	64	192	: \[ \text{Total Allowance} = 8 \text{
+70	64	256	 \(\boxed{60}\).
+70	64	320	: \[ \boxed{60} \]
+71	64	64	 2925 dollars. </think>  To determine how much money Judy makes
+71	64	128	 2925 dollars. </think>  To determine how much money Judy makes
+71	64	192	:  \[ \boxed{2925} \]
+71	64	256	: \[ \boxed{2925} \]
+71	64	320	: \[ \boxed{195} \]
+71	64	384	: \[ \boxed{2925} \]
+72	64	64	 the total number of instructions for both recipes combined. So, I need to add
+72	64	128	 60 instructions.  Wait, let me make sure I'm interpreting this correctly
+72	64	192	 the sum of both recipes. That would be 20 + 40
+72	64	256	 20 + 40 = 60.  Wait, let me
+72	64	320	 60 instructions.  **Final Answer** Kelian has to read \boxed
+72	64	384	 60 instructions.  **Final Answer** Kelian has to read \boxed
+72	64	448	 \boxed{60}.
+72	64	512	 \boxed{60}.
+73	64	64	 $219. </think>  **Solution:**  Tommy is selling two
+73	64	128	 $233. </think>  To determine how much money Tommy raises, we
+73	64	192	: \[ 4 \text{ brownies} \times \$3 \text
+73	64	256	:  \[ \boxed{129} \]
+73	64	320	:  \[ \boxed{221} \]
+74	64	64	 $750 plus $15, which equals $765.  
+74	64	128	 $825. </think>  **Solution:**  1. **Calculate the
+74	64	192	 $275. </think>  **Solution:**  1. **Calculate the
+74	64	256	 \(\boxed{275}\).
+74	64	320	:  \[ \boxed{\$275} \]
+74	64	384	:  \[ \boxed{\$275} \]
+74	64	448	:  \[ \boxed{\$275} \]
+74	64	512	 \(\boxed{275}\).
+75	64	64	 $12.00 + $10.83 + $3
+75	64	128	 Artie will make $102.00 today. </think>  **
+75	64	192	 $88. </think>  **Solution:**  Artie sells three types of
+75	64	256	:  \[ \boxed{78} \]
+75	64	320	:  \boxed{77}
+75	64	384	 \boxed{36}.
+75	64	448	:  \[ \boxed{36 + 18 + 34
+75	64	512	:  \[ \boxed{76} \]
+76	64	64	 32.  Wait, let me think again. So, if the top
+76	64	128	 32.  Wait, let me make sure I'm doing this right.
+76	64	192	 16, 32, 16, 8? Wait
+76	64	256	 16, 32, 64, 128
+76	64	320	 16, 32, 64, 128
+76	64	384	 16, 32, 64, 128
+76	64	448	 16, 32, 64, 128
+76	64	512	 16, 32, 64, 128
+76	64	576	 128.  Wait, but let me make sure I didn't make
+76	64	640	 112.  Wait, but hold on, 16 + 
+76	64	704	 60.  But wait, let me make sure I didn't make a
+76	64	768	 60.  **Final Answer** The average square footage of a level is
+76	64	832	 60.  Wait, but let me think again. If each level is
+76	64	896	 16*(16 - 1)/(2 - 1) =
+76	64	960	 60.  But wait, let me think again. If each level is
+76	64	1024	 60.  But just to make sure, let me visualize it. So
+77	64	64	 \boxed{2}.  Wait, hold on, let me make sure I
+77	64	128	 2 cups per day for the remaining days. But hold on, the problem
+77	64	192	 185 days. But wait, the question is about the number of
+77	64	256	 185 days, which is 185 cups. So,
+77	64	320	 550 cups. But wait, the question is asking how many bags
+77	64	384	 550 cups divided by 110 cups per bag. Let
+77	64	448	 5 bags. Hmm, let me double-check my calculations to make sure I
+77	64	512	 5 bags.  Wait, but let me make sure that 180
+77	64	576	 5 bags.  **Final Answer** Cecilia will use \boxed{
+77	64	640	 5 bags.  But hold on, let me think again. The problem says
+77	64	704	 5 bags.  But just to make sure, let me think about the problem
+77	64	768	 5 bags.  **Final Answer** Cecilia will use \boxed{
+77	64	832	 \boxed{5}. </think>  Cecilia needs to determine how many bags
+77	64	896	 \boxed{5}.
+77	64	960	 \boxed{5}.
+77	64	1024	 \(\boxed{5}\) bags of dog food.
+78	64	64	 20 pounds. </think>  Let's break down the problem step by step
+78	64	128	 20 pounds. </think>  Let's break down the problem step by step
+78	64	192	:  \[ \boxed{20\text{ pounds}} \]
+78	64	256	:  \[ \boxed{20 \text{ pounds}} \]
+78	64	320	:  \[ \boxed{20} \]
+78	64	384	:  \[ \boxed{20} \]
+79	64	64	 that Vincent saves $1.6667 by buying 18 flowers
+79	64	128	 $1.50. </think>  To determine how much Vincent saves by buying
+79	64	192	 $9. </think>  To determine how much Vincent saves by buying flowers at the
+79	64	256	 $6. </think>  To determine how much Vincent saves by buying 18
+79	64	320	:  \boxed{6}
+79	64	384	 \boxed{6}.
+79	64	448	 \boxed{\$6}.
+79	64	512	:  \[ \boxed{6} \]
+79	64	576	 \(\boxed{6}\).
+79	64	640	:  \[ \boxed{6} \]
+79	64	704	:  \[ \boxed{6} \]
+79	64	768	:  \[ \boxed{6} \]
+80	64	64	 $70. </think>  **Solution:**  1. **Determine the
+80	64	128	:  \[ \boxed{\$70} \]
+80	64	192	:  \[ \boxed{\$70} \]
+81	64	64	 4 liters. </think>  **Solution:**  1. **Determine the
+81	64	128	 the total water minus the water given to the girls and the boy.   2
+81	64	192	 14 liters. </think>  Let's solve the problem step by step.  
+81	64	256	:  \[ \boxed{10} \]
+81	64	320	 \(\boxed{10}\) liters.
+81	64	384	: \[ \boxed{10} \]
+81	64	448	: \[ \boxed{10} \]
+82	64	64	 31 stickers. </think>  Let's break down the problem step by step
+82	64	128	 54 - 9 = 45 stickers left. </think>  Let
+82	64	192	 17. </think>  Let's break down the problem step by step to
+82	64	256	: \[ 10 + 21 = 31 \text{
+82	64	320	:  \[ \boxed{17} \]
+82	64	384	:  \[ \boxed{17} \]
+82	64	448	 \(\boxed{17}\).
+83	64	64	 \boxed{502} pounds. </think>  **Solution:**  1
+83	64	128	 623 pounds. </think>  **Solution:**  Let's determine the
+83	64	192	:  \[ \boxed{623} \]
+83	64	256	 \(\boxed{623}\) pounds.
+83	64	320	 \(\boxed{623}\) pounds.
+84	64	64	 600 thorns in total. </think>  **Solution:**  Dan
+84	64	128	:  \[ \boxed{600} \]
+84	64	192	:  \[ \boxed{600} \]
+84	64	256	 \boxed{600}. \]
+85	64	64	 \boxed{W = L + 8}. </think>  Let's solve the
+85	64	128	 \boxed{15}. </think>  Let's solve the problem step by step
+85	64	192	 \boxed{15}. </think>  Let's solve the problem step by step
+85	64	256	:  \[ \boxed{15} \]
+85	64	320	: \[ W = L + 8 \]  2. The total number of
+85	64	384	 \(\boxed{15}\).
+85	64	448	: \[ \boxed{15} \]
+85	64	512	: \[ \boxed{15} \]
+86	64	64	 11 years.  Now, since each year of vacation corresponds to one vacation
+86	64	128	 44. </think>  To determine the total number of quilt blocks Gene has
+86	64	192	:  \[ \boxed{44} \]
+86	64	256	:  \[ \boxed{44} \]
+86	64	320	:  \[ \boxed{44} \]
+87	64	64	 three rings in total. </think>  Let's break down the problem step by step
+87	64	128	 4 + 12 + 6 = 22. </think>  
+87	64	192	 22. </think>  Let's break down the problem step by step to
+87	64	256	:  \boxed{22}
+87	64	320	:  \[ \boxed{22} \]
+87	64	384	:  \[ \boxed{22} \]
+88	64	64	 \boxed{660}.  Wait, hold on, let me make
+88	64	128	 going to be based on her current salary, which is the initial $60
+88	64	192	 660.  Wait, no, that doesn't make sense. Let
+88	64	256	 that she doesn't get a salary increase for the next three years because she's
+88	64	320	 6600.  Wait, let me think again. So, the
+88	64	384	 $600 multiplied by 1.10 for each year. So
+88	64	448	 $660 per year. But wait, let me make sure.  Wait
+88	64	512	 that each year, the salary increases by $60, regardless of how long
+88	64	576	 $600 plus 10% of $600 each year
+88	64	640	 that each year, the salary increases by $60, so Sylvie's
+88	64	704	 that each year, the salary increases by 10% of the initial salary
+88	64	768	 that Sylvie's annual salary increases by $60 each year. So,
+88	64	832	 that after three more years, her salary will have increased by 10%
+88	64	896	 about Sylvie's salary after three more years of service. So, she's
+88	64	960	 $720.  Wait, let me think again. The initial salary is
+88	64	1024	 $660.  But wait, let me think again. If it's
+89	64	64	 \( H = 88,000 \div 11 =
+89	64	128	 8,000. </think>  Let's solve the problem step by
+89	64	192	 8,000. </think>  Let's solve the problem step by
+89	64	256	 \(\boxed{8000}\).
+89	64	320	:  \[ \boxed{8000} \]
+89	64	384	:  \[ \boxed{8,\!000} \]
+89	64	448	 \(\boxed{8000}\).
+90	64	64	 12. </think>  **Solution:**  Christina needs to prepare gift
+90	64	128	 \(\boxed{24}\)
+90	64	192	 \(\boxed{24}\).
+90	64	256	 \(\boxed{24}\).
+90	64	320	:  \[ \boxed{24} \]
+91	64	64	 250 pounds. </think>  To determine how many pounds of potato salad
+91	64	128	 200 lbs for adults plus 25 lbs for children, totaling
+91	64	192	 \(\boxed{225}\) pounds.
+91	64	256	:  \[ \boxed{225} \]
+91	64	320	:  \[ \boxed{225 \text{ lbs}} \]
+91	64	384	:  \[ \boxed{225} \]
+91	64	448	:  \[ \boxed{225} \]
+92	64	64	 18 pets in total.  Wait, hold on, that was too quick
+92	64	128	 12. So, the total number of pets that Jan, Marcia
+92	64	192	 straightforward. Cindy has 4 pets. Marcia has two more than that,
+92	64	256	 4 (Cindy) + 6 (Marcia) + 1
+92	64	320	 18 + 6 + 4. Let me do that addition:
+92	64	384	 28.  But just to make sure I didn't make any mistakes,
+92	64	448	 28. Hmm, that seems right. I don't think I missed
+92	64	512	 28 pets in total.  **Final Answer** The total number of pets
+92	64	576	 28.  **Final Answer** The total number of pets the three have
+92	64	640	 28.  **Final Answer** The total number of pets the three have
+92	64	704	 \boxed{28}.
+92	64	768	 \boxed{28}.
+92	64	832	 \boxed{28}.
+93	64	64	 Jackson is 9 years old. </think>  Let's determine the ages of Emily
+93	64	128	 Jackson is 4 years old. </think>  Let's determine the ages of Emily
+93	64	192	:  \[ \boxed{4} \]
+93	64	256	:  \[ \boxed{4} \]
+93	64	320	:  \[ \boxed{4} \]
+93	64	384	 \(\boxed{4}\).
+94	64	64	 going to involve comparing their times and considering the improvement in Gerald's speed.  Let
+94	64	128	 40 seconds. Wait, hold on, let me make sure I didn
+94	64	192	 40 seconds. But wait, the problem also mentions that Gerald improved his
+94	64	256	 40 seconds minus 10% of 40 seconds. Let
+94	64	320	 36 seconds.  Wait, let me make sure I didn't skip any
+94	64	384	 40 seconds. Wait, no, that's the original time. Wait
+94	64	448	 10 m/s. So, his original speed is 10 m
+94	64	512	 400 divided by 11. Let me compute that.  4
+94	64	576	 40 - 4 = 36 seconds.  But hold on,
+94	64	640	 36 seconds.  Wait, but let me double-check everything because sometimes I
+94	64	704	 36 seconds.  Wait, but let me double-check my calculations because sometimes
+94	64	768	 36 seconds.  But let me make sure I didn't skip any steps
+94	64	832	 36 seconds.  But let me make sure I didn't skip any steps
+94	64	896	 36 seconds.  Wait, but let me make sure I didn't skip
+94	64	960	 36 seconds.  Wait, but let me make sure I didn't skip
+94	64	1024	 36 seconds.  Wait, but let me check if the problem is asking
+95	64	64	 180. </think>  Let's break down the problem step by step
+95	64	128	 168. </think>  Let's break down the problem step by step
+95	64	192	:  \[ \boxed{180} \]  **Step-by-
+95	64	256	:  \[ \boxed{180} \]
+95	64	320	:  \[ \boxed{180} \]
+95	64	384	:  \[ \boxed{168} \]
+95	64	448	:  \[ \boxed{168} \]
+96	64	64	 40 girls are not in the girl scout. </think>  Let's solve
+96	64	128	 40 girls. </think>  Let's solve the problem step by step.  
+96	64	192	:  \[ \text{Number of boys} = \frac{2}{
+96	64	256	 \boxed{40}.
+96	64	320	:  \[ \boxed{40} \]
+96	64	384	 \(\boxed{40}\).
+97	64	64	 6. </think>  **Solution:**  Harry slept for **9 hours**
+97	64	128	 \boxed{3} hours.
+97	64	192	:  \[ \boxed{3} \]
+98	64	64	 16.  Wait, let me make sure I understand the problem correctly.
+98	64	128	 5 and 1/3 ounces per tomato. Hmm, but maybe I
+98	64	192	 32 ounces of sauce is half the volume of the tomatoes she used.
+98	64	256	 64 ounces of tomatoes. Wait, is that right? Let me think
+98	64	320	 64 ounces of tomatoes. But wait, the question is asking how many
+98	64	384	 4 cans. But wait, let me double-check that. Each can is
+98	64	448	 12 tomatoes.  But let me go through it again to make sure I
+98	64	512	 12 tomatoes.  **Final Answer** Freda used \boxed{1
+98	64	576	 12 tomatoes.  Wait, hold on, let me think about the sauce
+98	64	640	 12 tomatoes.  Wait, hold on, let me think again. Is
+98	64	704	 12 tomatoes.  **Final Answer** Freda used \boxed{1
+98	64	768	 12 tomatoes.  **Final Answer** Freda used \boxed{1
+98	64	832	 12 tomatoes.  Wait, 12*(16/3)
+98	64	896	 12 tomatoes.  **Final Answer** Freda used \boxed{1
+98	64	960	 12 tomatoes.  **Final Answer** Freda used \boxed{1
+98	64	1024	 \boxed{12}.
+99	64	64	 25 cars. </think>  Let's break down the problem step by step
+99	64	128	 25 cars. </think>  Let's break down the problem step by step
+99	64	192	 25 cars. </think>  Let's break down the problem step by step
+99	64	256	:  \boxed{25}
+99	64	320	:  \[ \boxed{25} \]
+99	64	384	:  \boxed{20}
+99	64	448	:  \[ \boxed{25} \]
+99	64	512	:  \[ \boxed{25} \]
+100	64	64	 18.  Wait, hold on. Let me read the problem again to
+100	64	128	 80. So, she has 80 potted plants already.
+100	64	192	 98 potted plants.   But wait, the problem says she will
+100	64	256	 98. Wait, no, hold on. Let me make sure I
+100	64	320	 40 potted plants.  Wait, hold on. Let me make sure
+100	64	384	 98 - 40 = 58 plants.  Wait, let
+100	64	448	 58.  **Final Answer** Mary will remain with \boxed{5
+100	64	512	 58.  I think that's correct. Let me just visualize it.
+100	64	576	 58 potted plants.  **Final Answer** Mary will remain with \
+100	64	640	 58.  **Final Answer** Mary will remain with \boxed{5
+100	64	704	 \boxed{58}.
+100	64	768	 \boxed{58}.
+100	64	832	 \boxed{58}.
+100	64	896	: \[ \boxed{58} \]

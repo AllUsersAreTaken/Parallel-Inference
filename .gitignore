@@ -22,3 +22,8 @@
 # OS
 Thumbs.db
 desktop.ini
+
+# Large logit dumps (evidence summarized in results/identity_break.txt)
+/results/logits_*.txt
+/results/c_b*.csv
+

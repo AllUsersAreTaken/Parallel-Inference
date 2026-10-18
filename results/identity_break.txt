@@ -1,0 +1,35 @@
+Identity break measurement (batch-1 vs batch-9, same context)
+=============================================================
+
+Foreground next-token distribution, same context (prompt 512 + 1 token),
+computed in a batch of 1 (foreground alone) vs a batch of 9 (foreground + 8
+traces) on DeepSeek-R1-Distill-Qwen-1.5B Q4_K_M, unified KV, FA on.
+
+  max |delta logit|           0.31435
+  KL(p_batch1 || p_batch9)    1.358e-03
+  logsumexp difference        0.040667
+  top-1 token identical       yes (both 1487)
+  n_vocab                     151936
+
+Interpretation
+--------------
+The break is a small numerical perturbation from a different matmul reduction
+order (MMVQ at ne11<=8, MMQ at ne11>=9). Distributions are very close
+(KL ~1e-3) and the argmax agrees at the first differing step. Sampled text
+diverges over many steps because repeated argmax amplifies a tiny perturbation
+(chaos), not because of a quality change.
+
+Precise transparency claim
+--------------------------
+Foreground outputs are IDENTICAL within a kernel regime and STATISTICALLY
+EQUIVALENT across it. Byte identity across the boundary is not guaranteed.
+
+Open: paired accuracy comparison (background on vs off) is the claim-level test
+and belongs in the held-out E2 run.
+
+Reproduce
+---------
+  compose.exe --model M --traces 0 --steps 3 --prompt-len 512 \
+              --out results/c_b1.csv --dump-logits results/logits_b1.txt
+  compose.exe --model M --traces 8 --steps 3 --prompt-len 512 \
+              --out results/c_b9.csv --dump-logits results/logits_b9.txt

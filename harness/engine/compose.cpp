@@ -39,6 +39,8 @@ struct ProcessForeground : Process {
     bool fin = false;
     int max_gen;
     std::vector<llama_token> gen;
+    std::string dump;
+    bool dumped = false;
 
     ProcessForeground(Engine & en, int mg) : e(en), max_gen(mg) { min_slots = 1; }
     void seq_ids(std::vector<llama_seq_id> & o) const override { o = { seq }; }
@@ -53,6 +55,14 @@ struct ProcessForeground : Process {
         out.push_back({ seq, pos, next, true });
     }
     void on_logits(int, const float * lg) override {
+        if (!dump.empty() && !dumped) {
+            FILE * df = fopen(dump.c_str(), "w");
+            if (df) {
+                for (int i = 0; i < e.n_vocab(); ++i) fprintf(df, "%.7g\n", lg[i]);
+                fclose(df);
+            }
+            dumped = true;
+        }
         gen.push_back(next);
         pos += 1;
         if ((int)gen.size() >= max_gen) { fin = true; return; }
@@ -176,13 +186,14 @@ struct ProcessProbe : Process {
 // ---------------------------------------------------------------- main
 
 int main(int argc, char ** argv) {
-    std::string model, out, data;
+    std::string model, out, data, dump;
     int traces = 0, probe_every = 0, steps = 256, prompt_len = 512, max_gen = 256;
     for (int i = 1; i < argc; ++i) {
         std::string k = argv[i];
         auto nx = [&]() { return std::string(argv[++i]); };
         if      (k == "--model") model = nx();
         else if (k == "--out") out = nx();
+        else if (k == "--dump-logits") dump = nx();
         else if (k == "--traces") traces = atoi(nx().c_str());
         else if (k == "--probe") probe_every = atoi(nx().c_str());
         else if (k == "--steps") steps = atoi(nx().c_str());
@@ -203,6 +214,7 @@ int main(int argc, char ** argv) {
     for (int i = 0; i < prompt_len; ++i) prompt[i] = (llama_token)((1234 + i) % e.n_vocab());
 
     ProcessForeground fg(e, max_gen);
+    fg.dump = dump;
     fg.start(prompt);
 
     ProcessTraces tr(e, traces, max_gen);

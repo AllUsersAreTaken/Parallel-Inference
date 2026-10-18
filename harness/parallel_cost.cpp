@@ -68,6 +68,7 @@ struct args {
     std::string type_v = "f16";
     int retire_at = -1;   // tail depth at which to retire half the streams (-1 = never)
     int retire_rm = 1;    // 1 = call seq_rm on retired streams, 0 = just drop from batch
+    int pad_to = -1;      // top the batch up to this many tokens with filler streams (-1 = off)
 };
 
 static ggml_type parse_type(const std::string & s) {
@@ -95,6 +96,7 @@ static bool parse(int argc, char ** argv, args & a) {
         else if (k == "--type-v") a.type_v = need();
         else if (k == "--retire-at") a.retire_at = atoi(need().c_str());
         else if (k == "--retire-rm") a.retire_rm = atoi(need().c_str());
+        else if (k == "--pad-to") a.pad_to = atoi(need().c_str());
         else if (k == "--Ns") {
             a.Ns.clear();
             std::string v = need();
@@ -111,6 +113,7 @@ int main(int argc, char ** argv) {
 
     int maxN = 1;
     for (int n : a.Ns) maxN = std::max(maxN, n);
+    if (a.pad_to > maxN) maxN = a.pad_to;
 
     llama_backend_init();
 
@@ -189,7 +192,7 @@ int main(int argc, char ** argv) {
             if (llama_decode(ctx, batch) != 0) { fprintf(stderr, "prefill failed\n"); return 1; }
         }
         llama_synchronize(ctx);
-        for (int j = 1; j < N; ++j) llama_memory_seq_cp(mem, 0, j, -1, -1);
+        for (int j = 1; j < std::max(N, a.pad_to); ++j) llama_memory_seq_cp(mem, 0, j, -1, -1);
 
         // decode the unique tail one token per sequence per step
         std::vector<int> active(N);
@@ -199,10 +202,12 @@ int main(int argc, char ** argv) {
                 for (int k = N / 2; k < N; ++k) if (a.retire_rm) llama_memory_seq_rm(mem, k, -1, -1);
                 active.resize(N / 2);
             }
-            double dt = decode_one(active, a.prompt_len + t, a.seed + (uint32_t)N * 131 + (uint32_t)t);
+            std::vector<int> all = active;
+            if (a.pad_to > (int)active.size()) for (int j = N; j < a.pad_to; ++j) all.push_back(j);
+            double dt = decode_one(all, a.prompt_len + t, a.seed + (uint32_t)N * 131 + (uint32_t)t);
             if (dt < 0) { fprintf(stderr, "decode failed N=%d t=%d\n", N, t); break; }
             int phase = (a.retire_at >= 0 && t >= a.retire_at) ? 1 : 0;
-            if (f) fprintf(f, "%d,%d,%.4f,%u,%d,%d\n", N, t, dt, nvml.clock_sm(), (int)active.size(), phase);
+            if (f) fprintf(f, "%d,%d,%.4f,%u,%d,%d\n", N, t, dt, nvml.clock_sm(), (int)all.size(), phase);
         }
         fflush(f);
         printf("done N=%d\n", N);

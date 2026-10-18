@@ -135,4 +135,47 @@ The simulation assumes a retired stream stops costing. Measured: leftover KV
 cells cost ~1% (negligible), so the assumption holds to within the cost model's
 accuracy (~3%).
 
+---
+
+## AMENDMENT 3 - 2026-10-18 (cost model completed; composition prediction frozen)
+
+### Full E0 table (N=1..16, tail 0/512/1024/2032)
+`results/e0_full.csv`. The kernel cliff is exactly at N=8 -> N=9 (ne11=9):
+at tail 1024, N=8 = 10.56 ms vs N=9 = 8.96 ms, i.e. **-1.60 ms for +1 token**.
+Within the MMQ regime (N>=9) step time grows gently (8.96 -> 10.76 ms).
+
+### Scheduling rules (measured)
+- **Never idle at 8.** Padding 8 real streams to 9 with filler tokens makes the
+  step *cheaper* by ~1.2-1.3 ms at every tail depth (results/pad8_9.csv vs
+  e0_full N=8). Treat the 8-slot as a hole to fill with useful work
+  (consolidation, speculation); filling it is negative-cost.
+- **Always seq_rm on retirement** (cheap). Leftover cells cost ~1% at retire@512
+  and a few percent at retire@1024; the residual does not grow enough to matter.
+
+### Composition prediction (written before the run)
+For a composition of processes on one decode step:
+```
+predicted_step_ms = E0_lookup(active_tokens, tail_depth)
+                  + sum(probe_tokens) * marginal_ms_per_token(active_tokens)
+```
+where `E0_lookup` is bilinear interpolation on `results/e0_full.csv` and
+`marginal_ms_per_token` is the local slope of that table.
+
+**Acceptance band: live p50 within 5% of predicted p50**, per composition
+configuration. Residuals are reported by active count; if they cluster at the
+N=8/9 boundary, the cost model's treatment of the cliff is what needs work.
+
+### Composition test configurations (in order)
+1. foreground alone
+2. foreground + 4 traces
+3. foreground + 16 traces
+4. each of the above + a probe every 64 steps
+5. + the consolidation job (last)
+
+### Correctness invariants (engine)
+- foreground tokens byte-identical with and without the other processes
+- batch-index logits routing test passes
+- every step logs active count, kernel regime (MMVQ/MMQ), step time, GPU clock
+
+
 

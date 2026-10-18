@@ -177,5 +177,46 @@ N=8/9 boundary, the cost model's treatment of the cliff is what needs work.
 - batch-index logits routing test passes
 - every step logs active count, kernel regime (MMVQ/MMQ), step time, GPU clock
 
+---
+
+## AMENDMENT 4 - 2026-10-18 (L40 for traces/accuracy; 4060 for wall clock)
+
+To avoid the 4060 grind, traces and accuracy are generated on a Thunder Compute
+L40 and wall clock is simulated from the 4060 cost table. Frozen gates unchanged.
+
+### Hardware split
+- **Accuracy / traces / stopping rules: L40** (same model file, same Q4_K_M
+  quantization, same sampler temp 0.6, same stopping rule, 3 seeds).
+  L40: 48 GB, driver 610.43.02, Ubuntu 22.04, CUDA 13.x, Ada (sm_89). Bandwidth
+  ~864 GB/s (to be confirmed by the L40 E0 curve).
+- **Wall clock: simulated** by replaying L40 traces through `harness/simulate.py`
+  with the **4060** E0 table (`results/e0_full.csv`). The 4060 is the target
+  hardware; L40 timing does not transfer (different bandwidth and
+  compute-to-bandwidth ratio), so it is never reported as the latency result.
+
+### Traces transfer, timing does not
+Traces from a different GPU differ in the last floating-point digit but are
+statistically equivalent (see `results/identity_break.txt`: KL ~1e-3). All arms
+(N=1,4,9,12,16), K=2..5, 3 seeds, and the Amendment-2 baselines run on the L40.
+
+### Live validation (4060)
+A single live run of the **primary arms (N=1 and N=16, K=3)** on a fixed
+**150-problem subset** of the held-out split, to confirm the simulator.
+- **Tolerance: live vs simulated wall clock within 5% at p50**, and the sign of
+  the residual consistent with the Amendment-3 composition residuals.
+- If it agrees, all other arms are reported as **simulated** and labeled so.
+- The registered claim is confirmed by the live primary arms (one seed).
+
+### Labeling
+Every row from the L40 carries `gpu=L40`, `driver=610.43.02`, `os=ubuntu22.04`
+in the logging schema. Any L40-derived number is labeled `source=l40_sim_4060`.
+Simulated wall-clock rows are labeled `wallclock=simulated(4060)`.
+
+### E0 on the L40
+Exploratory second cost curve (cliff size and unshared-tail penalty scale with
+bandwidth), reported as characterization, not as the latency result. Optional:
+NVML energy on Linux (not available on the 4060).
+
+
 
 

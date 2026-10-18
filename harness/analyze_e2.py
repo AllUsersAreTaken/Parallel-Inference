@@ -1,16 +1,20 @@
-"""Test 1: N=1 vs N=16 first-3-agree, live on the 4060."""
+"""Test 1 (400 held-out): A1 vs A3 first-3-agree vs A1r loop-detect+restart."""
 import csv
+import random
 import statistics
 import sys
 
-P = sys.argv[1] if len(sys.argv) > 1 else "results/e2_100.csv"
-
+P = sys.argv[1] if len(sys.argv) > 1 else "results/e2_400.csv"
 rows = list(csv.DictReader(open(P)))
 n = len(rows)
-a1 = [int(r["a1_correct"]) for r in rows]
-a3 = [int(r["a3_correct"]) for r in rows]
-w1 = [float(r["a1_wall_ms"]) for r in rows]
-w3 = [float(r["a3_wall_ms"]) for r in rows]
+
+
+def col(k):
+    return [int(r[k]) for r in rows]
+
+
+def wcol(k):
+    return [float(r[k]) for r in rows]
 
 
 def pct(x):
@@ -25,23 +29,26 @@ def wilson(k, n, z=1.96):
     return 100 * (c - h), 100 * (c + h)
 
 
-# paired bootstrap on the accuracy difference
-import random
-random.seed(0)
-diffs = []
-for _ in range(10000):
-    idx = [random.randrange(n) for _ in range(n)]
-    diffs.append(sum(a3[i] - a1[i] for i in idx) / n)
-diffs.sort()
-lo, hi = diffs[int(0.025 * 10000)], diffs[int(0.975 * 10000)]
+def paired_ci(a, b, reps=10000):
+    random.seed(0)
+    d = []
+    for _ in range(reps):
+        idx = [random.randrange(n) for _ in range(n)]
+        d.append(sum(b[i] - a[i] for i in idx) / n)
+    d.sort()
+    return 100 * d[int(0.025 * reps)], 100 * d[int(0.975 * reps)]
 
+
+arms = [("A1 N=1", "a1_correct", "a1_wall_ms"), ("A3 N=16 K=3", "a3_correct", "a3_wall_ms"), ("A1r loop+restart", "a1r_correct", "a1r_wall_ms")]
 print(f"n={n}")
-print(f"A1 (N=1)  accuracy {pct(a1):.1f}%  CI {wilson(sum(a1),n)[0]:.1f}-{wilson(sum(a1),n)[1]:.1f}")
-print(f"A3 (N=16,K=3) accuracy {pct(a3):.1f}%  CI {wilson(sum(a3),n)[0]:.1f}-{wilson(sum(a3),n)[1]:.1f}")
-print(f"paired diff {pct(a3)-pct(a1):+.1f} pts  95% CI [{100*lo:+.1f}, {100*hi:+.1f}] pts")
+for name, ck, wk in arms:
+    k = sum(col(ck))
+    lo, hi = wilson(k, n)
+    print(f"{name:>16}: acc {100*k/n:5.1f}%  CI {lo:.1f}-{hi:.1f}  wall median {statistics.median(wcol(wk)):.0f} ms")
+
+b1 = statistics.median(wcol("a1_wall_ms"))
 print()
-print(f"wall clock median: A1 {statistics.median(w1):.0f} ms  A3 {statistics.median(w3):.0f} ms  "
-      f"ratio {statistics.median(w3)/statistics.median(w1):.2f}x")
-print(f"wall clock mean:   A1 {statistics.mean(w1):.0f} ms  A3 {statistics.mean(w3):.0f} ms  "
-      f"ratio {statistics.mean(w3)/statistics.mean(w1):.2f}x")
-print(f"A3 finish median {statistics.median([int(r['a3_finish']) for r in rows]):.0f} tokens")
+for name, ck, wk in arms[1:]:
+    dlo, dhi = paired_ci(col("a1_correct"), col(ck))
+    print(f"{name:>16} vs A1: diff {100*(sum(col(ck))-sum(col('a1_correct')))/n:+.1f} pts  CI [{dlo:+.1f}, {dhi:+.1f}]  "
+          f"wall {statistics.median(wcol(wk))/b1:.2f}x")

@@ -77,6 +77,7 @@ struct ProcessEnsemble : Process {
     bool complete = false;
     int finish_len = 0;
     std::string answer;
+    long long total_tokens = 0;   // sum of decoded tokens across streams
     int steps = 0;
 
     ProcessEnsemble(Engine & en, int m, int k, int mt, uint32_t seed) : e(en), M(m), K(k), max_trace(mt) {
@@ -118,6 +119,7 @@ struct ProcessEnsemble : Process {
         int np = llama_token_to_piece(e.vocab(), next[j], piece, sizeof(piece), 0, false);
         if (np > 0) text[j].append(piece, np);
         pos[j] += 1;
+        total_tokens += 1;
         if (llama_vocab_is_eog(e.vocab(), next[j]) || answer_complete(text[j]) || (int)pos[j] - 0 >= max_trace) {
             fin[j] = true;
             finished.push_back({ (int)pos[j], extract_answer(text[j]) });
@@ -188,7 +190,7 @@ int main(int argc, char ** argv) {
 
     std::ifstream fin(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a3_ans,a3_correct,a3_wall_ms,a3_finish,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish\n");
+    if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a1_tok,a3_ans,a3_correct,a3_wall_ms,a3_finish,a3_tok,a2_ans,a2_correct,a2_wall_ms,a2_tok,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish,a1r_tok\n");
 
     std::string line;
     int id = 0;
@@ -211,8 +213,9 @@ int main(int argc, char ** argv) {
         if (pn < 0) { ptoks.resize(-pn); pn = llama_tokenize(e.vocab(), buf.data(), plen, ptoks.data(), (int)ptoks.size(), false, true); }
         ptoks.resize(pn);
 
-        // run one ensemble arm; returns answer + wall clock
-        auto run_arm = [&](int M, int kk, uint32_t seed, double & wall_out, std::string & ans_out, int & fin_out) {
+        // run one ensemble arm; returns answer, wall clock, tokens, stream-0 text
+        auto run_arm = [&](int M, int kk, uint32_t seed, double & wall_out, std::string & ans_out, int & fin_out,
+                           long long & tok_out, std::string & text_out) {
             e.clear();
             auto t0 = std::chrono::steady_clock::now();
             e.prefill(0, ptoks, true);
@@ -226,25 +229,39 @@ int main(int argc, char ** argv) {
             double wall = pre_ms;
             while (!pe->done()) { int active = 0; double dt = e.tick(64, active); if (dt < 0) break; wall += dt; }
             wall_out = wall; ans_out = pe->answer; fin_out = pe->finish_len;
+            tok_out = pe->total_tokens; text_out = pe->text.empty() ? "" : pe->text[0];
+        };
+        // repeated-suffix loop detector
+        auto is_loop = [](const std::string & t) {
+            if (t.size() < 120) return false;
+            std::string suf = t.substr(t.size() - 40);
+            return t.find(suf) < t.size() - 40;
         };
 
-        double w0 = 0, w1 = 0, w2 = 0;
-        std::string a0, a1, a2;
-        int f0 = 0, f1 = 0, f2 = 0;
-        run_arm(1, 1, 1234, w0, a0, f0);                 // A1: single sampled trace
-        run_arm(16, K, 1234, w1, a1, f1);                // A3: N=16, first-K-agree
-        // A1r: single trace with loop detection + restart (up to 3 attempts)
+        double w0 = 0, w1 = 0, w2 = 0, w3 = 0;
+        std::string a0, a1, a2, a3, t0s, t1s, t2s, t3s;
+        int f0 = 0, f1 = 0, f2 = 0, f3 = 0;
+        long long n0 = 0, n1 = 0, n2 = 0, n3 = 0;
+        run_arm(1, 1, 1234, w0, a0, f0, n0, t0s);          // A1: single sampled trace
+        run_arm(16, K, 1234, w1, a1, f1, n1, t1s);         // A3: N=16, first-K-agree
+        run_arm(16, 16, 1234, w2, a2, f2, n2, t2s);        // A2: N=16 majority vote (all finish)
+        // A1r: single trace, repeated-suffix loop detection + restart (up to 3 attempts)
         for (int att = 0; att < 3; ++att) {
-            double w = 0; std::string a; int fin = 0;
-            run_arm(1, 1, 1234u + 777u * (uint32_t)att, w, a, fin);
-            w2 += w;
-            if (!a.empty()) { a2 = a; f2 = fin; break; }   // completed answer -> stop
+            double w = 0; std::string a, t; int fin = 0; long long nt = 0;
+            run_arm(1, 1, 1234u + 777u * (uint32_t)att, w, a, fin, nt, t);
+            w3 += w; n3 += nt; a3 = a; f3 = fin;
+            if (!a.empty() && !is_loop(t) && fin < max_trace) break;
         }
         int c0 = (!a0.empty() && a0 == gold) ? 1 : 0;
         int c1 = (!a1.empty() && a1 == gold) ? 1 : 0;
         int c2 = (!a2.empty() && a2 == gold) ? 1 : 0;
-        fprintf(f, "%d,%s,%s,%d,%.1f,%s,%d,%.1f,%d,%s,%d,%.1f,%d\n",
-                id, gold.c_str(), a0.c_str(), c0, w0, a1.c_str(), c1, w1, f1, a2.c_str(), c2, w2, f2);
+        int c3 = (!a3.empty() && a3 == gold) ? 1 : 0;
+        fprintf(f, "%d,%s,%s,%d,%.1f,%lld,%s,%d,%.1f,%d,%lld,%s,%d,%.1f,%lld,%s,%d,%.1f,%d,%lld\n",
+                id, gold.c_str(),
+                a0.c_str(), c0, w0, n0,
+                a1.c_str(), c1, w1, f1, n1,
+                a2.c_str(), c2, w2, n2,
+                a3.c_str(), c3, w3, f3, n3);
         fflush(f);
         printf("id=%d done\n", id);
         fflush(stdout);

@@ -69,6 +69,7 @@ struct args {
     int retire_at = -1;   // tail depth at which to retire half the streams (-1 = never)
     int retire_rm = 1;    // 1 = call seq_rm on retired streams, 0 = just drop from batch
     int pad_to = -1;      // top the batch up to this many tokens with filler streams (-1 = off)
+    int threads = 8;
 };
 
 static ggml_type parse_type(const std::string & s) {
@@ -97,6 +98,7 @@ static bool parse(int argc, char ** argv, args & a) {
         else if (k == "--retire-at") a.retire_at = atoi(need().c_str());
         else if (k == "--retire-rm") a.retire_rm = atoi(need().c_str());
         else if (k == "--pad-to") a.pad_to = atoi(need().c_str());
+        else if (k == "--threads") a.threads = atoi(need().c_str());
         else if (k == "--Ns") {
             a.Ns.clear();
             std::string v = need();
@@ -142,8 +144,8 @@ int main(int argc, char ** argv) {
         fprintf(stderr, "note: quantized V cache requires flash attention; enabling fa\n");
         cp.flash_attn_type = LLAMA_FLASH_ATTN_TYPE_ENABLED;
     }
-    cp.n_threads = 8;
-    cp.n_threads_batch = 8;
+    cp.n_threads = a.threads;
+    cp.n_threads_batch = a.threads;
 
     llama_context * ctx = llama_init_from_model(model, cp);
     if (!ctx) { fprintf(stderr, "ctx failed\n"); return 1; }

@@ -1,0 +1,12 @@
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,ratio
+ep_test,shared,1,512,8,100,25,30,1100.361,1041.804,-58.556,-5.322,16.8103,368.296,405.141,0.9091
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,ratio
+ep_test,shared,1,512,8,200,25,30,1963.146,1990.533,27.387,1.395,13.0776,357.774,349.608,1.0234
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,total_alone_ms,total_pig_ms,savings_pct
+3B_D512_C8,shared,1,512,8,200,25,30,2008.447,2049.193,40.747,2.029,13.0451,367.750,353.748,2362.195,2049.193,13.2505
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,total_alone_ms,total_pig_ms,savings_pct
+3B_D512_C32,shared,1,512,32,200,25,30,1968.505,1990.242,21.737,1.104,11.5763,319.636,311.779,2280.284,1990.242,12.7196
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,total_alone_ms,total_pig_ms,savings_pct
+3B_D4096_C8,shared,1,4096,8,200,25,30,2386.884,2445.233,58.349,2.445,14.7899,421.203,437.977,2824.861,2445.233,13.4388
+label,arm,kv_unified,depth,C,a_tokens,suffix,b_decode,A_alone_ms,A_pig_ms,added_ms,added_pct,p99_pig_ms,B_pig_ms,B_alone_ms,total_alone_ms,total_pig_ms,savings_pct
+8B_D4096_C8,shared,1,4096,8,200,25,30,4730.226,4711.230,-18.997,-0.402,29.6445,834.029,811.212,5541.439,4711.230,14.9818

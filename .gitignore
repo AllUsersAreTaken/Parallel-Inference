@@ -1,0 +1,24 @@
+# Builds / binaries
+/build/
+*.exe
+*.obj
+*.dll
+*.lib
+*.pdb
+
+# Vendored llama.cpp (pinned, fetched separately - see README)
+/vendor/
+
+# Model weights (multi-GB, fetched separately - see README)
+/models/
+
+# Large derived artifacts (regenerable)
+/results/*.nsys-rep
+/results/*.sqlite
+/results/*.logprobs.tsv
+/results/dev200_s16.tsv
+/results/*_steps.csv
+
+# OS
+Thumbs.db
+desktop.ini

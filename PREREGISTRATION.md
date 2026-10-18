@@ -98,3 +98,41 @@ tails. The original gate was written for N=8.
 
 No accuracy data informed this amendment.
 
+---
+
+## AMENDMENT 2 - 2026-10-18 (after dev-split simulation, before the held-out run)
+
+### Frozen configuration
+**N=16, K=3, first-K-agree, temperature 0.6, cap 1024 tokens, unified KV,
+flash attention on.** Chosen on the 200-problem dev split from
+`results/dev200_s16.tsv` + the E0 cost model (`harness/simulate.py`):
+
+- dev N=1 baseline: 64.0% accuracy, median 486 tokens.
+- N=16 K=3: 85.5% accuracy at a predicted 1.41x wall clock (+21.5 points).
+- Median stopping length = 0.88x the N=1 median length.
+
+### Added baselines (to be reported on the held-out split)
+- **N=1 with loop detection and restart**: if the single trace repeats a suffix
+  or hits the cap without a completed answer, discard and resample (up to R
+  restarts). This is the fair strong baseline, since the ensemble's advantage
+  partly comes from avoiding degenerate traces.
+- **N=2 with retry**: two samples, retry the second if the first is degenerate.
+- **short-m@k-style variants**: m of N samples at a matched token budget.
+
+### Retirement handling and wall-clock measurement
+- A stream retires when it emits a completed answer (`\boxed{...}` after the
+  think block) or hits the cap.
+- The live engine calls `llama_memory_seq_rm(seq)` on retirement. E0 retirement
+  test (results/retire_rm1.csv vs retire_rm0.csv): seq_rm vs no-rm changes the
+  step time by ~1%; the dominant effect is the MMVQ(<=8)/MMQ(>=9) kernel regime
+  (retiring to 8 active is *slower* per step than 16 active). The cost model
+  already encodes this via the per-N E0 table.
+- Wall clock = sum over steps of `cost(active_streams(t), tail=t)` from the E0
+  table; N=1 baseline = its own single-trace wall clock on the same problems.
+
+### Retirement risk note
+The simulation assumes a retired stream stops costing. Measured: leftover KV
+cells cost ~1% (negligible), so the assumption holds to within the cost model's
+accuracy (~3%).
+
+

@@ -66,6 +66,8 @@ struct args {
     uint32_t seed = 1234;
     std::string type_k = "f16";
     std::string type_v = "f16";
+    int retire_at = -1;   // tail depth at which to retire half the streams (-1 = never)
+    int retire_rm = 1;    // 1 = call seq_rm on retired streams, 0 = just drop from batch
 };
 
 static ggml_type parse_type(const std::string & s) {
@@ -91,6 +93,8 @@ static bool parse(int argc, char ** argv, args & a) {
         else if (k == "--seed") a.seed = (uint32_t)strtoul(need().c_str(), nullptr, 10);
         else if (k == "--type-k") a.type_k = need();
         else if (k == "--type-v") a.type_v = need();
+        else if (k == "--retire-at") a.retire_at = atoi(need().c_str());
+        else if (k == "--retire-rm") a.retire_rm = atoi(need().c_str());
         else if (k == "--Ns") {
             a.Ns.clear();
             std::string v = need();
@@ -151,17 +155,18 @@ int main(int argc, char ** argv) {
            llama_model_n_layer(model), llama_model_n_head_kv(model), a.type_k.c_str(), a.type_v.c_str());
 
     FILE * f = a.out.empty() ? nullptr : fopen(a.out.c_str(), "w");
-    if (f) fprintf(f, "N,tail_depth,step_ms,clock_mhz\n");
+    if (f) fprintf(f, "N,tail_depth,step_ms,clock_mhz,active,phase\n");
 
-    auto decode_one = [&](int N, llama_pos pos, uint32_t step_seed) -> double {
-        for (int j = 0; j < N; ++j) {
-            batch.token[j]     = (llama_token)((step_seed * 2654435761u + j * 40503u) % (uint32_t)nv);
-            batch.pos[j]       = pos;
-            batch.n_seq_id[j]  = 1;
-            batch.seq_id[j][0] = j;
-            batch.logits[j]    = 1;
+    auto decode_one = [&](const std::vector<int> & active, llama_pos pos, uint32_t step_seed) -> double {
+        for (int i = 0; i < (int)active.size(); ++i) {
+            int j = active[i];
+            batch.token[i]     = (llama_token)((step_seed * 2654435761u + j * 40503u) % (uint32_t)nv);
+            batch.pos[i]       = pos;
+            batch.n_seq_id[i]  = 1;
+            batch.seq_id[i][0] = j;
+            batch.logits[i]    = 1;
         }
-        batch.n_tokens = N;
+        batch.n_tokens = (int)active.size();
         const auto t0 = clk::now();
         if (llama_decode(ctx, batch) != 0) return -1.0;
         llama_synchronize(ctx);
@@ -187,10 +192,17 @@ int main(int argc, char ** argv) {
         for (int j = 1; j < N; ++j) llama_memory_seq_cp(mem, 0, j, -1, -1);
 
         // decode the unique tail one token per sequence per step
+        std::vector<int> active(N);
+        for (int j = 0; j < N; ++j) active[j] = j;
         for (int t = 0; t < a.max_tail; ++t) {
-            double dt = decode_one(N, a.prompt_len + t, a.seed + (uint32_t)N * 131 + (uint32_t)t);
+            if (a.retire_at >= 0 && t == a.retire_at) {
+                for (int k = N / 2; k < N; ++k) if (a.retire_rm) llama_memory_seq_rm(mem, k, -1, -1);
+                active.resize(N / 2);
+            }
+            double dt = decode_one(active, a.prompt_len + t, a.seed + (uint32_t)N * 131 + (uint32_t)t);
             if (dt < 0) { fprintf(stderr, "decode failed N=%d t=%d\n", N, t); break; }
-            if (f) fprintf(f, "%d,%d,%.4f,%u\n", N, t, dt, nvml.clock_sm());
+            int phase = (a.retire_at >= 0 && t >= a.retire_at) ? 1 : 0;
+            if (f) fprintf(f, "%d,%d,%.4f,%u,%d,%d\n", N, t, dt, nvml.clock_sm(), (int)active.size(), phase);
         }
         fflush(f);
         printf("done N=%d\n", N);

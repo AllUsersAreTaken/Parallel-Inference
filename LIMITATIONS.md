@@ -35,6 +35,15 @@ define where the results stop.
   repeated suffix or a missing answer; it does not yet test loops that emit a
   wrong answer. Report it as "retry-on-loop does not close the gap", not "no
   single-trace method can".
+- **The N=1 baseline may be capped, so the ensemble gain may be overstated.**
+  In the reported Test-1 and sweep runs, `max_trace` was compared against the
+  absolute sequence position, so the effective generation cap was
+  `1024 - prompt_len` (roughly 500 tokens for these prompts), not 1024. About
+  52% of N=1 traces ended at >= 500 tokens and scored 61% vs 83% for the
+  shorter ones. There is no spike at a single cap value (prompt lengths vary),
+  but long N=1 traces were truncated. The bug is fixed in `e2.cpp` (cap is now
+  relative); the reported numbers predate the fix. A cheap follow-up is to
+  rerun N=1 only, at a higher relative cap.
 
 ## Memory (Test 2)
 

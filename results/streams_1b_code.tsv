@@ -1,0 +1,480 @@
+1	0	```python # Define the number of pails of water Baldur gets in a day morning_pails = 5
+1	1	```python water_per_morning = 5 * 5  # 25 liters per morning water_per_afternoon =
+1	2	```python # Define the number of pails of water Baldur gets in a day morning_pails = 5
+1	3	```python # Calculate the number of pails of water Baldur gets in a day pails_morning = 5
+1	4	```python # Define variables for number of pails of water per day pails_morning = 5 pails
+1	5	```python well_water = 5 * 5 + 6 * 5 print(well_water) ```
+1	6	```python def calculate_water():     morning_pails = 5     afternoon_pails = 6     morning_lit
+1	7	```python baldur_water = 5 * 5 + 6 * 5 print(baldur_water
+2	0	```python # Calculate John's salary after the 5% raise salary = 2000 raise_amount = 0.05 johns_salary = salary * (1 + raise_amount)  # Calculate the total award money award_money = 5000  # Calculate the total amount of money John made that year total_money = johns_salary + award_money  # Print the total amount of money John made that year print("Total money made by John that year:", total_money) ```
+2	1	```python # Define variables  Monetary_reward = 5000  Salary_increase_percentage = 0.05  Weekly_salary = 2000  num_weeks = 52  # Calculate the monetary reward for the year  Monetary_reward_year = Monetary_reward * num_weeks  # Calculate the salary increase for the year  Salary_increase = Monetary_reward_year * Salary_increase_percentage  # Calculate the total salary for the year  Total_Salary = Weekly_salary + Salary_increase  print("Total Salary for the Year: $
+2	2	```python # Define the variables award_reward = 5000 salary_increase_percentage = 0.05 weeks_in_year = 52 weekly_salary = 2000  # Calculate the total salary increase salary_increase = weekly_salary * salary_increase_percentage  # Calculate the total award reward award_reward_total = award_reward + (award_reward * salary_increase)  # Calculate the total salary for the year total_salary = weekly_salary * weeks_in_year + award_reward_total  print("John made a total
+2	3	```python # define variables weekly_salary = 2000 monthly_salary = weekly_salary / 4 award_monetary_reward = 5000 award_percentage = 0.05  # calculate total monetary reward for the year total_monetary_reward = award_monetary_reward * 12  # calculate total salary for the year total_salary = monthly_salary * 52  # calculate the difference between total monetary reward and total salary difference = total_monetary_reward - total_salary  # print the result
+2	4	```python # Define variables weekly_salary = 2000  # in dollars monthly_raise = 5000 / 100  # 5% raise number_of_weeks = 52  # 52 weeks in a year  # Calculate total raise total_raise = monthly_raise * number_of_weeks  # Calculate total salary total_salary = weekly_salary + total_raise  # Calculate total award money total_awarmoney = total_salary * 2  # 2 awards  # Print total
+2	5	```python award_reward = 5000 salary_increase = 0.05 weeks_in_year = 52 weekly_salary = 2000  total_salary_increase = 0 total_weekly_salary = 0 total_award_reward = 0  for week in range(weeks_in_year):     salary = weekly_salary + (weekly_salary * salary_increase)     total_weekly_salary += salary     total_award_reward += award_reward  print(f"Total weekly salary: ${total_weekly
+2	6	```python # Calculate the monetary reward reward = 5000  # Calculate the weekly raise amount weekly_raise = reward * 0.05  # Calculate the total raise for the year total_raise = weekly_raise * 52  # Calculate John's total income for the year total_income = 2000 * 52  # Calculate John's total income for the year total_income = total_income + total_raise  print("John's total income for the year is: $", total_income
+2	7	```python yearly_salary = 2000 monetary_reward = 5000 raise_percentage = 0.05  total_salary = yearly_salary for week in range(52):     total_salary += total_salary * raise_percentage     if week % 52 == 0 and week != 0:         monetary_reward += total_salary print("John's award win: $", monetary_reward) ```
+3	0	```python acres = 10 grapes_per_acre = 5 grapes_per_ton = 2 wine_per_ton = 1 wine_production = acres * grapes_per_acre * grapes_per_ton * wine_per_ton print(w
+3	1	```python grapes_per_acre = 5 grapes_per_acre_per_year = grapes_per_acre * 10 wine_per_acre = grapes_per_acre_per_year * 2 total_wine = wine_per_acre * 10 print(total
+3	2	```python # Define the variables acres = 10 tons_per_acre = 5  barrels_per_ton = 2  # Calculate the tons of grapes produced per year grapes_per_year = acres * tons_per_acre  # Calculate the barrels of
+3	3	```python acres = 10 grapes_per_acre = 5  barrels_per_grape = 2  total_grapes = acres * grapes_per_acre wine_production = total_grapes * barrels_per_grape  print(wine_production) ```
+3	4	```python # Define variables acres = 10 grapes_per_acre = 5 barrels_per_ton = 2  # Calculate total grapes produced per year grapes_per_year = acres * grapes_per_acre  # Calculate barrels of wine produced
+3	5	```python total_acres = 10 grapes_per_acre = 5 wine_per_acre = grapes_per_acre * 2  total_wine = total_acres * grapes_per_acre * wine_per_acre print(total_wine) ```
+3	6	```python acres = 10 grapes_per_acre = 5 wine_per_ton = 2 grapes_per_year = acres * grapes_per_acre wine_per_year = grapes_per_year * wine_per_ton print(wine_per_year) 
+3	7	```python def calculate_wine_production(acres, tons_per_acre, barrels_per_ton):     total_acres = acres * 1  # Assume acres are acres     total_tons = total_acres * tons_per_acre     total_barrels =
+4	0	```python sandwiches = 7 cheese_per_sandwich = 2 omelets = 3 cheese_per_omelet = cheese_per_sandwich + 1  total_cheese_from_sandwiches = sandwiches * cheese_per_sandwich total_cheese_from
+4	1	```python slices_of_cheese_for_sandwich = 2 slices_of_cheese_for_omelet = slices_of_cheese_for_sandwich + 1 total_slices_of_cheese_for_dinner = 8 total_slices_of_cheese = (slices_of_che
+4	2	```python cheese_eaten = 7 * 8  # sandwiches cheese_eaten += 3 * (1 + 2)  # egg omelets cheese_lasted = 8  # macaroni and cheese  total_cheese_used = cheese_eaten + cheese
+4	3	```python sandwich_cheese = 2 omelet_cheese = sandwich_cheese * 2 + 1 macaroni_cheese = 8  total_cheese = sandwich_cheese + omelet_cheese + macaroni_cheese print(total_cheese) ```
+4	4	```python cheese_used_in_sandwiches = 2 * 7 cheese_used_in_omelets = 3 * (1 + 2) cheese_used_in_macaroni_and_cheese = 8  total_cheese_used = cheese_used_in_sandwiches + cheese
+4	5	```python # Define variables sandwich_cheese = 2 omelet_cheese = sandwich_cheese + 1 breakfast_omelets = 3 macaroni_cheese = 8  # Calculate cheese used for sandwiches sandwich_cheese_used = sandwich_cheese * 
+4	6	```python sandwich_cheese = 2 omelet_cheese = sandwich_cheese + (sandwich_cheese + 1) macaroni_cheese = 8 total_cheese = sandwich_cheese * 7 + omelet_cheese * 3 + macaroni_cheese
+4	7	```python total_sandwich_slices = 7 * 2 total_omelet_slices = 3 * 3 total_macaroni_and_cheese_slices = 7 cheese_used = total_sandwich_slices + total_omelet_slices + total_macaroni
+5	0	```python green_pens = 22 yellow_pens = 10 blue_pens = 6 * 9 red_pens = 2 * 6  total_pens = (green_pens + yellow_pens) + blue_pens + red_pens print("Janet now has", total_pens, "pens.") ```
+5	1	```python green_pens = 22 yellow_pens = 10 blue_pens = 6 red_pens = 2  blue_bags = 6 red_bags = 2  total_green_pens = green_pens + (blue_pens * blue_bags) total_yellow_pens = yellow_pens  total_pens = total
+5	2	```python green_pens = 22 yellow_pens = 10 blue_pens = 6 red_pens = 2  blue_pens_bags = 6 red_pens_bags = 2  total_green_pens = green_pens + (blue_pens * blue_pens_bags) total_yellow_pens = yellow_pens
+5	3	```python green_pens = 22 yellow_pens = 10 blue_bags = 6 red_bags = 2 blue_pens = 9 * blue_bags red_pens = 6 * red_bags total_pens = green_pens + yellow_pens + blue_pens + red_pens print(total_pens
+5	4	```python green_pens = 22 yellow_pens = 10 blue_bags = 6 red_bags = 2  blue_pens = blue_bags * 9 red_pens = red_bags * 6  total_pens = green_pens + yellow_pens + blue_pens + red_pens  print("Janet
+5	5	```python green_pens = 22 yellow_pens = 10 blue_pens = 6 red_pens = 2  blue_pens_in_bags = 2 * 9 red_pens_in_bags = 2 * 6  total_blue_pens = blue_pens_in_bags + blue_pens total_red_pens
+5	6	```python green_pens = 22 yellow_pens = 10 blue_pens_bags = 6 red_pens_bags = 2  blue_pens = blue_pens_bags * 9 red_pens = red_pens_bags * 6  total_pens = (green_pens + yellow_pens) + blue_p
+5	7	```python # Janet's original pens green_pens = 22 yellow_pens = 10  # Janet buys blue pens blue_bags = 6 blue_pens_per_bag = 9 total_blue_pens = blue_bags * blue_pens_per_bag  # Janet buys red pens red_bags = 2 red_pens
+6	0	```python def calculate_score():     # Define the scores of the first five tests     scores = [89, 71, 92, 100, 86]      # Calculate the sum of the scores of the first five tests     total = sum(scores)      # Calculate the average of the scores of the first five tests     avg = total / len(scores)      # Calculate the difference
+6	1	```python def calculate_needed_score(current_scores, target_average):     total = sum(current_scores)     current_average = total / len(current_scores)     needed_score = target_average * len(current_scores) - total     return needed_score  current_scores = [89, 71, 92, 100, 86] target_average = 93 needed_score = calculate_needed_score(current_scores, target
+6	2	```python def compute_sixth_score(scores):     total = sum(scores)     average = total / len(scores)     needed_score = 93 - average     return needed_score  scores = [89, 71, 92, 100, 86] sixth_score = compute_sixth_score(scores) print("Brinley needs a score of", sixth_score) ```
+6	3	```python def calculate_needed_score(scores, target_average):     # Sort the scores in descending order     scores.sort(reverse=True)          # Calculate the total score without the sixth test     total_score = sum(scores[:4])          # Calculate the average without the sixth test     average_without_sixth = total_score / 4          # Calculate the needed score to reach the target average
+6	4	```python def calculate_needed_score(scores):     # Calculate the current average     current_average = sum(scores) / len(scores)          # Calculate the current total     current_total = sum(scores)          # Calculate the current lowest score     current_lowest_score = min(scores)          # Calculate the required total for the new average     required_total = current_average * 6         
+6	5	```python # Define the scores of the first five tests scores = [89, 71, 92, 100, 86]  # Calculate the sum of the scores total = sum(scores)  # Calculate the average of the first five tests avg_first_five = total / len(scores)  # Calculate the minimum score required for a 93 average min_required = 93 - avg_first_five
+6	6	```python def calculate_needed_score():     # scores of the first five tests     test_scores = [89, 71, 92, 100, 86]      # calculate the sum of the first five tests     total_sum = sum(test_scores)      # calculate the average of the first five tests     average_first_five = total_sum / len(test_scores)      # calculate the needed
+6	7	```python # Define the scores of the first five tests scores = [89, 71, 92, 100, 86]  # Calculate the sum of the first five scores sum_scores = sum(scores)  # Calculate the average of the first five scores average_scores = sum_scores / len(scores)  # Calculate the difference between the desired average and the current average difference = 93
+7	0	```python # Define the variables total_weeks = 4 week1_distance = 5 * 25  # 125 km week2_distance = 2
+7	1	```python # Define the number of kilometers Micheal rode each time weekly_kilometers = 25  # Define the number of times Micheal rode the bike each week
+7	2	```python # Define the variables times_per_week_week_1 = 5 kilometers_per_time_week_1 = 25 weeks_1 = 4 
+7	3	```python michale_total = (5 * 4 * 25) + (2 * 3 * 60) print(michale_total) ```
+7	4	```python # Define variables michale_rides = 5 * 4  # 20 rides bike_kilometers_week1 = 25 * 4
+7	5	```python total_weeks = 4 + 3 michale_rides = 5 * 4 + 2 * 3 total_kilometers =
+7	6	```python michael_week1 = 5 * 25  # 125 kilometers per week michael_week2 = 2 * 60  # 120 kilometers
+7	7	```python def calculate_total_kilometers():     # Michael rode the bike 5 times a week for 4 weeks     week1_times = 5    
+8	0	```python chocolate_bars = 25 candied_apples = 80 chocolate_weight = 2 * candied_apples chocolate_weight_in_g = 2 * candied_apples * 40 total_weight = chocolate_bars * chocolate
+8	1	```python # Define the weight of a candied apple apple_weight = 80 * 2  # 160g  # Define the weight of a chocolate bar bar_weight = 2 * apple_weight  # 320g  # Calculate the total weight of the
+8	2	```python # Define variables chocolate_bars = 25 candied_apples = 80 chocolate_bar_weight = 40  # g  # Calculate the weight of candied apples candied_apples_weight = candied_apples * 
+8	3	```python chocolate_weight_per_apple = 40  # grams candied_apples = 80 chocolate_weight = 2 * chocolate_weight_per_apple bag_weight = chocolate_weight * candied_apples print(bag_weight) ```
+8	4	```python # Define the variables chocolate_bars = 25 apples = 80 weight_per_apple = 80  # in grams weight_per_chocolate_bar = 2 * weight_per_apple  # in grams  # Calculate the weight
+8	5	```python chocolate_weight = 2 * apple_weight bag_weight = 25 * 40 + 80 * 10 print(bag_weight) ```
+8	6	```python chocolate_weight = 2 * 40 apple_weight = 80 bag_weight = chocolate_weight + apple_weight print(bag_weight) ```
+8	7	```python total_weight = (25 * 2) * 40 + 80 * 40 print(total_weight) ```
+9	0	```python cakes_monday = 4 cakes_tuesday = cakes_monday * 3 cakes_wednesday = cakes_tuesday * 5  total_cakes = cakes_monday + cakes_tuesday + cakes_wednesday print("Total cakes bought:", total_c
+9	1	```python cakes_on_monday = 4 cakes_on_tuesday = cakes_on_monday * 3 cakes_on_wednesday = cakes_on_tuesday * 5 total_cakes = cakes_on_monday + cakes_on_tuesday + cakes_on_wednesday 
+9	2	```python cakes_on_monday = 4 cakes_tuesday = cakes_on_monday * 3 cakes_wednesday = cakes_tuesday * 5 total_cakes = cakes_on_monday + cakes_tuesday + cakes_wednesday print(total_cakes) 
+9	3	```python cakes_monday = 4 cakes_tuesday = cakes_monday * 3 cakes_wednesday = cakes_tuesday * 5 total_cakes = cakes_monday + cakes_tuesday + cakes_wednesday print(total_cakes) 
+9	4	```python cakes_on_monday = 4 cakes_on_tuesday = cakes_on_monday * 3 cakes_on_wednesday = cakes_on_tuesday * 5 total_cakes = cakes_on_monday + cakes_on_tuesday + cakes_on_wednesday 
+9	5	```python # Define the number of cakes Rose bought on Monday cakes_monday = 4  # Calculate the number of cakes Rose bought on Tuesday cakes_tuesday = cakes_monday * 3  # Calculate the number of cakes Rose bought on Wednesday cakes_wednesday
+9	6	```python cakes_monday = 4 cakes_tuesday = cakes_monday * 3 cakes_wednesday = cakes_tuesday * 5 total_cakes = cakes_monday + cakes_tuesday + cakes_wednesday print(total_cakes) ```
+9	7	```python monday_cakes = 4 tuesday_cakes = monday_cakes * 3 wednesday_cakes = tuesday_cakes * 5 total_cakes = monday_cakes + tuesday_cakes + wednesday_cakes print("Rose
+10	0	```python # Given data cost_per_plate = 6000 do_cups = 20 do_cost = cost_per_plate * 12  # Half a dozen cups less_than_half-do = cost_per_plate * 2  # Less than half a dozen cups  # Calculate total cost of buying cups total_cup_cost = do_cups * (do_cost - less_than_half_do)  # Print total cost of buying cups print("Total cost of buying each cup: $"
+10	1	```python # Given information price_per_plate = 6000 do_cups = 20 * 12 do_plates = 0.5 * 12 cost_difference = 1200  # Calculate the total cost of plates total_cost_plates = price_per_plate * do_plates  # Calculate the total cost of cups total_cost_cups = total_cost_plates - cost_difference  # Calculate the cost of each cup cost_per_cup = total_cost_c
+10	2	```python # Define the given values cost_per_plate = 6000 half_dozen_cups = 0.5 * 12 twenty_dozen_cups = 20 * 12 plates_cost = cost_per_plate * half_dozen_cups cups_cost = cost_per_plate * twenty_dozen_cups - plates_cost  # Print the result print(f"The total cost of buying each cup is ${cups_cost / 100:.2f}") ```
+10	3	```python # Let's say the price of a cup is x # The number of cups is 20 dozen, which is 20 * 12 = 240 cups # The number of plates is 6 # The total cost of plates is 6 * 6000 = 36000 # The total cost of cups is 240 * x - 36000 # Set this equal to 1200 and solve for x # 240x - 36000 =
+10	4	```python # Given information plates_cost = 6000  # Cost of each plate cups = 20 * 12     # Number of cups cups_cost = 6000 - 120  # Cost of 20 dozen cups  # Calculate the total cost of plates plates_total_cost = plates_cost * cups  # Calculate the cost of each cup cup_cost = plates_total_cost / cups  print(f"The cost of each cup is ${cup_cost:.2f}") 
+10	5	```python # Define variables plates_cost = 6000 cups = 20 * 12 plates = 0.5 * 12  # Calculate total cost of plates plates_total_cost = plates * plates_cost  # Calculate total cost of cups cups_total_cost = plates_total_cost - 1200  # Calculate the cost per cup cost_per_cup = cups_total_cost / cups  # Print the result print("The cost per cup is $", round
+10	6	```python # Given information plates_cost = 6000 cups = 20 * 12 discounted_cups = cups - 1  # Calculate the total cost of plates total_plates_cost = plates_cost * 0.5  # Calculate the total cost of discounted cups total_cups_cost = discounted_cups * 120  # Calculate the total cost of each cup total_cup_cost = total_plates_cost + total_cups_cost  print("
+10	7	```python plates = 6000 cups = 20 * 12 total_cost_cups = 1200 + cups plates_price = (plates / 2) * 6000 plates_total_cost = plates_price + total_cost_cups print(plates_total_cost) ```
+11	0	**Sara's Savings and Earnings**  *   Initial savings: $10 *   Earnings from babysitting: 4 x $5 = $20 *   Earnings from mowing lawns: 4 x $4 = $16 *   Total earnings: $20 + $16 = $36  **Jacket and Shoes Cost**  *   Jacket cost: $30 *   Shoes cost: $20 x 2 = $40  **Calculating the Number of Lawn Mowings**  *   Sara wants to buy a jacket and 2 pairs of shoes. *   The jacket costs $30, and each pair of shoes costs $20. *   The total cost of the jacket and shoes is: $30 + $40 = $70 
+11	1	**Sara's Budget**  Jacket: $30 Shoes: $20 Total: $50  Savings: $10 Income: $5 x 4 = $20 Income from lawn mowing: $4 x x = $4x  Let x be the number of times Sara mows the lawn. Then:  Total Income = $20 + $4x Total Savings = $10 + $50  Equating the two, we get: $20 + $4x = $60 + $10 + $50 $4x = $70 x = 17.5  Since x must be a whole number (you can't mow the lawn a fraction of a time), Sara must mow the lawn 18 times.
+11	2	**Problem:** Sara wants to buy a jacket and 2 pairs of shoes. The jacket costs $30 and each pair of shoes costs $20. She earns $5 babysitting and $4 mowing the lawn. She already has $10. How many times must she mow the lawn?  **Solution:** Let's break it down:  *   Total cost of jacket and shoes: $30 + $20 = $50 *   Sara already has: $10 *   To reach the total cost, she needs: $50 - $10 = $40 *   Since she earns $5 babysitting, she needs: $40 / $5 = 8 babysitting jobs *   Since she earns $4 mowing the lawn, she needs: $40 / $
+11	3	**Sara's Finances Calculation**  Let's break down the costs of the jacket and shoes, and calculate how much Sara needs to earn to afford them.  Jacket: $30 Shoes: $20 Total Cost: $30 + $20 = $50  Sara already has $10, so she needs to earn: $50 (total cost) - $10 (initial savings) = $40  To determine how many times Sara must mow the lawn to earn $40, we'll divide the amount she needs to earn by her earnings per babysitting or lawn mowing job:  $40 (total needed) ÷ $5 (babysitting earnings) = 8 babysitting jobs $40 (total needed) ÷ $4 (lawn m
+11	4	**Solution** ```python cost_jacket = 30 cost_shoes = 40 babysitting_pay = 5 parents_pay = 4 jacket_cost = 30 shoes_cost = 20 babysitting_times = 4 parents_lawn_pay = 4 initial_savings = 10  # Calculate total cost of jacket and shoes total_cost = cost_jacket + cost_shoes  # Calculate total earnings from babysitting babysitting_earnings = babysitting_times * babysitting_pay  # Calculate total earnings from parents parents_earnings = babysitting_earnings * parents_pay  # Calculate number of times Sara must mow the lawn num_mow = (total_cost - initial_savings) /
+11	5	**Calculating the Number of Lawn Mowings Needed**  Let's break down the problem step by step:  1. **Cost of Jacket**: $30 2. **Cost of Shoes**: $20 3. **Savings**: $10 4. **Babysitting Earnings**: $5 x 4 = $20 (babysitting) 5. **Lawn Mowing Earnings**: $4 x x (number of times mowed) (assuming x is the number of times mowed)  The total amount Sara needs to earn is: $30 (jacket) + $20 (shoes) + $20 (babysitting) + $4x (lawn mowing)  This is equal to the total amount she already has: $10 (
+11	6	**Step 1:** Calculate the cost of the jacket and shoes Jacket: 2 * 30 = 60 dollars Shoes: 2 * 20 = 40 dollars Total cost: 60 + 40 = 100 dollars  **Step 2:** Calculate the total amount Sara needs to earn Sara already has 10 dollars, so she needs to earn 100 - 10 = 90 dollars  **Step 3:** Calculate the number of babysitting hours Sara needs to earn Sara earns 5 dollars per babysitting hour, and she babysits 4 times. Total babysitting hours: 5 * 4 = 20 hours  **Step 4:** Calculate the number of lawn mowing hours Sara needs to earn S
+11	7	**Step 1: Calculate the total cost of the jacket and shoes** The jacket costs $30 and each pair of shoes costs $20, for a total cost of $30 + $20 = $50.  **Step 2: Calculate the total earnings from babysitting** Sara earns $5 per babysitting and babysits 4 times, for a total of 5 x $5 = $25.  **Step 3: Calculate the total earnings from mowing the lawn** Sara earns $4 per lawn mowing and mows the lawn 1 time, for a total of 4 x $4 = $16.  **Step 4: Calculate the remaining amount needed** The remaining amount needed to afford the jacket and shoes is $50 (total cost) -
+12	0	```python def solve():     # Let's assume the number of red chickens is x     # Since there are two more white chickens than red chickens, the number of white chickens is x + 2     # We know that the total number of eggs collected is 42     # We can set up an equation based on the number of eggs
+12	1	```python def calculate_red_chickens():     # Let's denote the number of red chickens as R and the number of white chickens as W     # We know that W = R + 2     # The red chickens produce 3 eggs a day and the white chickens produce 5 eggs a day     # Every day Jerry collects 
+12	2	```python def calculate_red_chickens():     total_eggs = 42     white_chickens = 2     red_chickens = (white_chickens + 1) / 3     return int(red_chickens)  red_chickens = calculate_red_chickens() print("Jerry has", red_ch
+12	3	```python def solve_problem():     eggs_per_day = 3     total_eggs_collected = 42     white_chickens = 2     red_chickens = white_chickens - 2     red_eggs_per_day = eggs_per_day * red_chickens     total_red_eggs = red_eg
+12	4	```python def calculate_red_chickens():     total_eggs = 42     white_chickens = 2     red_chickens = white_chickens + 2      eggs_per_red = 3     eggs_per_white = 5      red_eggs = (red_chickens * eggs_per_red)
+12	5	```python import sympy  # Define variables x = sympy.Symbol('x')  # Set up the equation equation = 3*x + 5*x - 42 - 2*x  # Solve for x solution = sympy.solvers.solve(equation, x)  # Print the solution print(solution) ```
+12	6	```python def solve_problem():     # Let's denote the number of red chickens as x     # Since there are two more white chickens than red chickens, the number of white chickens is x + 2     # The total number of eggs collected per day is 3x + 5(x + 2) = 42    
+12	7	```python x = 42 / 3 + 1 print(x) ```
+13	0	```python def calculate_walk_time(park_length, park_width, walking_speed):     # Calculate the perimeter of the park     perimeter = 2 * (park_length + park_width)          # Calculate the number of hours Gary spends walking     walk_time = perimeter / walking_speed          return walk_time  # Define the park dimensions park_length = 1.5  # miles
+13	1	```python # Define the dimensions of the park length = 1.5 * 5280  # miles width = 6 * 5280   # miles  # Calculate the perimeter of the park perimeter = 2 * (length + width)  # Calculate the time Gary spends walking time_walking = perimeter / 3  # Print the result print(time_w
+13	2	```python # Define variables edge_length = 2  # miles walk_speed = 3  # miles/hour  # Calculate perimeter edge_perimeter = 2 * (edge_length + edge_length)  # Calculate time spent walking time_spent_walking = edge_perimeter / walk_speed  # Print result print("Gary spent", time_spent_walking, "hours
+13	3	```python def calculate_time(length, width, speed):     return (length * width) / speed  length = 1.5  # miles width = 6   # miles speed = 3   # miles/hour  time = calculate_time(length, width, speed) print(f"Gary spends {time} hours walking around the edge of the local park.") ```
+13	4	```python # Define the variables edge_length = 2  # miles walk_speed = 3  # miles/hour  # Calculate the perimeter of the park edge_perimeter = 2 * (edge_length + 6)  # Calculate the time spent walking time_spent_walking = edge_perimeter / walk_speed  # Print the result print(time_spent_walking
+13	5	```python def calculate_hours_walked(edge_length, walk_speed):     """     Calculate the number of hours walked around the edge of the park.      Args:         edge_length (float): The length of the park's edge in miles.         walk_speed (float): The speed at which Gary walks in miles per hour.      Returns:         float: The number of hours Gary spends walking.    
+13	6	```python def calculate_time(park_length, park_width, speed):     time = (park_length + park_width) / speed     return time  park_length = 1.5  # miles park_width = 6  # miles speed = 3  # miles/hour  time = calculate_time(park_length, park_width, speed) print(f"Gary spends
+13	7	```python import math  # Define the dimensions of the rectangle length = 6 width = 1.5  # Calculate the circumference of the rectangular park circumference = 2 * math.pi * (length + width)  # Calculate the time Gary spends walking time = circumference / 3  print(time) ```
+14	0	```python def sloane_customers(day):     return 100 + 50 * day  third_day_customers = sloane_customers(3) print(third_day_customers) ```
+14	1	```python def calculate_customers_day3():     day1_customers = 100     day2_customers = day1_customers + 50     day3_customers = 500 -
+14	2	```python def calculate_third_day_customers():     # Calculate the number of customers on the second day     second_day_customers = 100 + 50      # Calculate the number of customers on
+14	3	```python def sloane_counted_customers():     day1_customers = 100     day2_customers = day1_customers + 50     day3_customers = day2
+14	4	```python def count_customers():     day1_customers = 100     day2_customers = day1_customers + 50     day3_customers = day2_customers +
+14	5	```python # Define the variables day1_customers = 100 day2_customers = day1_customers + 50 day3_customers = day3_customers  # Calculate the
+14	6	```python def sloane_customers():     day_1_customers = 100     day_2_customers = day_1_customers + 50     day_3_customers =
+14	7	```python sloane_customers = 100 additional_customers = 50 days = 3 total_customers = sloane_customers + additional_customers * (days - 
+15	0	```python big_pool = 8  # gallons small_pool = 4  # gallons  big_pool_after_leak = big_pool - 4 small_pool_after_leak = small_pool  print("The small pool has", small_pool_after_leak, "gallons of water.") ```
+15	1	```python # Define the variables big_pool_leak = 4  # gallons/minute small_pool_leak = 2  # gallons/minute time_left = 4  # minutes  # Calculate the initial amount of water in the big pool big_pool_initial = big_pool_leak * time
+15	2	```python def calculate_water_pool(pool1, pool2):     # Let's say the small pool had x gallons of water     # Then the big pool had 2x gallons of water     # Now the big pool has four times as much water as the small pool     # So the big pool
+15	3	```python big_pool_leak = 4 small_pool_leak = 4 big_pool_water = 8 small_pool_water = 2  big_pool_water -= big_pool_leak * 4 small_pool_water -= small_pool_leak * 4  print(small_pool_water) ```
+15	4	```python def calculate_water_jerry():     # Let's define the initial conditions     big_pool_leak = 4  # gallons/minute     small_pool_leak = 4  # gallons/minute      # Calculate the amount of water that leaked out of the big pool     big_pool_le
+15	5	```python small_pool = 4 big_pool = 16  # Calculate the amount of water that leaked out of the small pool in 4 minutes leaked_water_small = small_pool - 2 * big_pool  # Calculate the amount of water that leaked out of the big pool in 4 minutes 
+15	6	```python big_pool_leaks = 4  # gallons/minute small_pool_leaks = big_pool_leaks / 2  # gallons/minute  # Big pool now has 4x the water as the small pool big_pool_water = 4 * small_pool_leaks  # Calculate the amount
+15	7	```python pools = {"big": 0, "small": 0} pools["big"] += 8  # 2 gallons/minute * 4 minutes ago pools["big"] *= 4  # 4 gallons/minute * 4 minutes now pools["small
+16	0	```python def calculate_hours():     pair_of_shoes = 320.00     belt = 32.00     hourly_wage = 8.00     hours_worked = (pair_of_sh
+16	1	```python # Define the total cost of the shoes and belt total_cost = 320.00  # Define the cost of the belt belt_cost = 32.00  # Calculate the total cost of the
+16	2	```python # Define variables shoe_price = 320.00 belt_price = 32.00 hourly_wage = 8.00 hours_worked = 0  # Calculate total cost
+16	3	```python def calculate_hours_needed(shoes_price, belt_price, hourly_wage):     hours_needed = (shoes_price + belt_price) / hourly_wage     return hours_needed  shoes_price = 
+16	4	```python # Define the costs of the shoes and belt shoes_cost = 320.00 belt_cost = 32.00  # Define the hourly wage hourly_wage = 8.00
+16	5	```python total_cost = 320.00 + 32.00 hourly_wage = 8.00 hours_worked = total_cost / hourly_wage print(hours_worked) ```
+16	6	```python def calculate_hours():     # Define the price of the shoes and belt     shoes_price = 320.00     belt_price = 32.00          # Calculate the total price of the shoes
+16	7	```python price_shoes = 320.00 price_belt = 32.00 hourly_wage = 8.00 hours_required = (price_shoes + price_belt) /
+17	0	```python # initial loan amount initial_loan = 2000  # interest rate interest_rate = 0.10  # monthly payment monthly_payment = 165  # number of months months = 12  # calculate the total interest paid total_interest = (monthly_payment * months) / 100  # calculate the new loan amount new_loan
+17	1	```python def calculate_remaining_balance():     initial_amount = 2000     interest_rate = 0.10     monthly_payment = 165     months = 12      remaining_balance = initial_amount     for _ in range(months):         interest = remaining_balance * interest_rate         remaining_balance += interest      return remaining_balance  remaining_balance =
+17	2	```python # Initial loan amount loan_amount = 2000  # Additional interest rate interest_rate = 0.10  # Monthly payment monthly_payment = 165  # Number of months months = 12  # Calculate the total interest paid total_interest = loan_amount * monthly_payment * months  # Calculate the remaining balance remaining_balance = loan
+17	3	```python # initial amount initial_amount = 2000  # additional amount additional_amount = initial_amount * 0.10  # monthly payment monthly_payment = 165  # number of months number_of_months = 12  # calculate the remaining balance remaining_balance = initial_amount + (additional_amount * number_of_months)  # print the remaining balance
+17	4	```python # Initial amount borrowed initial_amount = 2000  # Additional amount Janeth promised to pay additional_amount = initial_amount * 0.10  # Total amount Janeth promised to pay total_amount = initial_amount + additional_amount  # Number of months Janeth will pay months = 12  # Monthly payment monthly_payment = 165
+17	5	```python initial_borrow = 2000 interest_rate = 0.10 monthly_payment = 165 months = 12  # calculate the total amount borrowed total_amount = initial_borrow * (1 + interest_rate) ** months  # calculate the remaining balance remaining_balance = total_amount - monthly_payment  print(remaining_balance) ```
+17	6	```python # Define the initial amount borrowed initial_amount = 2000  # Calculate the amount Janeth promised to pay promised_amount = initial_amount * 1.1  # Define the monthly payment monthly_payment = 165  # Define the number of months months = 12  # Calculate the total amount paid total_amount_paid = monthly
+17	7	```python balance = 2000 interest_rate = 0.10 monthly_payment = 165 months = 12  for i in range(1, months + 1):     interest = balance * interest_rate     balance += interest + monthly_payment  print("Janeth's remaining balance: $", round(balance, 2)) ```
+18	0	```python # Number of roses roses = 4  # Number of dahlias dahlias = roses + 7  # Total number of flowers 
+18	1	```python roses = 4 dahlias = roses + 7 total_flowers = roses + dahlias print(total_flowers) ```
+18	2	```python roses = 4 dahlias = roses + 7 total_flowers = roses + dahlias print(total_flowers) ```
+18	3	```python # Initialize variables roses = 4 dahlias = roses + 7  # Print the total number of flowers print(roses +
+18	4	```python roses = 4 dahlias = roses + 7 total_flowers = roses + dahlias print("Total flowers:", total_flowers
+18	5	```python # Define the number of roses and dahlias roses = 4 dahlias = roses + 7  # Calculate the total number of
+18	6	```python # Number of roses in the vase roses = 4  # Number of dahlias in the vase dahlias = roses + 7
+18	7	```python total_flowers = 4 + 7  # roses + dahlias print(total_flowers) ```
+19	0	```python # Given Harriet's current age harriet_age = 21  # Calculate Harriet's age in three years harriet_age_in_3_years = harriet_age + 3  # Calculate Zack's current
+19	1	```python # Define the initial age of Harriet harriet_age = 21  # Calculate Harriet's age in three years harriet_age_in_three_years = harriet_age + 3  # Calculate Zack's age
+19	2	```python # Define variables harriet_age = 21 zack_age = harriet_age / 2 adrian_age = harriet_age * 3  # Calculate ages in three years harriet_age_in_three
+19	3	```python # Given information zack_age = 21 harriet_age = 21 / 2  # Harriet is half Zack's age  # In three years, Harriet's age will be harriet_age +
+19	4	```python # Define the variables harriet_age = 21 zack_age = harriet_age / 2 adrian_age = 3 * harriet_age  # Calculate the ages in 3 years harriet
+19	5	```python zack = 21 / 2 harriet = 21 / 2 adrian = 3 * harriet  print((harriet + zack + adrian) / 3) ```
+19	6	```python def calculate_average_age(zack_age, harriet_age):     three_times_harriet_age = 3 * harriet_age     harriet_age_in_three_years = harriet_age + 3     zack
+19	7	```python adrian_age = 3 * 21  # Adrian's age is three times Harriet's age harriet_age = 21 / 2  # Harriet is half Zack's age zack_age
+20	0	```python naomi_score = 68 yuri_score = 2 * naomi_score + 10  # Yuri scored 10 more than half as many points as Naomi brianna_score = naomi_score + 17  # Brianna scored 17 points more than
+20	1	```python naomi = 68 yuri = (naomi + 10) / 2 * 2 brianna = (naomi + 10) / 2 + 17 jojo = brianna + 17 print(jojo) ```
+20	2	```python naomi_score = 68 yuri_score = (naomi_score + 10) / 2 * 2 brianna_score = naomi_score + 17 jojo_score = brianna_score + naomi_score + Yuri_score print(jo
+20	3	```python naomi = 68 yuri = (naomi + 10) // 2 * 2 + 10 brianna = naomi + 17 jojo = naomi + yuri - brianna print(jojo) ```
+20	4	```python naomi_points = 68 yuri_points = (naomi_points / 2) + 10 brianna_points = (naomi_points / 2) + 17 jojo_points = brianna_points - 17 print(jojo_points
+20	5	```python naomi_points = 68 yuri_points = (naomi_points + 10) / 2 * 2 brianna_points = (naomi_points + 10) / 2 jojo_points = brianna_points + 17 print(j
+20	6	```python naomi = 68 yuri = (naomi + 10) / 2 * 2 brianna = (naomi + 10) / 2 points_jojo = 251 - (naomi + yuri + brianna) 
+20	7	```python naomi_points = 68 yuri_points = (naomi_points + 10) / 2 * 2 brianna_points = (yuri_points - 17) + 17 jojo_points = brianna_points + 17 print
+21	0	```python crossword_time = 10 * 3 sudoku_time = 5 * 8 total_time = crossword_time + sudoku_time print("Total time spent playing games:", total_time, "minutes") ```
+21	1	```python crossword_time = 10 * 3 sudoku_time = 5 * 8 total_time = crossword_time + sudoku_time print("Carmen spent", total_time, "minutes playing these games.") ```
+21	2	```python crossword_time = 3 * 10 sudoku_time = 8 * 5 total_time = crossword_time + sudoku_time print(f"Carmen spent {total_time} minutes playing these games.") ```
+21	3	```python # Define the rates for crossword and sudoku puzzles crossword_rate = 10 / 60  # minutes per puzzle sudoku_rate = 5 / 60  # minutes per puzzle  # Calculate the time spent on
+21	4	```python crossword_time = 3 * 10  # 3 x 10 minutes sudoku_time = 8 * 5   # 8 x 5 minutes total_time = crossword_time + sudoku_time print
+21	5	```python # Define the time it takes Carmen to solve a crossword puzzle and a sudoku puzzle crossword_time = 10  # minutes sudoku_time = 5   # minutes  # Define the number of crossword and sudoku puzzles
+21	6	```python # Define variables time_per_crossword = 10  # minutes time_per_sudoku = 5  # minutes num_crossword_puzzles = 3 num_sudoku_puzzles = 8
+21	7	```python carmen_time = 10 * 3 + 5 * 8 print(carmen_time) ```
+22	0	```python water_tank = 120 water_used = 90 rainwater_collected = water_tank - water_used new_water_tank = water_tank +
+22	1	```python tank_capacity = 120  # liters water_used = 90 rainwater_collected = water_used * 2  # liters  remaining_water = tank_capacity
+22	2	```python water_in_tank = 120 water_used = 90 rainwater_collected = water_in_tank - water_used water_left = water_in_tank
+22	3	```python water_tank_capacity = 120 water_used = 90 rainwater_collected = water_tank_capacity - water_used water_left = water_tank_capacity
+22	4	```python water_left = 120 - 90 rainwater = 2 * water_left total_water = 120 + rainwater print(total_water) ```
+22	5	```python # Initial amount of water in the tank initial_water = 120  # Water used by Celine water_used = 90  # Rainwater collected by C
+22	6	```python # Given amounts tank_capacity = 120  # liters water_used = 90  # liters  # Rainwater collected rainwater = tank_capacity - water
+22	7	```python total_water = 120 water_used = 90 rainwater_collected = 2 * water_used  new_total_water = total_water - water_used +
+23	0	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+23	1	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+23	2	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+23	3	```python geraniums_planted = 90 petunias_planted = geraniums_planted - 40 total_flowers = geraniums_planted + petunias
+23	4	```python geraniums_planted = 90 petunias_planted = geraniums_planted - 40 total_planted = geraniums_planted + petunias
+23	5	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+23	6	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+23	7	```python geraniums = 90 petunias = geraniums - 40 total_flowers = geraniums + petunias print(total_flowers) ```
+24	0	```python total_spent = 15000 year_1_advertising = total_spent year_2_advertising = year_1_advertising / 3  total_amount = year_1_advertising + year
+24	1	```python year1_ad_cost = 15000 year2_ad_cost = year1_ad_cost / 3 total_ad_cost = year1_ad_cost + year2_ad_cost print("Total amount spent on advertising
+24	2	```python total_advertising_cost = 15000 additional_year_advertising_cost = total_advertising_cost / 3 total_cost = total_advertising_cost + additional_year_advertising_cost print(total_cost) ```
+24	3	```python total_spent = 15000 second_year_spent = total_spent / 3 total_amount_spent = total_spent + second_year_spent print(total_amount_spent) ```
+24	4	```python total_advertising_spent = 15000 advertising_year_1 = total_advertising_spent / 3 print(total_advertising_spent + advertising_year_1)  # prints 30000
+24	5	```python # Define the initial advertising cost initial_advertising_cost = 15000  # Calculate the advertising cost for the second year second_year_advertising_cost = initial_advertising_cost / 3  # Calculate the
+24	6	```python total_spent = 15000 second_year_advertising = total_spent / 3 total_advertising = total_spent + second_year_advertising print("Total amount spent on advertising for the two
+24	7	```python advertising_cost = 15000 year1_advertising_cost = advertising_cost year2_advertising_cost = year1_advertising_cost / 3  total_advertising_cost = year1_advertising_cost
+25	0	```python carlos_rental = 30 * 3 benji_rental = 18 * 5 total_rental = carlos_rental + benji_rental print("They will pay", total_rental, "for their rentals.") ```
+25	1	```python # Define the rental costs canoe_rental_cost = 30 banana_boat_raft_rental_cost = 18  # Calculate the total cost for Carlos carlos_rental_cost = canoe_rental_cost * 3  # Calculate the total cost
+25	2	```python rents = {     'canoe': 30,     'banana boat raft': 18 }  hours_canoe = 3 hours_raft = 5  total_rent = (rents['canoe'] * hours_canoe) + (
+25	3	```python canoe_rental = 30 * 3 banana_raft_rental = 18 * 5 total_rental_cost = canoe_rental + banana_raft_rental print("The total rental cost is: $", total_rental_cost) ```
+25	4	```python carlos_rental = 30 * 3  # Carlos' rental of the canoe benji_rental = 18 * 5  # Benji's rental of the banana boat raft total_rental = carlos_rental + benji_rental
+25	5	```python rents = {     'canoe': 30 * 3,     'banana boat raft': 18 * 5 }  total_rent = sum(rents.values())  print(f"The total amount they will pay is ${total_rent:.2f}") ```
+25	6	```python canoe_rental_cost = 30 * 3 banana_boat_raft_rental_cost = 18 * 5 total_rental_cost = canoe_rental_cost + banana_boat_raft_rental_cost print("The total rental cost is $
+25	7	```python hourly_rate_carlos = 30 hourly_rate_benji = 18 hours_carlos = 3 hours_benji = 5  rent_carlos = hourly_rate_carlos * hours_carlos rent_benji = hourly
+26	0	```python bus_days = 6 car_days = bus_days / 2 total_days = bus_days + car_days print(total_days) ```
+26	1	```python bus_days = 6 car_days = bus_days / 2 total_days = bus_days + car_days print(total_days) ```
+26	2	```python bus_days = 6 car_days = bus_days / 2 total_days = bus_days + car_days print(total_days) ```
+26	3	```python bus_days = 6 car_days = bus_days / 2 bus_days = bus_days + car_days print(bus_days) ```
+26	4	```python bus_days = 6 car_days = bus_days / 2 bus_trip = bus_days + bus_days car_trip = car_days +
+26	5	```python # Define the number of days to travel by bus and car bus_days = 6 car_days = bus_days / 2  # Calculate
+26	6	```python bus_days = 6 car_days = bus_days / 2 bus_trip_days = bus_days + car_days print(bus_trip_days) 
+26	7	```python days_by_bus = 6 days_by_car = days_by_bus / 2 total_days = days_by_bus + days_by_car print
+27	0	```python fire_types = 30 grass_types = 20 water_types = 40 lost_water = 8 new_grass = 14  total_cards = fire_types + grass_types + water_types water_cards = total_cards -
+27	1	```python # Define the initial quantities fire_type = 30 grass_type = 20 water_type = 40  # Define the changes water_type -= 8 grass_type += 14  # Calculate the new quantities fire_type
+27	2	```python fire_types = 30 grass_types = 20 water_types = 40 water_types_after_loss = 40 - 8 grass_types_after_purchase = 20 + 14 total_cards = fire_types + grass_types +
+27	3	```python fire_type = 30 grass_type = 20 water_type = 40  water_type_lost = 8 grass_type_bought = 14  total_water = fire_type + water_type_lost + grass_type_bought total
+27	4	```python fire_types = 30 grass_types = 20 water_types = 40 water_types_after_loss = 40 - 8 grass_types_after_purchase = 20 + 14 total_cards = fire_types + grass_types +
+27	5	```python total_cards = 30 + 20 + 40 water_type_cards = 30 - 8 + 40  percentage_chance = (water_type_cards / total_cards) * 100  print(round(percentage_chance)) ```
+27	6	```python fire_types = 30 grass_types = 20 water_types = 40  water_types -= 8 grass_types += 14  total_types = fire_types + grass_types + water_types  percentage = (water_types / total
+27	7	```python import random  fire_types = 30 grass_types = 20 water_types = 40 lost_water_types = 8 added_grass_types = 14  total_cards = fire_types + grass_types + water_types -
+28	0	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 + $0.25 + $3.00 = $15.25
+28	1	$6.50 + $2.00 + $1.00 + $1.00 + $0.25 + $0.25 = $10.00 $10.00
+28	2	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 + $0.25 + $3.00 = $15.85
+28	3	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 + $0.25 + $3.00 = $15.00
+28	4	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 = $12.52 $12.52 + $3.00
+28	5	$6.50 + $2.00 = $8.50 $8.50 + $1.00 = $9.50 $9.50 + $1.00
+28	6	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 + $0.25 * 2 = $12.75
+28	7	$6.50 + $2.00 + $1.00 + $1.00 + $2.00 + $3.00 + $0.25 * 2 =
+29	0	```python kalinda_pieces_per_minute = 4 mom_pieces_per_minute = kalinda_pieces_per_minute / 2  total_pieces_per_minute = kalinda_pieces_per_minute + mom_pieces_per_minute  total_time_minutes = 360 total_time_hours = total_time_minutes / 60  print("It will take Kalinda and her mom", total
+29	1	```python kalinda_rate = 4  # pieces per minute mom_rate = kalinda_rate / 2  # pieces per minute  total_pieces = 360 time_hours = 0  while kalinda_rate + mom_rate > 0:     kalinda_pieces = kalinda_rate     mom_pieces = mom_rate     kalinda
+29	2	```python kalinda_speed = 4  # pieces per minute mom_speed = kalinda_speed / 2  # pieces per minute  total_pieces = 360 time_hours = 360 / (kalinda_speed + mom_speed)  # total minutes time_minutes = time_hours * 60  # total seconds total_seconds = time
+29	3	```python kalinda_rate = 4  # Kalinda can add 4 pieces per minute mom_rate = kalinda_rate / 2  # mom can add half as many pieces per minute as kalinda  total_pieces = 360 time_hours = 0  while total_pieces > 0:     kalinda_pieces = kalinda_rate
+29	4	```python kalinda_rate = 4  # pieces per minute mom_rate = kalinda_rate / 2  # pieces per minute  total_pieces = 360 time_hours = total_pieces / (kalinda_rate + mom_rate)  print(f"It will take them {time_hours:.2f} hours to complete the puzzle.") ```
+29	5	```python def hours_to_complete_puzzle(kalinda_pieces_per_minute, mom_pieces_per_minute):     return (kalinda_pieces_per_minute + mom_pieces_per_minute) / kalinda_pieces_per_minute  kalinda_pieces_per_minute = 4 mom_pieces_per_minute = 2  hours = hours_to_complete_puzzle(kalinda_pieces_per_minute
+29	6	```python kalinda_rate = 4  # pieces per minute mom_rate = kalinda_rate / 2  # pieces per minute  total_pieces = 360 time_hours = 0 time_minutes = 0  while total_pieces > 0:     time_minutes += 1     kalinda_pieces = kalinda_rate * time
+29	7	```python # Define the variables kalinda_rate = 4  # pieces per minute mom_rate = kalinda_rate / 2  # pieces per minute  # Calculate the total number of pieces total_pieces = 360  # Calculate the time to complete the puzzle time_minutes = total_pieces / (kalinda_rate + mom_rate
+30	0	```python watermelons = 120 ready_watermelons_2_months = watermelons * 0.3 remaining_watermelons = watermelons - ready_watermelons_2_months ready_watermelons_2_weeks = remaining_watermelons * 0.75 not_ready_to_harvest = remaining_watermelons -
+30	1	```python # Initial number of baby watermelons baby_watermelons = 120  # Percentage of watermelons ready to harvest after 2 months ready_after_2_months = baby_watermelons * 0.3  # Number of watermelons ready to harvest after 2 weeks ready_after_2_weeks = ready_after_2
+30	2	```python watermelons = 120 ready_at_two_months = watermelons * 0.3 remaining_after_two_months = watermelons - ready_at_two_months harvest_ready = remaining_after_two_months * 0.75 melons_not_ready = remaining_after_two_months - harvest_ready print(melons_not_ready) ```
+30	3	```python watermelons_produced = 120 watermelons_ready_after_two_months = watermelons_produced * 0.3 watermelons_remaining_after_two_weeks = watermelons_produced - watermelons_ready_after_two_months watermelons_ready_after_two_weeks = watermelons_remaining_after_two_weeks * 0.
+30	4	```python watermelons_original = 120 ready_to_harvest_percentage = 0.3 remaining_watermelons = 120 harvested_watermelons = 0 remaining_watermelons_after_two_months = remaining_watermelons - (watermelons_original * ready_to_harvest_percentage) harvested_watermelons = remaining
+30	5	```python total_watermelons = 120 watermelons_ready_after_two_months = int(total_watermelons * 0.3) watermelons_ready_after_two_weeks = int(watermelons_ready_after_two_months * 0.75)  remaining_watermelons = total_watermelons - watermelons_ready_after_two_months - watermelons
+30	6	```python watermelons = 120 watermelons_ready_after_two_months = 0 watermelons_two_weeks_later = 0  watermelons_ready_after_two_months = (watermelons / 100) * 30 watermelons_two_weeks_later = (watermelons_ready_after_two_months / 4) *
+30	7	```python initial_watermelons = 120 ready_to_harvest = 0.3 * initial_watermelons harvestable_after_two_months = 0.75 * ready_to_harvest remaining_watermelons = initial_watermelons - ready_to_harvest not_ready_to_harvest = remaining_watermelons - harvest
+31	0	```python # Calculate the total cost of the cars total_cost_cars = 12 * 20000 # Calculate the tax on the cars tax_cars = total_cost_cars * 0.1 # Calculate the
+31	1	```python # Define the variables num_cars = 12 price_per_car = 20000 tax_rate = 0.10 registration_cost = 1000  # Calculate the total cost before tax and registration total
+31	2	```python # Define the price of each car car_price = 20000  # Define the number of cars num_cars = 12  # Define the tax rate tax_rate = 0.10  # Define the
+31	3	```python # Calculate the cost of cars before tax and registration cars_cost_before_tax_and_registration = 12 * 20000  # Calculate the tax tax = cars_cost_before_tax_and_registration * 0.1  # Calculate
+31	4	```python # Define variables num_cars = 12 price_per_car = 20000 tax_rate = 0.1 registration_fee = 1000  # Calculate the total cost of cars before tax and registration 
+31	5	```python total_cost = 12 * 20000 tax = total_cost * 0.1 registration_fee = 12 * 1000 total = total_cost + tax + registration_fee print(total) ```
+31	6	```python # Calculate the total cost of the cars before tax and registration total_cost = 12 * 20000  # Calculate the tax on the cars tax = total_cost * 0.10  # Calculate the registration cost
+31	7	```python cars = 12 tax_rate = 0.10 registration_cost = 1000  total_cost = (cars * 20000 + cars * tax_rate * 20000 + registration_cost * cars) print
+32	0	```python kylie_monday = 5 robert_monday = 20 kylie_tuesday = 2 * kylie_monday + kylie
+32	1	```python kylie_monday = 5 robert_monday = 20 kylie_tuesday = 2 * kylie_monday + kylie
+32	2	```python kylie = 5 + 20 kylie = 25 tuesday = 2 * kylie print(tuesday) ```
+32	3	```python kylie_monday = 5 robert_monday = 20  kylie_tuesday = 2 * kylie_monday print(k
+32	4	```python kylie_monday = 5 robert_monday = 20  kylie_tuesday = kylie_monday + (kylie_monday
+32	5	```python # Define variables monday_shells = 20 tuesday_multiplier = 2  # Calculate Kylie's Monday and Tuesday shells monday_t
+32	6	```python kylie_monday = 5 robert_monday = 20  kylie_tuesday = 2 * kylie_monday print(k
+32	7	```python def calculate_kylie_tuesday_shells():     # Monday's collection     robert = 20     monday_kylie = robert + 5
+33	0	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	1	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	2	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	3	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	4	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	5	```python # Define the number of ants ants = 50  # Calculate the number of bugs bugs = ants / 2  #
+33	6	```python ants = 50 bugs = ants / 2 total_insects = ants + bugs print(total_insects) ```
+33	7	```python def calculate_insects():     # Define the number of ants     ants = 50          # Calculate the number of bugs by
+34	0	```python penguins_sunbathing = 36 penguins_jumping = (1/3) * penguins_sunbathing penguins_swimming = (1/3) * penguins_sunbathing penguins_inside = (1/3) * penguins_sunbathing  
+34	1	```python penguins = 36 penguins_jumping = (1/3) * penguins penguins_inside = (1/3) * penguins penguins_snowing = penguins - penguins_jumping - penguins_inside print(penguins_snowing) ```
+34	2	```python penguins_sunbathing = 36 jumpers = penguins_sunbathing // 3 eaters = penguins_sunbathing // 3 cave_eaters = penguins_sunbathing // 3 left_sunbathing = penguins_sunbathing - jump
+34	3	```python penguins = 36 penguins_sunbathing = penguins / 3 penguins_swimming = penguins_sunbathing / 3 penguins_eating = penguins_swimming / 3 penguins_sunbathing_left = penguins - penguins_swimming
+34	4	```python penguins = 36 penguins_sunbathing = penguins / 3 penguins_jumping = penguinsSunbathing / 3 penguins_inside_cave = penguinsSunbathing / 3 penguins_left_sunbathing = penguins - penguins
+34	5	```python penguins = 36 penguins_jumping = 1/3 * penguins penguins_inside = 1/3 * penguins penguins_sunbathing = penguins - penguins_jumping - penguins_inside print(penguins_sunbathing) ```
+34	6	```python penguins = 36 penguins_sunbathing = penguins // 3  # integer division to get the number of penguins that jump and swim penguins_left_sunbathing = penguins - penguins_sunbathing print(penguins_left_sunbathing) ```
+34	7	```python total_penguins = 36 penguins_jumping = total_penguins / 3 penguins_inside_cave = total_penguins / 3 penguins_sunbathing = total_penguins - penguins_jumping - penguins_inside_cave print(penguins_sunb
+35	0	```python steve_eats = 6 tomato_ratio = 2 vine_production = 3  steve_needed = steve_eats / tomato_ratio vines_needed = steve
+35	1	```python tomato_per_day = 6 tomato_per_week = tomato_per_day * 7 vines_needed = tomato_per_week / 3 print(vines_needed) ```
+35	2	```python steve_eats = 6 tomatoes_per_day = 2 weeks = 7 tomatoes_per_week = tomatoes_per_day * 7 vines_needed = tomatoes_per
+35	3	```python steve_eats = 6 tomato_ratio = 2 weeks = 7 tomato_per_vine = 3  steve_needs = (tomato_eats
+35	4	```python steve_eats = 6 tomato_per_day = 2 weeks = 7 steve_needed = tomato_per_day * steve_eats * weeks print(ste
+35	5	```python def calculate_tomatoes(girlfriend, daily_eats):     return girlfriend * 2 * daily_eats  def calculate_vines(tomatoes, tomatoes_per_vine):     return
+35	6	```python steve_eats = 6 tomato_ratio = 2 tomato_yield = 3 days_per_week = 7  steve_needs = steve_eats *
+35	7	```python import math  steve_eats = 2 * 6 vine_production = 3  vines_needed = (steve_eats) / vine_production print(vines_needed
+36	0	```python # Define variables total_friends = 20 slices_per_friend = 4 portion_size = 8  # Calculate the number of pizzas
+36	1	```python def calculate_pizza_slices(num_friends, slices_per_friend):     return num_friends * slices_per_friend  num_friends = 20 slices_per
+36	2	```python # Calculate the number of pizzas needed num_pizzas = (20 * 4) / 8 print(num_pizzas) ```
+36	3	```python # Number of slices each person can have slices_per_person = 4  # Total number of friends total_friends = 20  #
+36	4	```python # Calculate the total number of slices needed total_slices = 4 * 20  # Calculate the number of pizzas needed to cover the slices 
+36	5	```python friends = 20 slices_per_pizza = 4 pizzas_needed = friends * slices_per_pizza // 8 print(p
+36	6	```python # Define the number of friends and slices per friend friends = 20 slices_per_friend = 4  # Calculate the total number of
+36	7	```python import math  def calculate_pizzas():     friends = 20     slices_per_pizza = 8     slices_per_group = 
+37	0	```python total_pens = 25 ink_used = 0 while ink_used < 
+37	1	```python # Define the initial number of pens Ram has initial_pens = 5  #
+37	2	```python # Define variables pens_used = 5 total_pens = 25  
+37	3	```python total_pens = 5 * 25 print(total_pens) ```
+37	4	```python # Define the variables pens_used = 5 total_pens = 25
+37	5	```python def calculate_total_pens():     # Ram buys 25 pens     initial_pens
+37	6	```python total_pens = 25 pens_mixed = 5  while pens_m
+37	7	```python initial_pens = 5 total_pens = 25 total_pens
+38	0	```python # Define variables allowance = 20 extra = 10 triple_time = 1  # Calculate the initial sum initial_sum = allowance
+38	1	```python allowance = 20 extra = 10 triple_time = allowance + extra  triple_time *= 3 print(triple_time) ```
+38	2	```python allowance = 20 extra = 10 total = allowance + extra triple = total * 3 print(triple) ```
+38	3	```python # initial allowance allowance = 20  # added extra money allowance += 10  # tripled in a year allowance *= 
+38	4	```python allowance = 20 extra = 10 investment = allowance + extra investment *= 3  # tripled print(investment) ```
+38	5	```python initial_allowance = 20 extra_allowance = 10 investment = initial_allowance + extra_allowance tripled_investment = investment * 
+38	6	```python # Define initial allowance allowance = 20  # Add extra allowance allowance += 10  # Calculate total allowance after a year total_allow
+38	7	```python total_allowance = 20 + 10  # Total allowance total_investment = total_allowance * 3  # 3 times investment 
+39	0	```python jessa_age = 20 joan_age = jessa_age + 5 mary_age = joan_age - 2 total_age = jessa_age +
+39	1	```python jessa = 20 joan = jessa + 5 mary = joan - 2 print("Jessa is", jessa, "years old
+39	2	```python jessa_age = 20 joan_age = jessa_age + 5 mary_age = joan_age - 2 print(jessa_age + joan
+39	3	```python jessa = 20 joan = jessa + 5 mary = joan - 2 print(jessa + joan + mary) ```
+39	4	```python jessa = 20 joan = jessa + 5 mary = joan - 2 print(jessa + joan + mary) ```
+39	5	```python jessa = 20 joan = jessa + 5 mary = joan - 2 print(jessa + joan + mary)  #
+39	6	```python jessa = 20 joan = jessa + 5 mary = joan - 2 print(jessa + joan + mary) ```
+39	7	```python # Define the ages of the girls jessa = 20 joan = jessa + 5 mary = joan - 2  # Compute and
+40	0	```python # Total number of students in the school hall total_students = 1000  # Students went out through exit A students_out_A = 30% * total_students  # Students who went out through exit B students_out_B = (3/5)
+40	1	```python total_students = 1000 exit_A = 0.3 remaining_students = total_students - exit_A exit_B = remaining_students * (3/5) exit_C = remaining_students - exit_A - exit_B print(exit_C) ```
+40	2	```python total_students = 1000 exit_a_out = total_students * 0.3 remaining_students = total_students - exit_a_out exit_b_out = remaining_students * (3/5) students_out = exit_a_out + exit_b_out students_out
+40	3	```python # initial number of students total_students = 1000  # number of students that went out through exit A students_out_A = int(0.3 * total_students)  # remaining students remaining_students = total_students - students_out_A  # number of
+40	4	```python total_students = 1000 exit_A = int(0.3 * total_students) remaining_students = total_students - exit_A exit_B = int(3/5 * remaining_students) print("Students who went out through exit C:", exit_B) ```
+40	5	```python # Define the initial number of students total_students = 1000  # Calculate the number of students who went out through exit A students_out_A = int(total_students * 0.3)  # Calculate the number of students who went out through exit B 
+40	6	```python # Total number of students total_students = 1000  # Calculate the number of students who went out through exit A students_out_A = total_students * 0.3  # Calculate the number of students who went out through exit B students_out_B
+40	7	```python def calculate_students_out():     total_students = 1000     exit_A = total_students * 0.3     students_out_A_and_B = exit_A * 0.75     remaining_students = total_students - students_out_A_and_B 
+41	0	```python robert = 0 john = 54  robert = john - 6 john = john * 2  difference = john - james print(difference) ```
+41	1	```python Robert = 0  # initialize Robert's candies James = Robert + 6  # James has 6 more candies than Robert John = 2 * Robert  # John has twice
+41	2	```python # Define the number of candies Robert has robert_candies = 0  # Define the number of candies John has john_candies = 54  # Calculate Robert's
+41	3	```python robert_candies = 0 john_candies = 54 james_candies = john_candies - 6  difference = john_candies - james
+41	4	```python # Define variables for James and Robert James = 0 Robert = 0  # Define John's candies John_candies = 54  # Calculate Robert's candies Robert
+41	5	```python james_candies = 54 / 2 james_candies = 27 robert_candies = james_candies - 6 robert_cand
+41	6	```python robert_candies = 54 / 2 james_candies = robert_candies + 6 difference = james_candies - robert_candies
+41	7	```python James = 54 / 2 John = 54 * 2 difference = John - James print(difference) ```
+42	0	```python dolly_books = 2 pandora_books = 1 books_read
+42	1	```python # Define the initial number of books each person has dolly_books = 2
+42	2	```python # Initialize the number of books each person reads dolly_books = 2 
+42	3	```python dolly_books = 2 pandora_books = 1 dolly
+42	4	```python dolly_books = 2 pandora_books = 1 both_books
+42	5	```python books_read = 2 + 1 print(books_read) ```
+42	6	```python dolly_books = 2 pandora_books = 1  dolly
+42	7	```python def collective_reading():     dolly_books = 2     pandora_books
+43	0	```python # Number of people Mike was a pen pal with num_people = 5  # Number of letters Mike sends per week letters_per_week = 2 * num_people  # Number of pages in a letter pages_per_letter = 5  # Number of minutes Mike writes per letter minutes_per_letter = pages_per_letter /
+43	1	```python # Define variables num_people = 5 letters_per_week = 2 * 7 * 5  # 2 people, 2 letters/week, 5 pages/letter pages_per_week = 2 * 7 * 5  # 2 people, 2 letters/week, 5 pages/
+43	2	```python # Define the number of people Mike was a pen pal with people = 5  # Define the number of people Mike stopped being pen pals with stopped = 2  # Define the number of letters Mike sends per week letters_per_week = 2 * 5 * 2  # 2 people send 5 pages
+43	3	```python # Calculate the total number of letters Mike writes in a week total_letters = 2 * 5 * 2 * 2 * 7  # Calculate the number of pages Mike writes in a week total_pages = total_letters * 5  # Calculate the number of minutes Mike writes in a week minutes_per_week =
+43	4	```python # Define variables total_letters = 5 * 2 * 2 pages_per_letter = 5 minutes_per_letter = 6  # Calculate total minutes total_minutes = total_letters * pages_per_letter * minutes_per_letter  # Calculate hours hours = total_minutes / 3600  print(hours) ```
+43	5	```python def calculate_hours_written():     # Number of people Mike was pen pals with     people = 5          # Number of people Mike stopped being pen pals with     stopped = 2          # Number of letters Mike sends to each person     letters_per_person = 2          # Number of pages Mike sends    
+43	6	```python # Number of people Mike was a pen pal with num_people = 5  # Number of people he stopped being pen pals with stopped = 2  # Number of letters Mike receives from each of the stopped people letters_per_week = 2 * num_people * 5  # Number of pages Mike writes per week 
+43	7	```python import math  def calculate_hours_spent():     # Number of people Mike was a pen pal with     num_people = 5      # Number of letters Mike stops receiving     stopped_receiving = 2      # Number of letters Mike receives each week     weekly_letters = 2 * num_people      #
+44	0	```python # Define the phone plan phone_plan = 1000  # Define the daily call daily_call = 15  # Define the extra call extra_call = 300  # Define the number
+44	1	```python # Define variables monthly_minutes = 1000 daily_call_minutes = 15 extra_minutes = 300 days_in_month = 30  # Calculate total minutes Jason has at the start of
+44	2	```python # Define the initial phone plan minutes phone_plan = 1000  # Define the daily call minutes daily_call_minutes = 15  # Calculate the total minutes Jason has used so far total
+44	3	```python # Calculate the number of calls Jason makes calls = 30 * 15  # 30 days * 15 minutes/day  # Calculate the total minutes Jason has already used minutes_used = calls
+44	4	```python # Define variables phone_plan_minutes = 1000 extra_minutes = 300 days_in_month = 30 days_call_with_boss = 15  # Calculate minutes used for boss calls
+44	5	```python minutes_per_day = 15 extra_minutes = 300 total_minutes = 1000 days_in_month = 30  # Calculate the total minutes Jason had this month total_minutes_this_month
+44	6	```python total_minutes = 1000 call_minutes = 15 * 30 extra_minutes = 300 minutes_left = total_minutes - call_minutes - extra_minutes print(minutes_left) ```
+44	7	```python plan_minutes = 1000 boss_call_minutes = 15 extra_minutes = 300 days_in_month = 30 remaining_minutes = plan_minutes for day in range(1,
+45	0	```python g = 24 k = g - 5 b = 2 * k g_fries = g - b + 3  print(g
+45	1	```python griffin_fries = 24 kyle_fries = 5 billy_fries = 2 * kyle_fries griffin_f
+45	2	```python g = 24 k = g - 5 b = 2 * k g = g - 3  print(g + b) 
+45	3	```python g = 27 k = 5 b = 2 * k g = g - b - 3 print(g) ```
+45	4	```python g = 27 k = 5 b = k * 2 g = g - b - 3  print(ginger_fries =
+45	5	```python fries = 24 kyle = fries - 5 billy = 2 * kyle ginger = fries - (billy -
+45	6	```python def fries_griffin(kyle, colby):     return 24 - 5 + 2 * (2 * kyle - 3)  def fries
+45	7	```python # Define the number of fries Griffin had initially griffin_fries = 24  # Define the number of fries Kyle took kyle_took
+46	0	```python # Given data snails_aquarium1 = 4 snails_aquarium2 = 32  # Let's denote the number of fish in both aquariums as x. # We are also told that the difference between the number of snails in the two aquariums is twice the number of fish in both aquariums
+46	1	```python # Define the variables snails_aquarium1 = 4 snails_aquarium2 = 32  # Let x be the number of fish in each aquarium # The difference between the number of snails in the two aquariums is twice the amount of fish in both aquariums # So, (snails
+46	2	```python # Define variables snails_aquarium_1 = 4 snails_aquarium_2 = 32  # Let x be the number of fish in both aquariums x = snails_aquarium_1 + snails_aquarium_2  # The problem states that the difference between the number of
+46	3	```python def compute_fish_and_snails():     snail1 = 4     snail2 = 32     fish1 = snail1     fish2 = snail2      total_fish = fish1 + fish2     total_snails = snail1 + snail2      difference = 
+46	4	```python # Define the variables snails_a = 4 snails_b = 32 fish_a = snails_a + 1  # Assuming the number of fish is 1 more than the number of snails fish_b = snails_b + 1  # Assuming the number of fish is 1 more than the
+46	5	```python a = 32 + 2 * 4  # total number of snails in both aquariums b = 4 + 2 * 32  # total number of fish in both aquariums print("Number of fish in aquarium A:", b) print("Number of fish in aquarium B:", a) ```
+46	6	```python def compute_fish(aquarium1, aquarium2):     snail1 = 4     snail2 = 32     fish1 = snail1     fish2 = snail2      difference = snail1 - snail2     fish_sum = fish1 + fish2      fish_diff
+46	7	```python x = 32 y = 4  x = x + y y = x + y  x = (x-y) /2 y = (y-x) /2  print(f"Snails in aquarium 1: {x}") print(f"Snails in aquarium 2: {y}") ```
+47	0	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5 discount_rate = 0.10  total_hours_worked = (weeks_per_movie * days_per_week) * hours_per_day total_cost = hourly_rate * total_hours_worked  discounted_cost = total_cost * (1 - discount_rate
+47	1	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5  total_hours = hours_per_day * days_per_week * weeks_per_movie discount = total_hours * 0.1 total_cost = total_hours * hourly_rate * (1 - discount)  print(f"The total cost of the makeup job is ${
+47	2	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5 discount_percentage = 0.10  total_hours = hours_per_day * days_per_week * weeks_per_movie total_cost = total_hours * hourly_rate * (1 - discount_percentage) print(f"Total cost: ${total_cost:.2f
+47	3	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5 discount_rate = 0.1  total_hours = hours_per_day * days_per_week * weeks_per_movie total_cost = total_hours * hourly_rate * (1 - discount_rate)  print(f"The makeup artist charged {total_cost} dollars.") 
+47	4	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5  total_hours = hours_per_day * days_per_week * weeks_per_movie discount_amount = total_hours * 0.1  total_cost = total_hours * hourly_rate * (1 - discount_amount)  print("The total cost of the makeup is
+47	5	```python # Define variables hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_to_finish = 5  # Calculate total hours worked total_hours = hours_per_day * days_per_week * weeks_to_finish  # Calculate total cost before discount total_cost_before_discount = total_hours * hourly_rate  # Apply 10% discount 
+47	6	```python hourly_rate = 250 hours_per_day = 6 days_per_week = 4 weeks_per_movie = 5 discount_percentage = 0.1  total_hours_per_week = hours_per_day * days_per_week discounted_rate = hourly_rate * (1 - discount_percentage) payment = total_hours_per_week * discounted_rate  print(payment) ```
+47	7	```python def calculate_cost(hourly_rate, hours_per_day, days_per_week, weeks_per_movie, discount_percentage):     total_hours = hourly_rate * (hours_per_day * days_per_week * weeks_per_movie)     total_cost = total_hours * hourly_rate * (1 - discount_percentage / 100)     return total_cost  hourly_rate = 250 hours_per_day =
+48	0	```python cake_cost = 12 presents_cost = 43 decorations_cost = 15 invitations_cost = 4 goodie_bags_cost = 22  total_cost = cake_cost + presents_cost + decorations_cost + invitations_cost + goodie_bags_cost
+48	1	```python # Calculate the total amount Isabelle spent total_spent = 12 + 43 + 15 + 4 + 22  # Calculate the number of people splitting the cost num_people = 3  # Calculate the amount each person paid amount_per_person =
+48	2	```python cake_cost = 12 presents_cost = 43 decorations_cost = 15 invitations_cost = 4 goodie_bags_cost = 22  total_cost = cake_cost + presents_cost + decorations_cost + invitations_cost + goodie_bags_cost
+48	3	```python cake_cost = 12 presents_cost = 43 decorations_cost = 15 invitations_cost = 4 goodie_bags_cost = 22  total_cost = cake_cost + presents_cost + decorations_cost + invitations_cost + goodie_bags_cost
+48	4	```python cake_cost = 12 presents_cost = 43 decorations_cost = 15 invitations_cost = 4 goodie_bags_cost = 22  # Calculate the total cost total_cost = cake_cost + presents_cost + decorations_cost + invitations_cost
+48	5	```python total_cost = 12 + 43 + 15 + 4 + 22 num_people = 3  amount_per_person = total_cost / num_people  print(f"{amount_per_person:.2f}")  # prints the amount each person paid ```
+48	6	```python cake_cost = 12 presents_cost = 43 decorations_cost = 15 invitations_cost = 4 goodie_bags_cost = 22  total_cost = cake_cost + presents_cost + decorations_cost + invitations_cost + goodie_bags_cost
+48	7	```python def calculate_cost():     cake_cost = 12     presents_cost = 43     decorations_cost = 15     invitations_cost = 4     goodie_bags_cost = 22     total_cost = cake_cost + presents_cost + decorations_cost +
+49	0	```python bags = 4 weight_per_bag = 50 cost_per_pound = 1.50  total_weight = bags * weight_per_bag total_cost = total_weight * cost_per_pound  print("The chef spent", round(total_cost, 2), "
+49	1	```python bags = 4 weight_per_bag = 50 cost_per_pound = 1.5  total_weight = bags * weight_per_bag total_cost = total_weight * cost_per_pound  print("The chef spent", total_cost, "dollars.") ```
+49	2	```python bags = 4 pounds_per_bag = 50 cost_per_pound = 1.5  total_weight = bags * pounds_per_bag total_cost = total_weight * cost_per_pound  print("The total cost is:", total_cost) ```
+49	3	```python bags_of_onions = 4 onion_weight_per_bag = 50 cost_per_pound = 1.5  total_weight_in_pounds = bags_of_onions * onion_weight_per_bag total_cost = total_weight_in_pounds * cost_per_pound
+49	4	```python bags = 4 pounds_per_bag = 50 cost_per_pound = 1.50  total_weight_pounds = bags * pounds_per_bag total_cost = total_weight_pounds * cost_per_pound  print("The total cost is: $",
+49	5	```python bags = 4 pounds_per_bag = 50 cost_per_pound = 1.5 total_cost = bags * pounds_per_bag * cost_per_pound print("The chef spent", round(total_cost, 2), "dollars.") ```
+49	6	```python bags = 4 pounds_per_bag = 50 cost_per_pound = 1.5  total_weight = bags * pounds_per_bag total_cost = total_weight * cost_per_pound  print("The chef spent", round(total_cost, 2
+49	7	```python total_weight = 4 * 50 total_cost = total_weight * 1.5 print(f"The chef spent ${total_cost:.2f}") ```
+50	0	```python sue_cookies_monday = 4 * 5 sue_cookies_tuesday = sue_cookies_monday * 2 sue_total_cookies = sue_cookies_monday + sue_cookies_tuesday  sister_cookies_monday = 5 sister_cookies_tuesday = sister_cookies_monday * 2 sister_total_cookies =
+50	1	```python sue_cookies = (13 * 2) + 5 sue_calories = sue_cookies * 200  sister_cookies = 5 sister_calories = sister_cookies * 200  sue_sister_calories = sue_calories - sister_calories  print(sue_sister_calories) ```
+50	2	```python sue_sister_cookies = [5, 13] sue_cookies = [4] * len(sue_sister_cookies) sue_calories = [0] * len(sue_sister_cookies)  for i in range(len(sue_sister_cookies)):     sue_calories[i] = sue_sister_cookies[i] * 
+50	3	```python sue_cookies = [5, 17] sister_cookies = [5, 13]  for i in range(2):     sue_cookies[i] = sue_cookies[i-1] * 4     sister_cookies[i] = sister_cookies[i-1] * 2  sue_calories = sum(200 * cookies
+50	4	```python sue_cookies = [5, 13] monday_cookies = sue_cookies[0] * 4 tuesday_cookies = sue_cookies[0] * 2 total_sue_cookies = monday_cookies + tuesday_cookies sue_calories = total_sue_cookies * 200 sister_calories = sue_cookies[
+50	5	```python # Define variables sue_cookies_monday = 4 * 5  # Sue ate 4 times as many cookies as her sister on Monday sue_cookies_tuesday = sue_cookies_monday * 2  # Sue ate twice as many cookies as her sister on Tuesday sue_sister_cookies = 5  # Sue
+50	6	```python sue_cookies_monday = 4 * 5 sue_cookies_tuesday = 2 * sue_cookies_monday sue_total_cookies = sue_cookies_monday + sue_cookies_tuesday sue_calories = sue_cookies_monday * 200 + sue_cookies_tuesday * 200 sue_sister_cookies_monday
+50	7	```python def calculate_calories():     # Define variables     sister_cookies = 5     sister_calories = 200      # Monday     monday_cookies = sister_cookies * 4     monday_calories = monday_cookies * 200      # Tuesday     tuesday_cookies = sister_cookies * 2     tuesday
+51	0	```python # Given information total_students = 20 * 3  # 3 classes, each with 20 students girls_in_first_class = 15 girls_in_second_class = 12  # Total girls in the school total_girls = girls_in_first_class + girls_in_second_class  # Calculate the number of boys in the school total_boys = total_students - total_girls  # Calculate the number of boys in the third
+51	1	```python # Define variables boys_in_school = 0 girls_in_class1 = 15 girls_in_class2 = 12 total_students_per_class = 20 total_classes = 3 percentage_girls = 0.5  # Calculate the number of girls in the school girls_total = total_students_per_class * percentage_girls girls_in_class1_and2 = girls_in_class1 + girls_in_class2 girls_in
+51	2	```python # Define variables total_students = 3 * 20  # 3 classes, 20 students per class girls_first_class = 15 girls_second_class = 12 boys_first_class = total_students - girls_first_class girls_total = girls_first_class + girls_second_class boys_total = total_students - girls_total third_class_boys = boys_total - 15 - 12 print(third_class_boys) ```
+51	3	```python # Given data total_students = 60  # 3 classes * 20 students per class girls_in_first_class = 15 girls_in_second_class = 12  # Calculate the number of girls in the school total_girls = girls_in_first_class + girls_in_second_class  # Calculate the number of boys in the school total_boys = total_students - total_girls  # Calculate the number of boys in the third
+51	4	```python # Define the given information total_students = 60  # 3 classes * 20 students per class girls_in_each_class = [15, 12, 0]  # 3 classes, 2 girls per class (first class only has 1 girl)  # Calculate the number of girls in the school total_girls = sum(girls_in_each_class)  # Calculate the number of girls in the third class girls_in
+51	5	```python def calculate_boys_in_third_class():     # Define the number of students in each class     class1_students = 20     class2_students = 20     class3_students = 20      # Define the number of girls in each class     class1_girls = 15     class2_girls = 12      # Define the total number of girls in the school     total_girls =
+51	6	```python total_students = 3 * 20  # 3 classes, each with 20 students girls = 15 + 12  # First and second class, total girls boys = total_students - girls  # Total students minus girls  third_class_girls = 12  # Given third_class_boys = boys - third_class_girls  # Boys minus girls in third class  print(third_class_boys) ```
+51	7	```python class_total = 50 boys = 20 * 0.5 girls = 20 * 0.5 g1 = 15 g2 = 12 g3 = girls + g1 + g2  boys_third_class = (boys - g3) * 0.5  print(boys_third_class) ```
+52	0	```python travisApps = 61 deletedApps = 9 addedApps = 18  travisApps -= deletedApps travisApps += addedApps  
+52	1	```python travis_old_apps = 61 travis_new_apps = 9 + 18 print(travis_old_apps + travis_new_apps) ```
+52	2	```python travis_total_apps = 61 travis_deleted_apps = 9 travis_added_apps = 18 travis_total_apps_now = (travis
+52	3	```python travis_old_apps = 61 travis_new_apps = 9 + 18 print(travis_old_apps - travis_new_apps)  # 
+52	4	```python travis_apps = 61 deleted_apps = 9 downloaded_apps = 18  travis_apps -= deleted_apps travis_apps += downloaded_apps
+52	5	```python travis_initial_apps = 61 travis_deleted_apps = 9 travis_added_apps = 18 travis_total_apps = travis_initial_apps
+52	6	```python travis_old_apps = 61 travis_new_apps = 9 + 18 print(travis_old_apps - travis_new_apps) ```
+52	7	```python tablet_apps = 61 deleted_apps = 9 downloaded_apps = 18 tablet_apps_after_deletion = tablet_apps - deleted_apps 
+53	0	```python wolf_count = 10 cougar_count = 15  wolf_count *= 3 cougar_count *= 3 - 3  total_count = wolf_count + cougar_count  print("Rick killed a total of", total_count, "animals.") ```
+53	1	```python # Define the variables wolves = 10 cougars = 15  # Calculate the number of wolves and cougars killed today wolves_today = wolves * 3 cougars_today = wolves_today - 3  # Calculate the total number
+53	2	```python wolf_kills = 10 cougar_kills = 15  wolf_cougar_ratio = 3 wolf_cougar_difference = -3  wolf_kills += (wolf_cougar_ratio * cougar_kills) cougar_kills -= wolf_c
+53	3	```python wolf_cougar_ratio = 3 wolf_count = 10 c Cougar_count = 15 wolf_count_today = wolf_count * wolf_cougar_ratio cougar_count_today = cougar_count - 3 total_count = wolf_count_today + cougar_count
+53	4	```python wolf_killed_last_night = 10 c Cougar_killed_last_night = 15  wolf_killed_today = 3 * wolf_killed_last_night cougar_killed_today = 3 - cougar_killed_last_night  total_animals
+53	5	```python wolves = 10 cougars = 15  # Calculate the number of wolves killed today wolves_today = wolves * 3 - 3 cougars_today = cougars - 3  # Calculate the total number of animals killed today 
+53	6	```python wolves = 10 cougars = 15 wolf_cougar_ratio = 3 wolf_count = wolves * wolf_cougar_ratio cougar_count = cougars - wolf_count total_count = wolf_count + cougar_count print(total_count) 
+53	7	```python rick_wolves = 10 rick_cougars = 15  # Rick killed three times as many wolves as cougars and three fewer cougars than the previous night rick_cougars_last_night = 3 * rick_cougars rick
+54	0	```python def calculate_floor_bill():     starting_floor = 3     target_floor = 4 * starting_floor + 6     return
+54	1	```python def calculate_floor_number():     # Bill starts on the 3rd floor     starting_floor = 3          # Calculate the
+54	2	```python def bill_floor():     starting_floor = 3     target_floor = 4 * starting_floor + 6     bill_floor
+54	3	```python def compute_floor(floors):     return 4 * floors + 6  floors = 3 print(compute_floor
+54	4	```python def calculate_floor(floors):     return 4 * floors + 6  floors = 3 bill_floor = calculate
+54	5	```python start_floor = 3 elevator_floor = 4 * start_floor + 6 print(elevator_floor) ```
+54	6	```python def calculate_floor_bill():     # Starting floor     starting_floor = 3          # Calculate the target floor     target_floor
+54	7	```python bill_start_floor = 3 elevator_floors = 4 * bill_start_floor + 6  print("Bill
+55	0	```python # Mitchel's times mitchel_times = 30  # Anne's times anne_time = 30 * 0.7 # 30% less than Mitchel
+55	1	```python # Define variables mitchel_times = 30 anne_times = mitchel_times * 0.7 robert_times = anne_times * 4  # Print
+55	2	```python # Define the number of times Mitchel went down the slide mitchel_times = 30  # Calculate the number of times Anne went down the slide anne_times = m
+55	3	```python # define variables mitchel_times = 30 anne_times = anne_times(mitchel_times) robert_times = 4 * anne_times  # print results print
+55	4	```python # Define variables for each child's slide count mitchel_slides = 30 anne_slides = mitchel_slides * 0.7  # 30
+55	5	```python mitchel_times = 30 anne_times = anne_times * 0.7 robert_times = robert_times * 4 print(robert_times) ```
+55	6	```python # Mitchel's water slide times mitchel_times = 30 * 10  # 30 times down the slide, 10% less  # Anne's water slide
+55	7	```python mitchels_slides = 30 anne_slides = anne_slides = 30 * 0.7  # Mitchel went 30 times and Anne went 
+56	0	```python ten_stalls = 10 cows_per_stall = 20 new_cows = 40 stalls = ten_stalls  # calculate the number of cows per stall now cows_now = stalls * cows_per_stall  # calculate the number of cows put into each stall 
+56	1	```python # Number of cows per stall initially cows_per_stall = 20  # Total number of cows Mr. Sylas bought total_cows_bought = 40  # Number of stalls Mr. Sylas bought num_stalls_bought = 10  # Number of cows
+56	2	```python stalls = 10 cows = stalls * 20 new_cows = 40 cows_per_stall = new_cows / 20 cows_in_eight_stalls = cows_per_stall * 8 print(cows_in_eight_stalls) ```
+56	3	```python ten_stalls = 10 cows_per_stall = 20 new_cows = 40 stalls_with_new_cows = ten_stalls + (new_cows // ten_stalls)  cows_in_stalls = stalls_with_new_cows * cows_per_stall cows
+56	4	```python stalls = 10 cows = 20 new_cows = 40 stalls_cows = stalls / 2 new_cows_per_stall = new_cows / stalls stall_cows = stalls_cows * new_cows_per_stall ans = 0
+56	5	```python def cows_in_stalls(stalls, cows_per_stall):     return stalls * cows_per_stall  stalls = 10 cows_per_stall = 20 new_cows = 40 cows = cows_in_stalls(stalls, cows_per_stall) stalls_with
+56	6	```python ten_stalls = 10 cows_per_stall = 20 new_cows = 40 cows_added = new_cows // 20  stalls_with_cows = ten_stalls stalls_with_cows -= cows_added  cows_in_stalls = stalls_with_c
+56	7	```python num_stalls = 20 num_cows_per_stall = 10 new_cows = 40 new_cow_per_stall = new_cows / 20  cows_per_stall = new_cow_per_stall + new_cow_per_stall cows_in
+57	0	```python pennies = 100 nickels = 40 dimes = 20 dollar_bills = 40  total_dollars = pennies * 0.01 + nickels * 0.05 + dimes * 0.10 + dollar_bills * 1.00  print("The total amount of money Brady has is: ", total_dollars) ```
+57	1	```python pennies = 100 nickels = 40 dimes = 20 dollars = 0  # Pennies pennies = pennies * 1 dollars += pennies  # Nickels nickels = nickels * 5 dollars += nickels  # Dimes dimes = dimes * 10 dollars += dimes  # Dollars
+57	2	```python pennies = 100 nickels = 40 dimes = 20 dollar_bills = 40  total_cents = pennies * 1 + nickels * 5 + dimes * 10 + dollar_bills * 100 total_dollars = total_cents / 100  print("Brady has", total_dollars, "dollars in his pig
+57	3	```python # Define the number of coins pennies = 100 nickels = 40 dimes = 20 dollar_bills = 40  # Convert the value of each type of coin to dollars pennies_value = pennies * 0.01 nickels_value = nickels * 0.05 dimes_value = dimes * 0.10 dollar
+57	4	```python pennies = 100 nickels = 40 dimes = 20 dollar_bills = 40  penny_value = pennies * 0.01 nickel_value = nickels * 0.05 dime_value = dimes * 0.10 dollar_value = dollar_bills * 1.00  total_dollars = penny_value + nickel
+57	5	```python # Define the value of each type of coin in dollars pennies = 0.01 nickels = 0.05 dimes = 0.10 dollars = 0.100  # Define the number of coins for each type pennies_count = 100 nickels_count = 40 dimes_count = 20 dollars_count = 40  #
+57	6	```python # Define the values of each coin penny_value = 1 nickel_value = 5 dime_value = 10 dollar_value = 100  # Define the quantities of each coin pennies = 100 nickels = 40 dimes = 20 dollars = 40  # Calculate the total value in cents pennies_total = pennies *
+57	7	```python def calculate_money():     # Number of pennies     pennies = 100     # Number of nickels     nickels = 40     # Number of dimes     dimes = 20     # Number of dollar bills     dollars = 40      # Calculate the value of pennies     pennies_value = pennies * 0.01     # Calculate
+58	0	```python # Define the variables wood_weight_per_section = 400  # pounds section_length = 20  # feet termite_percentage = 0.3  # Calculate the weight per section wood_weight_per_section = wood_weight_per_section
+58	1	```python # Given values tree_height = 200  # in feet section_weight = 400  # in pounds termite_percentage = 0.3  # 30%  # Calculate the volume of the tree section_volume = section_weight
+58	2	```python # Given variables section_weight = 400 section_height = 10 termite_percentage = 0.3 tree_height = 200  # Calculate the weight of a single section section_weight_per_section = section_weight * section_height
+58	3	```python # Calculate the number of solid sections in the tree sections = 200 // 10  # Calculate the weight of the tree weight = (sections / 10) * 400 * 0.7  print(weight) ```
+58	4	```python # Define variables wood_weight_per_section = 400  # pounds height = 200  # feet termite_destruction_percentage = 0.3  # Calculate total wood weight before termite destruction total_wood_weight_before_de
+58	5	```python def calculate_weight(trees, height):     # Calculate the number of solid sections     sections = height / 10          # Calculate the weight of solid sections     solid_sections_weight = sections * 400          # Calculate the weight of
+58	6	```python # Define variables wood_weight_per_section = 400  # pounds section_length = 10  # feet total_height = 200  # feet  # Calculate the number of 10-foot sections sections = total_height // section
+58	7	```python total_weight = 200 * 10 * 400 termite_percentage = 30 / 100 termite_weight = 0.30 * total_weight print(termite_weight) ```
+59	0	```python # Calculate the cost of overdue books overdue_cost = 8 * 0.50  # Calculate
+59	1	```python books_overdue = 8 fee = 2.00 overdue_fee = 0.50
+59	2	```python total_cost = 0.50 * 8 + 2.00 print(total_cost) ```
+59	3	```python # Nancy's book oweing book_owes = 8 * 0.50  # 
+59	4	```python total_cost = (8 * 0.5) + 2 print(total_cost) ```
+59	5	```python book_cost = 8 * 0.50  # 8 books at 50 cents each late
+59	6	```python # Nancy's overdue books book1_overdue = 0.5 book2_overdue = 
+59	7	```python cost_per_book = 0.50 number_of_books = 8 flat_fee = 2
+60	0	```python andrea_apples = 52 andrea_bananas = andrea_apples * 4 / 2 total_fruits = andrea_apples + andrea_b
+60	1	```python apples = 8 + 52 bananas = 4 + (8 * 2) total_fruits = apples + bananas print(total_fruits) ```
+60	2	```python andrea_apples = 52 julian_apples = andrea_apples + 8 julian_bananas = julian_apples * 2 
+60	3	```python andrea_apples = 52 james_apples = andrea_apples + 8 james_bananas = 2 * james_apples andrea_b
+60	4	```python andrea_apples = 52 jamal_apples = andrea_apples - 8 andrea_bananas = 4 jamal_bananas = and
+60	5	```python Jamal = 8 + 4  # Jamal has 12 bananas Andrea = 52 + 8  # Andrea has 60 apples  total_fruits = Andrea
+60	6	```python andrea_apples = 52 jamal_apples = andrea_apples + 8 andrea_bananas = 4 jamal_bananas = and
+60	7	```python fruits = {'apples': 52, 'bananas': 0} for key, value in fruits.items():     fruits[key] = value + 8 print

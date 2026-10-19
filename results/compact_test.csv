@@ -1,0 +1,4 @@
+conv,config,prefix_tok,ans_ttft_ms,ans_total_ms,ans_tok,mem_total_ms,mem_tok,both_ready_ms,full_follow_ok,compact_follow_ok,compact_stale,full_prefix_tok,compact_prefix_tok
+1,SERIAL,213,49.7,305.3,25,1232.9,123,1538.2,-1,-1,-1,-1,-1
+1,PARALLEL,213,75.1,342.6,25,1953.6,192,1953.6,-1,-1,-1,-1,-1
+1,FOLLOWUP,213,-1,-1,-1,-1,-1,-1,1,1,0,13,5

@@ -156,6 +156,15 @@ public:
     void clear() { llama_memory_clear(mem_, true); }
     void reset_processes() { procs_.clear(); retired_.clear(); }
     void sync() { llama_synchronize(ctx_); }
+    bool decode_requests(const std::vector<Request> & reqs) {
+        for (int i = 0; i < (int)reqs.size(); ++i) {
+            batch_.token[i] = reqs[i].tok; batch_.pos[i] = reqs[i].pos;
+            batch_.n_seq_id[i] = 1; batch_.seq_id[i][0] = reqs[i].seq;
+            batch_.logits[i] = reqs[i].want_logits ? 1 : 0;
+        }
+        batch_.n_tokens = (int)reqs.size();
+        return llama_decode(ctx_, batch_) == 0;
+    }
     const char * model_chat_template() { return llama_model_chat_template(model_, nullptr); }
     unsigned clock_sm() const { unsigned c = 0; if (nvml_get_clock_) nvml_get_clock_(nvml_dev_, 1, &c); return c; }
 

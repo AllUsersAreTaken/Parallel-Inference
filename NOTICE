@@ -1,0 +1,24 @@
+NOTICE
+======
+
+This project's own source (harness/, scripts/) is MIT-licensed; see LICENSE.
+
+Third-party components, used but not vendored into this repository:
+
+- llama.cpp / ggml (https://github.com/ggml-org/llama.cpp)
+  MIT License, Copyright (c) 2023-2024 The ggml authors.
+  Fetched at pinned commit 547208dca250ceb3e4c8615598d043f2b602a527 and built
+  separately (see README). No llama.cpp source is included in this repo.
+
+Models (downloaded separately, not included):
+
+- DeepSeek-R1-Distill-Qwen-1.5B / -7B (deepseek-ai), MIT License.
+- Qwen2.5-3B-Instruct (Alibaba), Apache License 2.0.
+- Llama-3.2-3B-Instruct / Meta-Llama-3.1-8B-Instruct (Meta), Meta Llama
+  Community License.
+- GGUF quantizations by bartowski (Hugging Face), under the upstream model
+  licenses above.
+
+Data:
+
+- GSM8K (openai/grade-school-math), MIT License. Subsets under data/.

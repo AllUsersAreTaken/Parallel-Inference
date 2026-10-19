@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "RecycleLM: consumer-GPU compute reuse measurements"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: "AllUsersAreTaken"
+    alias: "AllUsersAreTaken"
+version: "0.1.0"
+date-released: "2026-10-18"
+license: MIT
+repository-code: "https://github.com/AllUsersAreTaken/Parallel-Inference"
+keywords:
+  - llm-inference
+  - llama.cpp
+  - cuda
+  - rtx-4060
+  - speculative-batching
+  - self-consistency
+  - edge-inference
+abstract: >-
+  Measurement harnesses and analysis for reusing spare decode compute on a
+  consumer GPU (RTX 4060, 8 GB): a mixed decode+chunk knee harness, a
+  parallel-stream cost curve (kernel regimes, unified-KV sharing, unshared
+  tails), an offline early-exit probe tool, and a live N-way
+  parallel-reasoning harness with agreement-based stopping.

@@ -1,0 +1,8 @@
+﻿system: You are a helpful assistant. Use only the conversation. Do not invent facts.
+user: Initial target city is Lisbon, kickoff March 14, budget 40k.
+assistant: Noted: Lisbon, March 14, 40k.
+user: Also, the client prefers async written updates.
+assistant: Understood.
+user: Change of plan: move the city to Porto and the kickoff to March 21. Budget 55k.
+assistant: Updated: Porto, March 21, 55k.
+user: Remind me which city we settled on.

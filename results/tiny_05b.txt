@@ -1,0 +1,79 @@
+﻿
+========== Q1  gold=55 ==========
+Q: Baldur gets water from a well. He gets 5 pails of water every morning and 6 pails of water every afternoon. If each pail contains 5 liters of water, how many li
+  [single ] ans=55         OK
+           text: To determine how many liters of water Baldur gets every day, we need to calculate the total amount of water he gets in a day from both morning and afternoon, and then sum these amounts.
+
+First, we calculate the total amount of water Baldur gets in one morning:
+- Baldur gets 5 pails of water every morning.
+- Each pail contains 5 liters of water.
+Therefore, the amount of water Baldur gets in one mor
+  [ensemble N=8]
+    s0  ans=5          .. | To determine the total amount of water Baldur gets every day, we need to calculate the daily water intake from
+    s1  ans=55         OK | To determine how many liters of water Baldur gets every day, we need to calculate the total amount of water he
+    s2  ans=6          .. | To determine the total amount of water Baldur gets every day, we need to calculate the daily water intake from
+    s3  ans=5          .. | To determine how many liters of water Baldur gets every day, we need to calculate the total amount of water he
+    s4  ans=5          .. | To determine the total amount of water Baldur gets every day, we need to follow these steps:
+
+1. Calculate the
+    s5  ans=6          .. | To determine how many liters of water Baldur gets every day, we need to calculate the total amount of water he
+    s6  ans=30         .. | To find out how many liters of water Baldur gets every day, we need to calculate the total amount of water he 
+    s7  ans=30         .. | To find out how many liters of water Baldur gets every day, we need to calculate the total amount of water he 
+    VOTE ans=5          WRONG (agreement 3/8)
+
+========== Q2  gold=114200 ==========
+Q: John wins an award at work.  The award has a 1 time monetary reward of $5000 and a 5% raise in salary.  If he makes 2000 a week, every week of the year and he g
+  [single ] ans=5100       WRONG
+           text: To determine how much money John made that year, we need to calculate his total earnings from both the award and the raise.
+
+First, let's calculate the amount of the award:
+- The award has a $5000 monetary reward.
+- John received the award on the first day of the year.
+
+\[
+\text{Total award} = \$5000
+\]
+
+Next, let's calculate the amount of the raise:
+- The raise is 5% of John's weekly salary.
+- Jo
+  [ensemble N=8]
+    s0  ans=0          .. | To determine how much money John made that year, we need to consider both the monetary reward and the salary r
+    s1  ans=7000       .. | To determine how much money John made in a year, we need to calculate his total earnings from his weekly salar
+    s2  ans=5100       .. | To calculate John's total earnings for the year, we need to consider both the monetary award and the salary in
+    s3  ans=5100       .. | To determine how much money John made that year, we need to calculate his total earnings from his award and hi
+    s4  ans=3          .. | To determine how much money John made that year, we need to consider both the award and his salary.
+
+1. **Mone
+    s5  ans=5200       .. | To calculate John's total earnings for the year, we need to consider both the monetary award and the salary ra
+    s6  ans=0          .. | To calculate John's total earnings for the year, we need to consider both the monetary reward he received from
+    s7  ans=100        .. | To calculate John's total earnings for the year, we need to consider both the monetary award and the salary ra
+    VOTE ans=0          WRONG (agreement 2/8)
+
+========== Q3  gold=100 ==========
+Q: Josie grows grapes on her 10-acre farm.  Each acre produces 5 tons of grapes per year, and each ton of grapes makes 2 barrels of wine.  How many barrels of wine
+  [single ] ans=100        OK
+           text: To determine the total number of barrels of wine Josie's farm produces per year, we need to follow these steps:
+
+1. Calculate the total number of tons of grapes produced per year.
+2. Convert the total tons of grapes into barrels of wine.
+
+First, we know that each acre produces 5 tons of grapes per year. Since Josie's farm is 10 acres, we multiply the number of tons per acre by the number of acres:
+  [ensemble N=8]
+    s0  ans=100        OK | To determine how many barrels of wine Josie's farm produces per year, we need to follow these steps:
+
+1. Calcu
+    s1  ans=100        OK | To determine how many barrels of wine Josie's farm produces per year, we need to follow these steps:
+
+1. Calcu
+    s2  ans=100        OK | To determine the total number of barrels of wine Josie's farm produces per year, we need to follow these steps
+    s3  ans=100        OK | To determine the total number of barrels of wine Josie's farm produces per year, we need to follow these steps
+    s4  ans=100        OK | To determine how many barrels of wine Josie's farm produces per year, we need to follow these steps:
+
+1. Calcu
+    s5  ans=100        OK | To determine the total number of barrels of wine Josie's farm produces per year, we need to follow these steps
+    s6  ans=100        OK | To determine the total number of barrels of wine Josie's farm produces per year, we need to follow these steps
+    s7  ans=100        OK | To determine the number of barrels of wine Josie's farm produces per year, we need to follow these steps:
+
+1. 
+    VOTE ans=100        OK (agreement 8/8)

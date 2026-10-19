@@ -154,6 +154,7 @@ public:
     int n_vocab() const { return n_vocab_; }
     void seq_cp(llama_seq_id src, llama_seq_id dst) { llama_memory_seq_cp(mem_, src, dst, -1, -1); }
     void clear() { llama_memory_clear(mem_, true); }
+    void reset_processes() { procs_.clear(); retired_.clear(); }
     void sync() { llama_synchronize(ctx_); }
     const char * model_chat_template() { return llama_model_chat_template(model_, nullptr); }
     unsigned clock_sm() const { unsigned c = 0; if (nvml_get_clock_) nvml_get_clock_(nvml_dev_, 1, &c); return c; }

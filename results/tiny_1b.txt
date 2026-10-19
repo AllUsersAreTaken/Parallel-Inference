@@ -1,0 +1,85 @@
+﻿
+========== Q1  gold=55 ==========
+Q: Baldur gets water from a well. He gets 5 pails of water every morning and 6 pails of water every afternoon. If each pail contains 5 liters of water, how many li
+  [single ] ans=55         OK
+           text: ## Step 1: Calculate the amount of water Baldur gets in a day from the well.
+Baldur gets 5 pails of water every morning, and 6 pails every afternoon. To find the total water he gets in a day, we need to add the water from the morning and the afternoon. Total water from the well = 5 pails (morning) + 6 pails (afternoon) = 11 pails.
+
+## Step 2: Convert the number of pails of water to liters.
+Each pa
+  [ensemble N=8]
+    s0  ans=5          .. | ## Step 1: Calculate the amount of water Baldur gets in a day from the well.
+Baldur gets 5 pails of water ever
+    s1  ans=55         OK | ## Step 1: Calculate the number of pails Baldur gets in a day.
+Baldur gets 5 pails of water every morning and 
+    s2  ans=3          .. | ## Step 1: First, let's calculate the total number of pails of water Baldur gets in a day.
+Baldur gets 5 pails
+    s3  ans=55         OK | ## Step 1: Calculate the total number of pails Baldur gets in a day
+Baldur gets 5 pails of water every morning
+    s4  ans=5          .. | ## Step 1: Calculate the total amount of water Baldur gets in a day.
+To find the total amount of water Baldur 
+    s5  ans=3          .. | ## Step 1: Calculate the total amount of water Baldur gets in a day from the well.
+Baldur gets 5 pails of wate
+    s6  ans=3          .. | ## Step 1: Calculate the total amount of water Baldur gets in a day
+To find out the total amount of water Bald
+    s7  ans=5          .. | ## Step 1: Calculate the amount of water Baldur gets in a day from the well.
+Baldur gets 5 pails of water ever
+    VOTE ans=3          WRONG (agreement 3/8)
+
+========== Q2  gold=114200 ==========
+Q: John wins an award at work.  The award has a 1 time monetary reward of $5000 and a 5% raise in salary.  If he makes 2000 a week, every week of the year and he g
+  [single ] ans=10200      WRONG
+           text: ## Step 1: Calculate the monetary reward for the year
+First, we need to calculate the total monetary reward John will receive for the year. The monetary reward is $5000 and it's a one-time payment. The total monetary reward is $5000.
+
+## Step 2: Calculate the raise in salary for the year
+Next, we need to calculate the raise in salary John will receive. The raise is 5% of his current salary. His cu
+  [ensemble N=8]
+    s0  ans=2600       .. | ## Step 1: Calculate the monetary reward for the year
+First, we need to calculate the total monetary reward Jo
+    s1  ans=4          .. | ## Step 1: Calculate the total amount of money John made in a year without the raise.
+John makes $2000 a week 
+    s2  ans=2000       .. | ## Step 1: Calculate the monetary reward for the year.
+First, we need to calculate the total monetary reward f
+    s3  ans=4          .. | ## Step 1: Calculate John's initial salary for the year.
+John makes $2000 a week. Since there are 52 weeks in 
+    s4  ans=108500     .. | ## Step 1: Calculate John's salary increase
+First, calculate the amount of the raise. 5% of 2000 is .05 * 2000
+    s5  ans=4          .. | ## Step 1: Calculate the total monetary reward for the year.
+The monetary reward for the year is the award's m
+    s6  ans=3          .. | ## Step 1: Calculate the total monetary reward for the year
+To find the total monetary reward, we need to mult
+    s7  ans=364000     .. | ## Step 1: Calculate the monetary reward of the award.
+The monetary reward of the award is $5000.
+
+## Step 2: 
+    VOTE ans=4          WRONG (agreement 3/8)
+
+========== Q3  gold=100 ==========
+Q: Josie grows grapes on her 10-acre farm.  Each acre produces 5 tons of grapes per year, and each ton of grapes makes 2 barrels of wine.  How many barrels of wine
+  [single ] ans=100        OK
+           text: ## Step 1: Calculate the total tons of grapes produced per year
+Josie's 10-acre farm produces 5 tons of grapes per acre. So, the total tons of grapes produced per year is 10 * 5 = 50 tons.
+
+## Step 2: Calculate the total barrels of wine produced per year
+Each ton of grapes makes 2 barrels of wine. Therefore, the total barrels of wine produced per year is 50 * 2 = 100 barrels.
+
+The final answer is:
+  [ensemble N=8]
+    s0  ans=2          .. | ## Step 1: Calculate the total tons of grapes produced per year
+Josie's 10-acre farm produces 5 tons of grapes
+    s1  ans=2          .. | ## Step 1: Calculate the total amount of grapes produced per year
+To find the total amount of grapes produced 
+    s2  ans=100        OK | ## Step 1: Calculate the total tons of grapes produced on the farm.
+Josie has 10 acres of land, and each acre 
+    s3  ans=2          .. | ## Step 1: Calculate the total amount of grapes produced per year
+To find the total amount of grapes produced 
+    s4  ans=2          .. | ## Step 1: Calculate the total tons of grapes produced per year
+To find the total tons of grapes produced per 
+    s5  ans=100        OK | ## Step 1: Calculate the total tons of grapes produced per year on the farm.
+Josie's 10-acre farm produces 5 t
+    s6  ans=100        OK | ## Step 1: Calculate the total tons of grapes produced per year
+Josie has 10 acres of land. Each acre produces
+    s7  ans=100        OK | ## Step 1: Calculate the total tons of grapes produced by the farm per year.
+Josie has 10 acres of grapes, and
+    VOTE ans=100        OK (agreement 4/8)

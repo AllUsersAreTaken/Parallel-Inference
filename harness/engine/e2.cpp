@@ -74,6 +74,7 @@ struct ProcessEnsemble : Process {
     std::vector<std::pair<int, std::string>> finished; // (finish_len, answer)
     int base_ = 0;
     std::vector<int> emitted;   // stream index per batch slot, in order
+    llama_pos p_start = 0;      // first generated position (prompt length)
     bool complete = false;
     int finish_len = 0;
     std::string answer;
@@ -97,6 +98,7 @@ struct ProcessEnsemble : Process {
 
     void start(llama_pos p0, llama_token seed_tok) {
         for (int j = 1; j < M; ++j) e.seq_cp(0, j);
+        p_start = p0;
         for (auto & p : pos) p = p0;
         for (auto & t : next) t = seed_tok;
     }
@@ -120,7 +122,7 @@ struct ProcessEnsemble : Process {
         if (np > 0) text[j].append(piece, np);
         pos[j] += 1;
         total_tokens += 1;
-        if (llama_vocab_is_eog(e.vocab(), next[j]) || answer_complete(text[j]) || (int)pos[j] - 0 >= max_trace) {
+        if (llama_vocab_is_eog(e.vocab(), next[j]) || answer_complete(text[j]) || (int)(pos[j] - p_start) >= max_trace) {
             fin[j] = true;
             finished.push_back({ (int)pos[j], extract_answer(text[j]) });
             check_agree();

@@ -23,8 +23,23 @@ are not extrapolated to other GPUs.
 - **Early-exit probes (offline).** k-consecutive-agreeing probes cut ~28% of
   reasoning tokens at ~1 pt accuracy loss, beating fixed-budget and
   logprob-confidence baselines.
-- **Parallel reasoning (simulated).** N=16 with first-K-agree (K=3) gives
-  +21.5 points over a single sample at a predicted 1.41x wall clock.
+- **Parallel reasoning (live, 400 held-out).** N=16 with first-K-agree (K=3):
+  **+11.8 pts** over a single sample, 95% CI [+7.8, +15.8], at **1.37x** median
+  wall clock (batched decode with shared KV). Paired McNemar confirms it
+  (N=1 vs N=16, p<0.001).
+- **Accuracy vs N (200 held-out, paired).** Plateaus at N=8: N=8 beats N=4 by
+  +5.5 pts (CI [+1.5, +10.0], p=0.019), and N=16 is within noise of N=8
+  (-2.0 pts, CI [-5.5, +1.5], p=0.42) while costing ~1.8x the tokens
+  (6702 vs 3662). So N=16 buys no measurable accuracy over N=8.
+- **Edge (ratio-matched estimate, not a phone measurement).** Desktop gives
+  1.37-1.64x; a phone CPU engine ~2.3-5x, an NPU engine ~3.7x. Recommend
+  **N=4 as the phone default** (bandwidth-bound below the compute crossover, so
+  extra streams add little latency) and **N=8 as an optional high-accuracy
+  mode**. Accuracy saturates around N=8 within noise; token cost is what a phone
+  pays.
+
+Known limitations (energy telemetry, the ggml N=8 threshold, untested
+phone-sized-model accuracy, an N=1 cap caveat) are in `LIMITATIONS.md`.
 
 See `PREREGISTRATION.md` for the frozen gates and the dated amendment.
 

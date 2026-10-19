@@ -61,9 +61,8 @@ define where the results stop.
 - Single GPU (RTX 4060 8 GB, WDDM), single CPU (9800X3D), one OS (Windows).
 - GSM8K only for the parallel-reasoning and early-exit results; MATH-500 not run.
 - Test 3 (retrieval brief) held until B2 clears its gate.
-- **Per-stream accuracy declines with batch size.** In the sub-1B sweeps the
-  average accuracy of the individual streams falls as N grows (Llama-3.2-1B:
-  50% at N=1, 36% at N=8, 25% at N=16), so part of the ensemble's voting gain is
-  rescuing degraded streams rather than combining good ones. Cause not yet
-  isolated (batch-size FP vs sampler vs failed/empty streams). Verify before
-  quoting the raw vote-vs-single gap.
+- **Per-stream baselines must be finished-only.** With first-K-agree, the run
+  stops when K streams agree and the rest are cut off mid-reasoning with no
+  answer. Counting those as wrong makes per-stream accuracy appear to fall with
+  N (it did not: over finished streams it is flat, ~50-57% on the 1B). Always
+  compute the per-stream baseline over streams that produced an answer.

@@ -9,6 +9,13 @@ are not extrapolated to other GPUs.
 
 ## Findings so far (short)
 
+- **Context compaction by a shared-prefix fork (demo).** On an RTX 4060, a
+  shared-prefix answer-and-memory fork reduced time until both outputs were ready
+  by **25%**, with an **11%** increase in answer latency. The generated memory
+  reduced subsequent context by **78%** and preserved the corrected facts in all
+  ten tested conversations. Scope: Qwen2.5-3B Q4, ~1.3k-token histories, ten
+  conversations, one compaction pass. See `DEMO_context_compaction.md`.
+
 - **Marginal decode cost is low but not free.** On a 3B Q4_K model, an extra
   batched token costs ~0.1-0.35 ms against a ~10 ms step. The 5% knee is
   ~1-2 tokens; the useful framing is marginal cost, not "free tokens".

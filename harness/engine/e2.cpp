@@ -193,7 +193,7 @@ int main(int argc, char ** argv) {
 
     std::ifstream fin(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f && sweep) fprintf(f, "id,gold,N,K,ans,correct,stream_acc,wall_ms,tokens\n");
+    if (f && sweep) fprintf(f, "id,gold,N,K,ans,correct,stream_acc_all,stream_acc_fin,n_fin,wall_ms,tokens\n");
     else if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a1_tok,a3_ans,a3_correct,a3_wall_ms,a3_finish,a3_tok,a2_ans,a2_correct,a2_wall_ms,a2_tok,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish,a1r_tok\n");
 
     std::string line;
@@ -219,7 +219,7 @@ int main(int argc, char ** argv) {
 
         // run one ensemble arm; returns answer, wall clock, tokens, stream-0 text
         auto run_arm = [&](int M, int kk, uint32_t seed, double & wall_out, std::string & ans_out, int & fin_out,
-                           long long & tok_out, std::string & text_out, float & stream_acc_out) {
+                           long long & tok_out, std::string & text_out, float & stream_acc_out, int & nfin_out, float & sacc_fin_out) {
             e.clear();
             auto t0 = std::chrono::steady_clock::now();
             e.prefill(0, ptoks, true);
@@ -235,6 +235,8 @@ int main(int argc, char ** argv) {
             wall_out = wall; ans_out = pe->answer; fin_out = pe->finish_len;
             tok_out = pe->total_tokens; text_out = pe->text.empty() ? "" : pe->text[0];
             stream_acc_out = 0; for (int j = 0; j < M; ++j) if (!pe->text[j].empty() && extract_answer(pe->text[j]) == gold) stream_acc_out += 1; stream_acc_out /= M;
+            nfin_out = (int)pe->finished.size();
+            sacc_fin_out = 0; for (auto & f : pe->finished) if (!f.second.empty() && f.second == gold) sacc_fin_out += 1; if (nfin_out) sacc_fin_out /= nfin_out;
         };
         // repeated-suffix loop detector
         auto is_loop = [](const std::string & t) {
@@ -246,10 +248,10 @@ int main(int argc, char ** argv) {
         if (sweep) {
             for (int N : { 1, 2, 4, 8, 16 }) {
                 int kk = N < 3 ? N : 3;
-                double w = 0; std::string a, t; int fin = 0; long long nt = 0; float sa = 0;
-                run_arm(N, kk, 1234, w, a, fin, nt, t, sa);
+                double w = 0; std::string a, t; int fin = 0; long long nt = 0; float sa = 0; int nf = 0; float saf = 0;
+                run_arm(N, kk, 1234, w, a, fin, nt, t, sa, nf, saf);
                 int c = (!a.empty() && a == gold) ? 1 : 0;
-                fprintf(f, "%d,%s,%d,%d,%s,%d,%.4f,%.1f,%lld\n", id, gold.c_str(), N, kk, a.c_str(), c, sa, w, nt);
+                fprintf(f, "%d,%s,%d,%d,%s,%d,%.4f,%.4f,%d,%.1f,%lld\n", id, gold.c_str(), N, kk, a.c_str(), c, sa, saf, nf, w, nt);
             }
             fflush(f);
             printf("id=%d done\n", id);
@@ -261,14 +263,14 @@ int main(int argc, char ** argv) {
         std::string a0, a1, a2, a3, t0s, t1s, t2s, t3s;
         int f0 = 0, f1 = 0, f2 = 0, f3 = 0;
         long long n0 = 0, n1 = 0, n2 = 0, n3 = 0;
-        float sa0=0,sa1=0,sa2=0,sa3=0;
-        run_arm(1, 1, 1234, w0, a0, f0, n0, t0s, sa0);          // A1: single sampled trace
-        run_arm(16, K, 1234, w1, a1, f1, n1, t1s, sa1);         // A3: N=16, first-K-agree
-        run_arm(16, 16, 1234, w2, a2, f2, n2, t2s, sa2);        // A2: N=16 majority vote (all finish)
+        float sa0=0,sa1=0,sa2=0,sa3=0; int nf0=0,nf1=0,nf2=0,nf3=0; float sf0=0,sf1=0,sf2=0,sf3=0;
+        run_arm(1, 1, 1234, w0, a0, f0, n0, t0s, sa0, nf0, sf0);          // A1: single sampled trace
+        run_arm(16, K, 1234, w1, a1, f1, n1, t1s, sa1, nf1, sf1);         // A3: N=16, first-K-agree
+        run_arm(16, 16, 1234, w2, a2, f2, n2, t2s, sa2, nf2, sf2);        // A2: N=16 majority vote (all finish)
         // A1r: single trace, repeated-suffix loop detection + restart (up to 3 attempts)
         for (int att = 0; att < 3; ++att) {
-            double w = 0; std::string a, t; int fin = 0; long long nt = 0; float sa = 0;
-            run_arm(1, 1, 1234u + 777u * (uint32_t)att, w, a, fin, nt, t, sa);
+            double w = 0; std::string a, t; int fin = 0; long long nt = 0; float sa = 0; int nf = 0; float sf = 0;
+            run_arm(1, 1, 1234u + 777u * (uint32_t)att, w, a, fin, nt, t, sa, nf, sf);
             w3 += w; n3 += nt; a3 = a; f3 = fin;
             if (!a.empty() && !is_loop(t) && fin < max_trace) break;
         }

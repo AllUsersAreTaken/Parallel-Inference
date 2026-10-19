@@ -43,19 +43,20 @@ phone-sized-model accuracy, an N=1 cap caveat) are in `LIMITATIONS.md`.
 
 - **Voting helps, but less as models weaken; ensembling buys points, not
   competence.** Sub-1B sweeps (60 held-out each), ensemble vote vs the
-  low-variance per-stream average:
+  per-stream average over streams that finished (first-K-agree cuts the rest
+  off, so only finished streams are a valid baseline):
 
   | model | N=1 | N=8 vote (per-stream) | N=16 vote (per-stream) |
   |---|---|---|---|
-  | Llama-3.2-1B | 50.0 | 58.3 (36.0) | 68.3 (25.1) |
-  | Qwen2.5-0.5B | 41.7 | 58.3 (34.0) | 55.0 (25.1) |
-  | SmolLM2-360M | 13.3 | 21.7 (14.6) | 20.0 (10.1) |
+  | Llama-3.2-1B | 50.0 | 58.3 (54.3) | 68.3 (57.4) |
+  | Qwen2.5-0.5B | 41.7 | 58.3 (48.0) | 55.0 (45.6) |
+  | SmolLM2-360M | 13.3 | 21.7 (19.1) | 20.0 (15.4) |
 
-  The gain over the per-stream average shrinks as the model weakens (+43 pts on
-  the 1B, +10 on the 360M): weaker models make *correlated* errors, so votes
-  cluster on the wrong value. A 1B reaches ~68% with N=16; a 360M reaches ~22%,
-  which is not usable. Ensemble diversity (different prompts per stream) is the
-  natural next lever for tiny models.
+  The vote gain over the per-stream baseline is +18 pts on the 1B, +13 on the
+  0.5B, +7 on the 360M: weaker models make *correlated* errors, so votes
+  cluster on the wrong value and the gain shrinks. A 1B reaches ~68% with N=16;
+  a 360M reaches ~22%, which is not usable. Ensemble diversity (different
+  prompts per stream) is the natural next lever for tiny models.
 
 See `PREREGISTRATION.md` for the frozen gates and the dated amendment.
 

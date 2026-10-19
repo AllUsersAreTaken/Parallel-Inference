@@ -166,7 +166,7 @@ struct ProcessEnsemble : Process {
 
 int main(int argc, char ** argv) {
     std::string model, data, out;
-    int limit = 100, K = 3, max_trace = 1024, prompt_len = 0;
+    int limit = 100, K = 3, max_trace = 1024, prompt_len = 0, sweep = 0;
     for (int i = 1; i < argc; ++i) {
         std::string k = argv[i];
         auto nx = [&]() { return std::string(argv[++i]); };
@@ -176,6 +176,7 @@ int main(int argc, char ** argv) {
         else if (k == "--limit") limit = atoi(nx().c_str());
         else if (k == "--K") K = atoi(nx().c_str());
         else if (k == "--max-trace") max_trace = atoi(nx().c_str());
+        else if (k == "--sweep") sweep = 1;
     }
     if (model.empty() || data.empty()) { fprintf(stderr, "need --model --data\n"); return 2; }
 
@@ -190,7 +191,8 @@ int main(int argc, char ** argv) {
 
     std::ifstream fin(data);
     FILE * f = out.empty() ? nullptr : fopen(out.c_str(), "w");
-    if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a1_tok,a3_ans,a3_correct,a3_wall_ms,a3_finish,a3_tok,a2_ans,a2_correct,a2_wall_ms,a2_tok,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish,a1r_tok\n");
+    if (f && sweep) fprintf(f, "id,gold,N,K,ans,correct,wall_ms,tokens\n");
+    else if (f) fprintf(f, "id,gold,a1_ans,a1_correct,a1_wall_ms,a1_tok,a3_ans,a3_correct,a3_wall_ms,a3_finish,a3_tok,a2_ans,a2_correct,a2_wall_ms,a2_tok,a1r_ans,a1r_correct,a1r_wall_ms,a1r_finish,a1r_tok\n");
 
     std::string line;
     int id = 0;
@@ -237,6 +239,20 @@ int main(int argc, char ** argv) {
             std::string suf = t.substr(t.size() - 40);
             return t.find(suf) < t.size() - 40;
         };
+
+        if (sweep) {
+            for (int N : { 1, 2, 4, 8, 16 }) {
+                int kk = N < 3 ? N : 3;
+                double w = 0; std::string a, t; int fin = 0; long long nt = 0;
+                run_arm(N, kk, 1234, w, a, fin, nt, t);
+                int c = (!a.empty() && a == gold) ? 1 : 0;
+                fprintf(f, "%d,%s,%d,%d,%s,%d,%.1f,%lld\n", id, gold.c_str(), N, kk, a.c_str(), c, w, nt);
+            }
+            fflush(f);
+            printf("id=%d done\n", id);
+            fflush(stdout);
+            continue;
+        }
 
         double w0 = 0, w1 = 0, w2 = 0, w3 = 0;
         std::string a0, a1, a2, a3, t0s, t1s, t2s, t3s;

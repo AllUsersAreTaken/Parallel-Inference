@@ -1,0 +1,479 @@
+{
+  "experiment": "in-flight memory extraction (k=2, Slot 0 chat + Slot 1 Mem0 JSON)",
+  "model": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "system": "You are a helpful assistant.",
+  "seeds": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+  ],
+  "max_tokens": 160,
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "n_reps": 5,
+  "parse_rate": 1.0,
+  "field_accuracy": {
+    "facts_tp": 17,
+    "facts_fp": 0,
+    "facts_possible": 20,
+    "invalidated_tp": 0,
+    "invalidated_fp": 0,
+    "invalidated_possible": 10,
+    "wrong_list_mentions": 7,
+    "concept_hits_in_expected_list": {
+      "buster_knee_issue": 5,
+      "stick_to_flat_river_trail": 5,
+      "user_bought_tesla": 5,
+      "needs_charging_stations": 2,
+      "user_drives_honda": 0,
+      "needs_gas_stations": 0
+    }
+  },
+  "latency": {
+    "completion_ratio_median": 1.0496604934409601,
+    "completion_ratio_mean": 1.0148745281164537,
+    "ttft_ratio_median": 1.4853571854940169,
+    "ttft_ratio_mean": 1.480441677336526,
+    "solo_completion_ms_median": 503.4807,
+    "batch_slot0_completion_ms_median": 533.3373,
+    "solo_ttft_ms_median": 10.9914,
+    "batch_slot0_ttft_ms_median": 16.5414,
+    "per_rep_completion_ratios": [
+      1.0455675804535076,
+      1.0496604934409601,
+      1.061318856944048,
+      0.8514132339303077,
+      1.066412475813445
+    ],
+    "per_rep_ttft_ratios": [
+      1.4749767928116295,
+      1.4853571854940169,
+      1.4251897671390141,
+      1.5117444152431012,
+      1.5049402259948685
+    ]
+  },
+  "slot1_tokens": [
+    32,
+    32,
+    51,
+    32,
+    51
+  ],
+  "slot1_finish": [
+    "eos",
+    "eos",
+    "eos",
+    "eos",
+    "eos"
+  ],
+  "slot0_text_identical_all_reps": false,
+  "verdict": "meets",
+  "verdict_reason": "parse rate >=95% and Slot 0 median completion ratio <=1.10x solo",
+  "reps": [
+    {
+      "seed": 1234,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any pet-friendly stops along the way?",
+        "generated": 48,
+        "ttft_ms": 11.0957,
+        "completion_ms": 487.0173,
+        "tok_s": 98.559127,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any pet-friendly stops along the way?",
+        "generated": 48,
+        "ttft_ms": 16.3659,
+        "completion_ms": 509.2095,
+        "tok_s": 94.263756,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"facts\": [\"Buster's knee means flat river trail\", \"I sold my Honda last week and got a Tesla\"], \"invalidated\": []}",
+        "generated": 32,
+        "ttft_ms": 16.4557,
+        "completion_ms": 343.7527,
+        "tok_s": 93.090178,
+        "finish": "eos"
+      },
+      "slot1_parse_ok": true,
+      "slot1_parse_method": "direct",
+      "slot1_json": {
+        "facts": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "invalidated": []
+      },
+      "slot1_score": {
+        "facts_tp": 3,
+        "facts_fp": 0,
+        "inv_tp": 0,
+        "inv_fp": 0,
+        "facts_matched": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "inv_matched": [],
+        "facts_unmatched": [],
+        "inv_unmatched": [],
+        "wrong_list": [
+          {
+            "concept": "user_drives_honda",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla"
+          }
+        ],
+        "coverage": {
+          "buster_knee_issue": [
+            "facts"
+          ],
+          "stick_to_flat_river_trail": [
+            "facts"
+          ],
+          "user_bought_tesla": [
+            "facts"
+          ],
+          "user_drives_honda": [
+            "facts"
+          ]
+        }
+      },
+      "slot0_text_identical": true,
+      "ratios": {
+        "completion": 1.0455675804535076,
+        "ttft": 1.4749767928116295,
+        "tok_s": 0.9564183335349551
+      }
+    },
+    {
+      "seed": 1235,
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 10.8893,
+        "completion_ms": 503.4807,
+        "tok_s": 99.308673,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 16.1745,
+        "completion_ms": 528.4838,
+        "tok_s": 94.610279,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"facts\": [\"Buster's knee means flat river trail\", \"I sold my Honda last week and got a Tesla\"], \"invalidated\": []}",
+        "generated": 32,
+        "ttft_ms": 16.268,
+        "completion_ms": 343.873,
+        "tok_s": 93.057611,
+        "finish": "eos"
+      },
+      "slot1_parse_ok": true,
+      "slot1_parse_method": "direct",
+      "slot1_json": {
+        "facts": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "invalidated": []
+      },
+      "slot1_score": {
+        "facts_tp": 3,
+        "facts_fp": 0,
+        "inv_tp": 0,
+        "inv_fp": 0,
+        "facts_matched": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "inv_matched": [],
+        "facts_unmatched": [],
+        "inv_unmatched": [],
+        "wrong_list": [
+          {
+            "concept": "user_drives_honda",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla"
+          }
+        ],
+        "coverage": {
+          "buster_knee_issue": [
+            "facts"
+          ],
+          "stick_to_flat_river_trail": [
+            "facts"
+          ],
+          "user_bought_tesla": [
+            "facts"
+          ],
+          "user_drives_honda": [
+            "facts"
+          ]
+        }
+      },
+      "slot0_text_identical": true,
+      "ratios": {
+        "completion": 1.0496604934409601,
+        "ttft": 1.4853571854940169,
+        "tok_s": 0.9526889861875408
+      }
+    },
+    {
+      "seed": 1236,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 11.6722,
+        "completion_ms": 503.5694,
+        "tok_s": 99.29118,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 16.6351,
+        "completion_ms": 534.4477,
+        "tok_s": 93.554524,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"facts\": [\"Buster's knee means flat river trail, no mountain switchbacks\", \"I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations\"], \"invalidated\": []}",
+        "generated": 51,
+        "ttft_ms": 16.7248,
+        "completion_ms": 545.8517,
+        "tok_s": 93.431971,
+        "finish": "eos"
+      },
+      "slot1_parse_ok": true,
+      "slot1_parse_method": "direct",
+      "slot1_json": {
+        "facts": [
+          "Buster's knee means flat river trail, no mountain switchbacks",
+          "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+        ],
+        "invalidated": []
+      },
+      "slot1_score": {
+        "facts_tp": 4,
+        "facts_fp": 0,
+        "inv_tp": 0,
+        "inv_fp": 0,
+        "facts_matched": [
+          "Buster's knee means flat river trail, no mountain switchbacks",
+          "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+        ],
+        "inv_matched": [],
+        "facts_unmatched": [],
+        "inv_unmatched": [],
+        "wrong_list": [
+          {
+            "concept": "user_drives_honda",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+          },
+          {
+            "concept": "needs_gas_stations",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+          }
+        ],
+        "coverage": {
+          "buster_knee_issue": [
+            "facts"
+          ],
+          "stick_to_flat_river_trail": [
+            "facts"
+          ],
+          "user_bought_tesla": [
+            "facts"
+          ],
+          "needs_charging_stations": [
+            "facts"
+          ],
+          "user_drives_honda": [
+            "facts"
+          ],
+          "needs_gas_stations": [
+            "facts"
+          ]
+        }
+      },
+      "slot0_text_identical": true,
+      "ratios": {
+        "completion": 1.061318856944048,
+        "ttft": 1.4251897671390141,
+        "tok_s": 0.9422239115297049
+      }
+    },
+    {
+      "seed": 1237,
+      "solo_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla will definitely make your commute more convenient. I'll make sure to prioritize flat, river trail routes for Buster, and I'll also keep an eye out for charging stations along your route. Would you like me to suggest any specific charging stations or routes for your Tesla?",
+        "generated": 69,
+        "ttft_ms": 10.9584,
+        "completion_ms": 686.9811,
+        "tok_s": 100.439444,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla and a more gentle hike for Buster! I'll make sure to prioritize flat trails and charging stations along your route. I'll also keep an eye on your commute to ensure a smooth and convenient ride.",
+        "generated": 56,
+        "ttft_ms": 16.5663,
+        "completion_ms": 584.9048,
+        "tok_s": 95.742076,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"facts\": [\"Buster's knee means flat river trail\", \"I sold my Honda last week and got a Tesla\"], \"invalidated\": []}",
+        "generated": 32,
+        "ttft_ms": 16.6546,
+        "completion_ms": 340.876,
+        "tok_s": 93.875779,
+        "finish": "eos"
+      },
+      "slot1_parse_ok": true,
+      "slot1_parse_method": "direct",
+      "slot1_json": {
+        "facts": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "invalidated": []
+      },
+      "slot1_score": {
+        "facts_tp": 3,
+        "facts_fp": 0,
+        "inv_tp": 0,
+        "inv_fp": 0,
+        "facts_matched": [
+          "Buster's knee means flat river trail",
+          "I sold my Honda last week and got a Tesla"
+        ],
+        "inv_matched": [],
+        "facts_unmatched": [],
+        "inv_unmatched": [],
+        "wrong_list": [
+          {
+            "concept": "user_drives_honda",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla"
+          }
+        ],
+        "coverage": {
+          "buster_knee_issue": [
+            "facts"
+          ],
+          "stick_to_flat_river_trail": [
+            "facts"
+          ],
+          "user_bought_tesla": [
+            "facts"
+          ],
+          "user_drives_honda": [
+            "facts"
+          ]
+        }
+      },
+      "slot0_text_identical": false,
+      "ratios": {
+        "completion": 0.8514132339303077,
+        "ttft": 1.5117444152431012,
+        "tok_s": 0.953231839873586
+      }
+    },
+    {
+      "seed": 1238,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 10.9914,
+        "completion_ms": 500.1229,
+        "tok_s": 99.975426,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 16.5414,
+        "completion_ms": 533.3373,
+        "tok_s": 93.749303,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"facts\": [\"Buster's knee means flat river trail, no mountain switchbacks\", \"I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations\"], \"invalidated\": []}",
+        "generated": 51,
+        "ttft_ms": 16.6517,
+        "completion_ms": 544.6981,
+        "tok_s": 93.629847,
+        "finish": "eos"
+      },
+      "slot1_parse_ok": true,
+      "slot1_parse_method": "direct",
+      "slot1_json": {
+        "facts": [
+          "Buster's knee means flat river trail, no mountain switchbacks",
+          "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+        ],
+        "invalidated": []
+      },
+      "slot1_score": {
+        "facts_tp": 4,
+        "facts_fp": 0,
+        "inv_tp": 0,
+        "inv_fp": 0,
+        "facts_matched": [
+          "Buster's knee means flat river trail, no mountain switchbacks",
+          "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+        ],
+        "inv_matched": [],
+        "facts_unmatched": [],
+        "inv_unmatched": [],
+        "wrong_list": [
+          {
+            "concept": "user_drives_honda",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+          },
+          {
+            "concept": "needs_gas_stations",
+            "in_list": "facts",
+            "text": "I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations"
+          }
+        ],
+        "coverage": {
+          "buster_knee_issue": [
+            "facts"
+          ],
+          "stick_to_flat_river_trail": [
+            "facts"
+          ],
+          "user_bought_tesla": [
+            "facts"
+          ],
+          "needs_charging_stations": [
+            "facts"
+          ],
+          "user_drives_honda": [
+            "facts"
+          ],
+          "needs_gas_stations": [
+            "facts"
+          ]
+        }
+      },
+      "slot0_text_identical": true,
+      "ratios": {
+        "completion": 1.066412475813445,
+        "ttft": 1.5049402259948685,
+        "tok_s": 0.9377234661645752
+      }
+    }
+  ]
+}

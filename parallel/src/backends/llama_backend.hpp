@@ -26,6 +26,7 @@ struct Request {
     llama_pos    pos;
     llama_token  tok;
     bool         want_logits;
+    int          adapter_id = -1;
 };
 
 struct Process {
@@ -49,6 +50,9 @@ public:
         int  max_batch  = 2048;
         bool kv_unified = true;
         bool fa         = true;
+        bool embeddings = false;   // output last-layer embeddings for logit rows
+        std::vector<std::string> lora_paths;  // LoRA adapters applied to the whole context
+        std::vector<float>       lora_scales; // parallel to lora_paths (default 1.0)
     };
 
     bool init(const Config & c) {
@@ -69,19 +73,85 @@ public:
         cp.n_threads = 8; cp.n_threads_batch = 8;
         ctx_ = llama_init_from_model(model_, cp);
         if (!ctx_) return false;
+        embeddings_ = c.embeddings;
+        llama_set_embeddings(ctx_, embeddings_);
         mem_ = llama_get_memory(ctx_);
         batch_ = llama_batch_init(c.max_batch, 0, 1);
         max_batch_ = c.max_batch;
+        for (size_t i = 0; i < c.lora_paths.size(); ++i) {
+            llama_adapter_lora * a = llama_adapter_lora_init(model_, c.lora_paths[i].c_str());
+            if (!a) return false;
+            adapters_.push_back(a);
+            lora_scales_.push_back(i < c.lora_scales.size() ? c.lora_scales[i] : 1.0f);
+        }
+        apply_adapters_all();
         nvml_load();
         return true;
     }
 
     void shutdown() {
         llama_batch_free(batch_);
+        for (auto * a : adapters_) llama_adapter_lora_free(a);
+        adapters_.clear();
         if (ctx_)   llama_free(ctx_);
         if (model_) llama_model_free(model_);
         llama_backend_free();
     }
+
+    int  n_adapters() const { return (int)adapters_.size(); }
+
+    // Per-row mode needs every adapter weight to live in a tensor that
+    // build_lora_mm row-splits. token_embd, output and MoE expert weights are
+    // not row-split, so an adapter that carries them must not run per-row.
+    bool segments_supported(std::string & err) const {
+        if (adapters_.empty()) {
+            err = "per-row mode needs at least one loaded adapter";
+            return false;
+        }
+        std::vector<const llama_adapter_lora *> a(adapters_.begin(), adapters_.end());
+        char msg[256] = { 0 };
+        if (llama_adapter_segments_check(a.data(), a.size(), msg, sizeof(msg)) != 0) {
+            err = std::string("adapter is not row-segmentable: ") + msg;
+            return false;
+        }
+        return true;
+    }
+
+    // Apply every loaded adapter, in load order.
+    void apply_adapters_all() {
+        if (adapters_.empty()) { clear_adapters(); return; }
+        std::vector<float> sc = lora_scales_;
+        llama_set_adapters_lora(ctx_, adapters_.data(), adapters_.size(), sc.data());
+    }
+
+    // Apply a subset (ids index into the loaded adapter list). An empty scales
+    // vector uses the scales given at load time.
+    void apply_adapters(const std::vector<int> & ids, const std::vector<float> & scales) {
+        std::vector<llama_adapter_lora *> a;
+        std::vector<float> s;
+        for (size_t i = 0; i < ids.size(); ++i) {
+            if (ids[i] < 0 || ids[i] >= (int)adapters_.size()) continue;
+            a.push_back(adapters_[(size_t)ids[i]]);
+            const float def = lora_scales_[(size_t)ids[i]];
+            s.push_back(i < scales.size() ? scales[i] : def);
+        }
+        if (a.empty()) { clear_adapters(); return; }
+        llama_set_adapters_lora(ctx_, a.data(), a.size(), s.data());
+    }
+
+    // Base weights only. Does not touch the KV cache (only the graph is re-reserved).
+    void clear_adapters() {
+        float dummy = 1.0f;
+        llama_set_adapters_lora(ctx_, nullptr, 0, &dummy);
+    }
+
+    // Drop any per-token adapter segments. Does not touch the KV cache.
+    void clear_segments() {
+        segments_.clear();
+        llama_set_adapter_segments(ctx_, nullptr, nullptr, nullptr, 0);
+    }
+
+    const std::string & segment_error() const { return segment_error_; }
 
     int  add(Process * p) { procs_.push_back(p); retired_.push_back(false); return (int)procs_.size() - 1; }
 
@@ -106,6 +176,8 @@ public:
             for (int k = before; k < (int)reqs.size(); ++k) owner.push_back(pi);
         }
         if (reqs.empty()) { active = 0; return 0.0; }
+
+        if (!sync_segments(reqs)) { active = 0; return -1.0; }
 
         for (int i = 0; i < (int)reqs.size(); ++i) {
             batch_.token[i]     = reqs[i].tok;
@@ -154,6 +226,12 @@ public:
     llama_memory_t  mem() { return mem_; }
     const llama_vocab * vocab() { return vocab_; }
     int n_vocab() const { return n_vocab_; }
+    int n_embd_out() const { return llama_model_n_embd_out(model_); }
+    void enable_embeddings() {
+        if (embeddings_) return;
+        llama_set_embeddings(ctx_, true);
+        embeddings_ = true;
+    }
     void seq_cp(llama_seq_id src, llama_seq_id dst) { llama_memory_seq_cp(mem_, src, dst, -1, -1); }
     void clear() { llama_memory_clear(mem_, true); }
     void reset_processes() { procs_.clear(); retired_.clear(); }
@@ -171,7 +249,86 @@ public:
     const char * model_chat_template() { return llama_model_chat_template(model_, nullptr); }
     unsigned clock_sm() const { unsigned c = 0; if (nvml_get_clock_) nvml_get_clock_(nvml_dev_, 1, &c); return c; }
 
-private:
+    // Build contiguous per-adapter runs from this tick's requests and publish
+    // them only when the run signature changes. All rows of one tick must name a
+    // loaded adapter; a mixed batch is rejected instead of falling back to the
+    // global adapter list.
+    bool sync_segments(const std::vector<Request> & reqs) {
+        segment_error_.clear();
+
+        bool any_adapter = false;
+        bool all_adapter = true;
+
+        for (const auto & r : reqs) {
+            const bool ok = r.adapter_id >= 0 && r.adapter_id < (int) adapters_.size();
+            any_adapter = any_adapter || ok;
+            all_adapter = all_adapter && ok;
+        }
+
+        if (any_adapter && !all_adapter) {
+            segment_error_ = "mixed adapter ids in one batch (-1 next to a valid id)";
+            return false;
+        }
+
+        std::vector<llama_adapter_segment> seg;
+
+        if (any_adapter) {
+            for (const auto & r : reqs) {
+                llama_adapter_lora * a = adapters_[(size_t) r.adapter_id];
+
+                if (!seg.empty() && seg.back().adapter == a) {
+                    seg.back().n_tokens += 1;
+                } else {
+                    seg.push_back({ a, lora_scales_[(size_t) r.adapter_id], 1 });
+                }
+            }
+        }
+
+        if (seg.size() == segments_.size()) {
+            bool same = true;
+            for (size_t i = 0; i < seg.size(); ++i) {
+                if (seg[i].adapter != segments_[i].adapter ||
+                    seg[i].scale   != segments_[i].scale   ||
+                    seg[i].n_tokens != segments_[i].n_tokens) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same) {
+                return true;
+            }
+        }
+
+        segments_ = std::move(seg);
+
+        if (segments_.empty()) {
+            llama_set_adapter_segments(ctx_, nullptr, nullptr, nullptr, 0);
+            return true;
+        }
+
+        // the global map must stay empty, else tensors that fall back to the
+        // global loop would get every adapter added to every row
+        clear_adapters();
+
+        std::vector<llama_adapter_lora *> a;
+        std::vector<float>   s;
+        std::vector<int32_t> n;
+
+        for (const auto & x : segments_) {
+            a.push_back(x.adapter);
+            s.push_back(x.scale);
+            n.push_back(x.n_tokens);
+        }
+
+        if (llama_set_adapter_segments(ctx_, a.data(), s.data(), n.data(), (int32_t) a.size()) != 0) {
+            segments_.clear();
+            segment_error_ = "llama_set_adapter_segments rejected the adapter set";
+            return false;
+        }
+
+        return true;
+    }
+
     void nvml_load() {
         nvml_lib_ = LoadLibraryA("nvml.dll");
         if (!nvml_lib_) return;
@@ -186,13 +343,18 @@ private:
     llama_memory_t mem_ = nullptr;
     llama_batch batch_{};
     const llama_vocab * vocab_ = nullptr;
-    int n_vocab_ = 0;
+    int  n_vocab_ = 0;
+    bool embeddings_ = false;
     int max_batch_ = 2048;
     std::vector<Process *> procs_;
     std::vector<bool> retired_;
     HMODULE nvml_lib_ = nullptr;
     void * nvml_dev_ = nullptr;
     int (*nvml_get_clock_)(void *, int, unsigned *) = nullptr;
+    std::vector<llama_adapter_lora *> adapters_;
+    std::vector<float> lora_scales_;
+    std::vector<llama_adapter_segment> segments_;
+    std::string segment_error_;
 };
 
 } }  // namespace parallel::detail

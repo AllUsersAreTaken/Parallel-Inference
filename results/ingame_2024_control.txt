@@ -1,0 +1,25 @@
+Angle 36 control arm (32b attribution, NO anti-bleed sentence): k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+cli_sha256=51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da  built=2026-10-21T12:07:26  tree=dirty
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo0=serial(data/ingame_2024_control_solo.tsv)  batch=k=2(data/ingame_2024_control_batch.tsv)  GPU wall 17.8 s
+Slot 1 = angle-29 compaction (no anti-bleed sentence); final user message = angle-32b's 2024 Tesla line
+derivation verified: old_final_count_in_source_is_2=OK, reverse_substitution_recovers_source=OK, anti_bleed_sentence_absent_in_s1=OK, profile_seed_present_in_s1=OK, new_final_in_s0=OK, new_final_in_s1=OK, old_final_absent_both=OK, solo_is_s0_only=OK, control_s1_equals_32b_s1_minus_sentence=OK, control_s0_equals_32b_s0=OK, angle29_s1_plus_sentence_equals_angle31_s1=OK
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r s0same |  tok         fin 2024 2024ln no19T hondX   sea  bst yrAny    ok
+  1234 |      460.3       582.2   1.265   1.510  False |   61         eos True   True  True  True  True True False  True
+  1235 |      514.1       486.1   0.946   1.534  False |   34         eos True   True  True  True  True True False  True
+  1236 |      371.3       375.4   1.011   1.496  False |   42         eos True   True  True  True  True True False  True
+  1237 |      371.0       393.9   1.062   1.547   True |   45         eos True   True  True  True  True True False  True
+  1238 |      388.1       412.9   1.064   1.508  False |   34         eos True   True  True  True  True True False  True
+median |      388.1       412.9   1.062   1.510 |   42
+
+Per-seed checks: 2024-present=5/5  2024-on-vehicle-line=5/5  2019-Tesla-absent=5/5  honda/civic-absent=5/5  seattle=5/5  buster=5/5  stray-2019-anywhere=0/5  tokens<75=5/5
+2024 lines per rep: [['• Vehicle: 2024 Tesla'], ['• Vehicle: 2024 Tesla'], ['• Vehicle: 2024 Tesla'], ['• Vehicle: 2024 Tesla'], ['• Vehicle: 2024 Tesla']]
+2019 lines per rep: [[], [], [], [], []]
+Profile tokens per rep: [61, 34, 42, 45, 34]  words: [38, 19, 25, 28, 19]  finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 completion ratio batch/solo: median=1.062 mean=1.069 (solo med 388.1 ms, batch med 412.9 ms, ratio of medians 1.064)
+Slot 0 ttft ratio batch/solo:       median=1.510 mean=1.519
+Slot 0 text identical solo vs batch (same seed): 1/5 reps
+ACCEPTANCE: y2024_present_5_of_5=PASS, tesla_2019_absent_5_of_5=PASS, honda_absent_5_of_5=PASS, seattle_buster_preserved_5_of_5=PASS, profile_tokens_lt_75_all=PASS, slot0_completion_median_le_1_10=PASS
+VERDICT: meets
+DECISION: sentence_is_cause: 2024 present 5/5 without the anti-bleed sentence -> the sentence IS the cause of the suppression (control confirms)

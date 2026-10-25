@@ -1,0 +1,23 @@
+Phase 1 - invalidation-nudge probe: k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo=serial(data/ingame_mem_solo.tsv)  batch=k=2(data/ingame_nudge_batch.tsv)
+Slot 1 user text = angle-27 instruction + nudge rule + 1-shot anchor (invalidated placement)
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r | s1_tok      s1_fin parse factsRec invRec hondaInv teslaFct
+  1234 |      434.1       459.0   1.057   1.515 |     59         eos  True 3/     4 1/   2    False     True
+  1235 |      450.2       477.5   1.061   1.536 |     42         eos  True 3/     4 0/   2    False     True
+  1236 |      449.7       478.9   1.065   1.528 |     55         eos False 0/     4 0/   2    False    False
+  1237 |      621.2       659.5   1.062   1.554 |     67         eos  True 4/     4 0/   2    False     True
+  1238 |      450.0       478.5   1.063   1.522 |     59         eos  True 3/     4 1/   2    False     True
+median |      450.0       478.5   1.062   1.528 |                                          0/5    4/5
+
+Slot 1 parse rate: 80% (4/5)  methods=['fence_stripped', 'fence_stripped', 'fence_stripped+failed', 'fence_stripped', 'fence_stripped']
+invalidated Honda hits: 0/5  (accept >=4/5)   facts Tesla hits: 4/5
+Slot 1 facts TP/FP: 13/0 of 20 possible; invalidated TP/FP: 2/4 of 10 possible; wrong-list mentions: 0
+Concept covered in its expected list (reps): buster_knee_issue=4/5, stick_to_flat_river_trail=4/5, user_bought_tesla=4/5, needs_charging_stations=1/5, user_drives_honda=0/5, needs_gas_stations=2/5
+Slot 0 completion ratio batch/solo: median=1.062 mean=1.062 (solo med 450.0 ms, batch med 478.5 ms, ratio of medians 1.063)
+Slot 0 ttft ratio batch/solo:       median=1.528 mean=1.531 (solo med 9.87 ms, batch med 15.20 ms)
+Slot 1 tokens per rep: [59, 42, 55, 67, 59] finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 prompt identical solo vs batch (same seed): True
+ACCEPTANCE: invalidated_honda_ge_4_of_5=FAIL, json_parse_5_of_5=FAIL, slot0_completion_median_le_1_10=PASS
+VERDICT: miss

@@ -1,0 +1,2483 @@
+{
+  "experiment": "Angle 33 k=3 asymmetric pipeline (Slot 0 voice + Slot 1 semantic scribe + Slot 2 reverse-HyDE indexer)",
+  "parent": "results/ingame_memory_test.json (angle 27, s0 prompt byte source); protocol per angles 28-32 (fresh solo, seeds 1234-1238, temp 0.2, max_tokens 160)",
+  "model": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "system": "You are a helpful assistant.",
+  "seeds": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+  ],
+  "max_tokens": 160,
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "n_reps": 5,
+  "metadata": {
+    "cli": "app/parallel_cli.exe",
+    "cli_sha256": "51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da",
+    "cli_built_mtime": "2026-10-21T12:07:26",
+    "git_tree": "dirty",
+    "git_tree_note": "exe built from dirty tree: parallel/src/runtime.cpp, parallel/include/parallel/types.hpp and scripts/build_tool.bat have uncommitted modifications; app/ is untracked. Same binary for all arms within each run, so comparisons are internally valid but not reproducible from HEAD."
+  },
+  "data_files": {
+    "solo_slot0": "data/ingame_k3_solo.tsv",
+    "batch": "data/ingame_k3_batch.tsv",
+    "note": "s0 row byte-identical to angle 27 (data/ingame_mem_solo.tsv); s1/s2 instructions verbatim from the experiment spec; no few-shot anchors, no trailing `{` in user text"
+  },
+  "slot_seeds_note": "parallel_cli.cpp:108: batch row i samples seed+i; solo serial 1-row run samples seed+0, so batch Slot 0 and solo Slot 0 share the seed",
+  "prompt_construction": {
+    "s0": "Conversation:\nUser: I've been hiking with my dog Buster, but his knee is acting up, so we should stick to the flat trail by the river.\nAssistant: Got it — Buster's knee means flat river trail, no mountain switchbacks. I'll keep our routes gentle.\nUser: Also, I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations.\n\nReply to the user in 2–3 warm, concise sentences.",
+    "s1": "Extract durable personal facts, preferences, and explicit relationship triples from the user turn. Do not summarize dialogue or track conversational state. Extract atomic facts and entity relations. Rules: 1. \"facts\": Plain language statements of new information. 2. \"relations\": Directed triples [Subject, Predicate, Object] using uppercase predicates (e.g., OWNS, LIKES, DISLIKES, LOCATED_IN, DRIVES). 3. If no memorable information is present, output empty lists. 4. Output strict JSON only. Schema: {\"facts\": [\"string\"], \"relations\": [[\"string\", \"string\", \"string\"]]}. Conversation:\nUser: I've been hiking with my dog Buster, but his knee is acting up, so we should stick to the flat trail by the river.\nAssistant: Got it — Buster's knee means flat river trail, no mountain switchbacks. I'll keep our routes gentle.\nUser: Also, I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations.\n\nOutput:",
+    "s2": "Given the user's statement, generate 3 hypothetical questions or search queries the user might ask in the future where this information would be critical to know. Output strict JSON only. Schema: {\"queries\": [\"string\", \"string\", \"string\"]}. Conversation:\nUser: I've been hiking with my dog Buster, but his knee is acting up, so we should stick to the flat trail by the river.\nAssistant: Got it — Buster's knee means flat river trail, no mountain switchbacks. I'll keep our routes gentle.\nUser: Also, I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations.\n\nOutput:",
+    "template_note": "spec template '... Conversation: {dialogue}. Output:' rendered as '<instr> Conversation:\\n{turns}\\n\\nOutput:' ({dialogue} = bare turn block; blank-line Output: avoids a doubled period after the final utterance)"
+  },
+  "matchers": {
+    "relation_subject": "casefold + collapse whitespace + strip edge punctuation; accept 'user' or 'the user'",
+    "relation_predicate": "DRIVES family {drive, drives, driving} or OWNS family {own, owns, owned, owning, has, have, bought, purchased, acquired}, casefold-normalized",
+    "relation_object_new_vehicle": "contains 'tesla' and contains neither 'honda' nor 'civic' (case-insensitive substring)",
+    "relation_gate": "triple is a 3-string JSON array AND subject AND predicate AND object all pass; first match wins",
+    "retrieval_hook": "regex \\b(tesla|ev|evs|charging|car|cars)\\b (case-insensitive) on each Slot 2 query; seed hits if >=1 query matches",
+    "fence": "'```' anywhere in the raw slot text",
+    "comment": "any line whose stripped form starts with '//' or '/*' (angle-28 style comment check)",
+    "host_closure": "mock graph seeded with (User, DRIVES, 2019 Honda Civic, valid_from=t0, invalid_at=NULL); on a new-vehicle triple set invalid_at=now on the open Honda/DRIVES-family edge and append the new edge valid_from=now; closure_ok requires both"
+  },
+  "seed_graph_edge": {
+    "id": "e0",
+    "subject": "User",
+    "predicate": "DRIVES",
+    "object": "2019 Honda Civic",
+    "valid_from": "t0",
+    "invalid_at": null
+  },
+  "acceptance": {
+    "gate1_json_integrity_direct_5_of_5_both_slots": false,
+    "gate2_new_vehicle_relation_ge_4_of_5": false,
+    "gate3_retrieval_hook_ge_4_of_5": true,
+    "gate4_host_closure_all_gate2_seeds": false,
+    "gate5_slot0_completion_median_le_1_12": false
+  },
+  "verdict": "miss",
+  "gate_counts": {
+    "s1_direct_parse": 0,
+    "s2_direct_parse": 5,
+    "new_vehicle_relation": 0,
+    "retrieval_hook": 5,
+    "host_closure_ok_on_gate2_seeds": 0,
+    "gate2_seeds": [],
+    "s0_text_identical": 4,
+    "fence_seeds": [
+      1234,
+      1235,
+      1236,
+      1237,
+      1238
+    ],
+    "comment_seeds": [],
+    "facts_empty_seeds": [],
+    "relations_empty_seeds": []
+  },
+  "facts_recall_totals": {
+    "facts_tp": 0,
+    "facts_fp": 0,
+    "facts_possible": 20,
+    "concept_hits": {
+      "buster_knee_issue": 0,
+      "stick_to_flat_river_trail": 0,
+      "user_bought_tesla": 0,
+      "needs_charging_stations": 0
+    }
+  },
+  "diagnostic_fence_strip": {
+    "note": "NON-GATING: fence-stripped reparse of Slot 1 where the direct parse failed; isolates format failure from semantics. Gate verdicts use direct-parse scores only.",
+    "attempted_seeds": [
+      1234,
+      1235,
+      1236,
+      1237,
+      1238
+    ],
+    "s1_parse_ok_after_strip": 4,
+    "new_vehicle_strict_subject": 1,
+    "new_vehicle_lenient_subject_i_me": 3,
+    "matched_triples_lenient": [
+      [
+        "I",
+        "BOUGHT",
+        "TESLA"
+      ],
+      [
+        "I",
+        "BOUGHT",
+        "TESLA"
+      ],
+      [
+        "USER",
+        "OWNED",
+        "TESLA"
+      ]
+    ],
+    "subjects_seen": [
+      "buster",
+      "drives",
+      "i",
+      "located_in",
+      "trail",
+      "user"
+    ],
+    "facts_tp": 12,
+    "facts_fp": 3,
+    "per_rep": {
+      "1234": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail, no mountain switchbacks",
+            "I sold my Honda last week and got a Tesla"
+          ],
+          "relations": [
+            [
+              "DRIVES",
+              "Tesla",
+              "commute"
+            ],
+            [
+              "LOCATED_IN",
+              "river trail",
+              "mountain switchbacks"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "DRIVES",
+                "Tesla",
+                "commute"
+              ],
+              "ok": true,
+              "norm": [
+                "drives",
+                "tesla",
+                "commute"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "LOCATED_IN",
+                "river trail",
+                "mountain switchbacks"
+              ],
+              "ok": true,
+              "norm": [
+                "located_in",
+                "river trail",
+                "mountain switchbacks"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 0,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 0,
+          "matched": [
+            "Buster's knee means flat river trail, no mountain switchbacks",
+            "I sold my Honda last week and got a Tesla"
+          ],
+          "unmatched": [],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail, no mountain switchbacks"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail, no mountain switchbacks"
+            ],
+            "user_bought_tesla": [
+              "I sold my Honda last week and got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": false,
+        "matched_lenient": null,
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "1235": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "I sold my Honda last week",
+            "I got a Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "I",
+              "SOLD",
+              "HONDA"
+            ],
+            [
+              "I",
+              "BOUGHT",
+              "TESLA"
+            ],
+            [
+              "BUSTER",
+              "ACTING_UP",
+              "KNEE"
+            ],
+            [
+              "I",
+              "NEEDS",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "HONDA",
+              "IS SOLD"
+            ],
+            [
+              "TESLA",
+              "IS BOUGHT"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "SOLD",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "sold",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "BOUGHT",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "bought",
+                "tesla"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "ACTING_UP",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "acting_up",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "NEEDS",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "needs",
+                "charging_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "HONDA",
+                "IS SOLD"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            },
+            {
+              "raw": [
+                "TESLA",
+                "IS BOUGHT"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            }
+          ],
+          "malformed": 2,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "I got a Tesla"
+          ],
+          "unmatched": [
+            "I sold my Honda last week"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "I got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "I",
+          "BOUGHT",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "1236": {
+        "s1_parse_ok": false,
+        "parse_error": "Unterminated string starting at: line 16 column 21 (char 424)"
+      },
+      "1237": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "I sold my Honda last week",
+            "I got a Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "BUSTER",
+              "IS",
+              "ACTING_UP"
+            ],
+            [
+              "I",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "I",
+              "SELL",
+              "HONDA"
+            ],
+            [
+              "I",
+              "BOUGHT",
+              "TESLA"
+            ],
+            [
+              "I",
+              "NEED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "I",
+              "NEED",
+              "GAS_STATIONS"
+            ],
+            [
+              "I",
+              "DRIVE",
+              "COMMUTE"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "IS",
+                "ACTING_UP"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "is",
+                "acting_up"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "OWNED",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "owned",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "SELL",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "sell",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "BOUGHT",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "bought",
+                "tesla"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "I",
+                "NEED",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "need",
+                "charging_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "NEED",
+                "GAS_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "need",
+                "gas_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "DRIVE",
+                "COMMUTE"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "drive",
+                "commute"
+              ],
+              "subject_ok": false,
+              "predicate_family": "drives",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 0,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "I got a Tesla"
+          ],
+          "unmatched": [
+            "I sold my Honda last week"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "I got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "I",
+          "BOUGHT",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "1238": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "Sold Honda",
+            "Got Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "BUSTER",
+              "ACTING_UP"
+            ],
+            [
+              "TRAIL",
+              "LOCATED_IN",
+              "RIVER"
+            ],
+            [
+              "TRAIL",
+              "TYPE",
+              "FLAT"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "TESLA"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "GAS_STATIONS"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "ACTING_UP"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            },
+            {
+              "raw": [
+                "TRAIL",
+                "LOCATED_IN",
+                "RIVER"
+              ],
+              "ok": true,
+              "norm": [
+                "trail",
+                "located_in",
+                "river"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "TRAIL",
+                "TYPE",
+                "FLAT"
+              ],
+              "ok": true,
+              "norm": [
+                "trail",
+                "type",
+                "flat"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "OWNED",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "owned",
+                "honda"
+              ],
+              "subject_ok": true,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "OWNED",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "owned",
+                "tesla"
+              ],
+              "subject_ok": true,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "USER",
+                "NEEDED",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "needed",
+                "charging_stations"
+              ],
+              "subject_ok": true,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "NEEDED",
+                "GAS_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "needed",
+                "gas_stations"
+              ],
+              "subject_ok": true,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 1,
+          "subject_user_triples": [
+            [
+              "USER",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "TESLA"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "GAS_STATIONS"
+            ]
+          ],
+          "matched": [
+            "USER",
+            "OWNED",
+            "TESLA"
+          ],
+          "matched_norm": {
+            "subject": "user",
+            "predicate": "owned",
+            "family": "owns",
+            "object": "tesla"
+          },
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "Got Tesla"
+          ],
+          "unmatched": [
+            "Sold Honda"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "Got Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": true,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "USER",
+          "OWNED",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      }
+    }
+  },
+  "s1_tokens": [
+    77,
+    136,
+    160,
+    151,
+    146
+  ],
+  "s2_tokens": [
+    27,
+    34,
+    31,
+    27,
+    27
+  ],
+  "s0_batch_tokens": [
+    58,
+    50,
+    50,
+    69,
+    50
+  ],
+  "s1_finish": [
+    "eos",
+    "eos",
+    "token_limit",
+    "eos",
+    "eos"
+  ],
+  "s2_finish": [
+    "eos",
+    "eos",
+    "eos",
+    "eos",
+    "eos"
+  ],
+  "latency": {
+    "completion_ratio_median": 1.1216886607498362,
+    "completion_ratio_mean": 1.1619714960025476,
+    "ttft_ratio_median": 1.536895159249851,
+    "ttft_ratio_mean": 1.5389918208621762,
+    "solo0_completion_ms_median": 449.4105,
+    "batch_slot0_completion_ms_median": 504.8108,
+    "ratio_of_completion_medians": 1.123273265755918,
+    "per_rep_completion_ratios": [
+      1.337155844553307,
+      1.1216886607498362,
+      1.123273265755918,
+      1.112921649784595,
+      1.1148180591690815
+    ],
+    "per_rep_ttft_ratios": [
+      1.522397136675872,
+      1.5650111692524253,
+      1.5333657124932967,
+      1.537289926639436,
+      1.536895159249851
+    ]
+  },
+  "gpu_wall": {
+    "total_s": 22.312,
+    "per_rep": [
+      {
+        "seed": 1234,
+        "solo_s": 1.797,
+        "batch_s": 2.154,
+        "total_s": 3.951,
+        "preserved_from_prior_run": true
+      },
+      {
+        "seed": 1235,
+        "solo_s": 1.746,
+        "batch_s": 2.671,
+        "total_s": 4.417,
+        "preserved_from_prior_run": true
+      },
+      {
+        "seed": 1236,
+        "solo_s": 1.768,
+        "batch_s": 2.896,
+        "total_s": 4.663,
+        "preserved_from_prior_run": true
+      },
+      {
+        "seed": 1237,
+        "solo_s": 1.924,
+        "batch_s": 2.832,
+        "total_s": 4.756,
+        "preserved_from_prior_run": true
+      },
+      {
+        "seed": 1238,
+        "solo_s": 1.759,
+        "batch_s": 2.766,
+        "total_s": 4.525,
+        "preserved_from_prior_run": true
+      }
+    ],
+    "note": "wall time of the 10 parallel_cli invocations (5 serial + 5 batch), includes model load each time; under --rescore, preserved from the prior run's JSON when present"
+  },
+  "s0_prompt_identical_all_reps": true,
+  "reps": [
+    {
+      "seed": 1234,
+      "slot_seeds": {
+        "s0": 1234,
+        "s1": 1235,
+        "s2": 1236
+      },
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any pet-friendly stops along the way?",
+        "generated": 48,
+        "ttft_ms": 10.0303,
+        "completion_ms": 434.5747,
+        "tok_s": 110.452817,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any nearby dog-friendly stops or cafes for you to grab a snack or coffee with Buster?",
+        "generated": 58,
+        "ttft_ms": 15.2701,
+        "completion_ms": 581.0941,
+        "tok_s": 99.811717,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "```\n{\n  \"facts\": [\n    \"Buster's knee means flat river trail, no mountain switchbacks\",\n    \"I sold my Honda last week and got a Tesla\"\n  ],\n  \"relations\": [\n    [\"DRIVES\", \"Tesla\", \"commute\"],\n    [\"LOCATED_IN\", \"river trail\", \"mountain switchbacks\"]\n  ]\n}\n```",
+        "generated": 77,
+        "ttft_ms": 15.3771,
+        "completion_ms": 757.1373,
+        "tok_s": 101.69886,
+        "finish": "eos"
+      },
+      "batch_slot2": {
+        "text": "{\"queries\": [\"Tesla charging stations near me\", \"flat hiking trails with river\", \"dog friendly hiking trails with knee issues\"]}",
+        "generated": 27,
+        "ttft_ms": 15.4592,
+        "completion_ms": 272.8198,
+        "tok_s": 98.966424,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 48,
+      "s0_batch_generated": 58,
+      "s0_gen_delta": 10,
+      "s0_similarity": 0.8037735849056604,
+      "s0_first_divergence_word": 35,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "s1_direct_ok": false,
+      "s1_direct_error": "Expecting value: line 1 column 1 (char 0)",
+      "s1_diag": "fence_stripped_ok",
+      "s1_json": null,
+      "diagnostic_fence_strip": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail, no mountain switchbacks",
+            "I sold my Honda last week and got a Tesla"
+          ],
+          "relations": [
+            [
+              "DRIVES",
+              "Tesla",
+              "commute"
+            ],
+            [
+              "LOCATED_IN",
+              "river trail",
+              "mountain switchbacks"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "DRIVES",
+                "Tesla",
+                "commute"
+              ],
+              "ok": true,
+              "norm": [
+                "drives",
+                "tesla",
+                "commute"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "LOCATED_IN",
+                "river trail",
+                "mountain switchbacks"
+              ],
+              "ok": true,
+              "norm": [
+                "located_in",
+                "river trail",
+                "mountain switchbacks"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 0,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 0,
+          "matched": [
+            "Buster's knee means flat river trail, no mountain switchbacks",
+            "I sold my Honda last week and got a Tesla"
+          ],
+          "unmatched": [],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail, no mountain switchbacks"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail, no mountain switchbacks"
+            ],
+            "user_bought_tesla": [
+              "I sold my Honda last week and got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": false,
+        "matched_lenient": null,
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "s2_direct_ok": true,
+      "s2_direct_error": null,
+      "s2_diag": null,
+      "s2_json": {
+        "queries": [
+          "Tesla charging stations near me",
+          "flat hiking trails with river",
+          "dog friendly hiking trails with knee issues"
+        ]
+      },
+      "relations": {
+        "relations_is_list": false,
+        "triples": [],
+        "malformed": 0,
+        "subject_user_triples": [],
+        "matched": null,
+        "matched_norm": null,
+        "subjects_accepted": [
+          "the user",
+          "user"
+        ]
+      },
+      "queries": {
+        "queries_is_list": true,
+        "queries": [
+          {
+            "q": "Tesla charging stations near me",
+            "hit": true,
+            "hit_term": "tesla"
+          },
+          {
+            "q": "flat hiking trails with river",
+            "hit": false,
+            "hit_term": null
+          },
+          {
+            "q": "dog friendly hiking trails with knee issues",
+            "hit": false,
+            "hit_term": null
+          }
+        ],
+        "non_string": 0,
+        "any_hit": true
+      },
+      "facts_recall": {
+        "facts_tp": 0,
+        "facts_fp": 0,
+        "matched": [],
+        "unmatched": [],
+        "coverage": {}
+      },
+      "facts_empty": false,
+      "relations_empty": false,
+      "queries_count": 3,
+      "new_vehicle_present": false,
+      "retrieval_hit": true,
+      "host_closure": {
+        "executed": false,
+        "edges_after": [
+          {
+            "id": "e0",
+            "subject": "User",
+            "predicate": "DRIVES",
+            "object": "2019 Honda Civic",
+            "valid_from": "t0",
+            "invalid_at": null
+          }
+        ],
+        "closure_ok": false,
+        "reason": "no new-vehicle triple; graph left at seed state"
+      },
+      "fences": {
+        "s1": true,
+        "s2": false
+      },
+      "comments": {
+        "s1": false,
+        "s2": false
+      },
+      "gpu_wall_s": {
+        "solo_s": 1.797,
+        "batch_s": 2.154,
+        "total_s": 3.951,
+        "preserved_from_prior_run": true
+      },
+      "ratios": {
+        "completion": 1.337155844553307,
+        "ttft": 1.522397136675872
+      }
+    },
+    {
+      "seed": 1235,
+      "slot_seeds": {
+        "s0": 1235,
+        "s1": 1236,
+        "s2": 1237
+      },
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 9.8037,
+        "completion_ms": 448.8101,
+        "tok_s": 111.405693,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 15.3429,
+        "completion_ms": 503.4252,
+        "tok_s": 99.319621,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "```\n{\n  \"facts\": [\n    \"Buster's knee means flat river trail\",\n    \"I sold my Honda last week\",\n    \"I got a Tesla\"\n  ],\n  \"relations\": [\n    [\"BUSTER\", \"HAS\", \"KNEE\"],\n    [\"I\", \"SOLD\", \"HONDA\"],\n    [\"I\", \"BOUGHT\", \"TESLA\"],\n    [\"BUSTER\", \"ACTING_UP\", \"KNEE\"],\n    [\"I\", \"NEEDS\", \"CHARGING_STATIONS\"],\n    [\"HONDA\", \"IS SOLD\"],\n    [\"TESLA\", \"IS BOUGHT\"]\n  ]\n}\n```",
+        "generated": 136,
+        "ttft_ms": 15.4284,
+        "completion_ms": 1292.6034,
+        "tok_s": 105.21402,
+        "finish": "eos"
+      },
+      "batch_slot2": {
+        "text": "{\"queries\": [\"river trail accessibility for dogs with knee issues\", \"Tesla charging station locations near me\", \"commute routes with charging stations instead of gas stations\"]}",
+        "generated": 34,
+        "ttft_ms": 15.5289,
+        "completion_ms": 340.8673,
+        "tok_s": 99.745561,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 50,
+      "s0_batch_generated": 50,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "s1_direct_ok": false,
+      "s1_direct_error": "Expecting value: line 1 column 1 (char 0)",
+      "s1_diag": "fence_stripped_ok",
+      "s1_json": null,
+      "diagnostic_fence_strip": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "I sold my Honda last week",
+            "I got a Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "I",
+              "SOLD",
+              "HONDA"
+            ],
+            [
+              "I",
+              "BOUGHT",
+              "TESLA"
+            ],
+            [
+              "BUSTER",
+              "ACTING_UP",
+              "KNEE"
+            ],
+            [
+              "I",
+              "NEEDS",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "HONDA",
+              "IS SOLD"
+            ],
+            [
+              "TESLA",
+              "IS BOUGHT"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "SOLD",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "sold",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "BOUGHT",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "bought",
+                "tesla"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "ACTING_UP",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "acting_up",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "NEEDS",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "needs",
+                "charging_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "HONDA",
+                "IS SOLD"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            },
+            {
+              "raw": [
+                "TESLA",
+                "IS BOUGHT"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            }
+          ],
+          "malformed": 2,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "I got a Tesla"
+          ],
+          "unmatched": [
+            "I sold my Honda last week"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "I got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "I",
+          "BOUGHT",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "s2_direct_ok": true,
+      "s2_direct_error": null,
+      "s2_diag": null,
+      "s2_json": {
+        "queries": [
+          "river trail accessibility for dogs with knee issues",
+          "Tesla charging station locations near me",
+          "commute routes with charging stations instead of gas stations"
+        ]
+      },
+      "relations": {
+        "relations_is_list": false,
+        "triples": [],
+        "malformed": 0,
+        "subject_user_triples": [],
+        "matched": null,
+        "matched_norm": null,
+        "subjects_accepted": [
+          "the user",
+          "user"
+        ]
+      },
+      "queries": {
+        "queries_is_list": true,
+        "queries": [
+          {
+            "q": "river trail accessibility for dogs with knee issues",
+            "hit": false,
+            "hit_term": null
+          },
+          {
+            "q": "Tesla charging station locations near me",
+            "hit": true,
+            "hit_term": "tesla"
+          },
+          {
+            "q": "commute routes with charging stations instead of gas stations",
+            "hit": true,
+            "hit_term": "charging"
+          }
+        ],
+        "non_string": 0,
+        "any_hit": true
+      },
+      "facts_recall": {
+        "facts_tp": 0,
+        "facts_fp": 0,
+        "matched": [],
+        "unmatched": [],
+        "coverage": {}
+      },
+      "facts_empty": false,
+      "relations_empty": false,
+      "queries_count": 3,
+      "new_vehicle_present": false,
+      "retrieval_hit": true,
+      "host_closure": {
+        "executed": false,
+        "edges_after": [
+          {
+            "id": "e0",
+            "subject": "User",
+            "predicate": "DRIVES",
+            "object": "2019 Honda Civic",
+            "valid_from": "t0",
+            "invalid_at": null
+          }
+        ],
+        "closure_ok": false,
+        "reason": "no new-vehicle triple; graph left at seed state"
+      },
+      "fences": {
+        "s1": true,
+        "s2": false
+      },
+      "comments": {
+        "s1": false,
+        "s2": false
+      },
+      "gpu_wall_s": {
+        "solo_s": 1.746,
+        "batch_s": 2.671,
+        "total_s": 4.417,
+        "preserved_from_prior_run": true
+      },
+      "ratios": {
+        "completion": 1.1216886607498362,
+        "ttft": 1.5650111692524253
+      }
+    },
+    {
+      "seed": 1236,
+      "slot_seeds": {
+        "s0": 1236,
+        "s1": 1237,
+        "s2": 1238
+      },
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 9.8829,
+        "completion_ms": 449.4105,
+        "tok_s": 111.256858,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 15.1541,
+        "completion_ms": 504.8108,
+        "tok_s": 99.047009,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "```\n{\n  \"facts\": [\n    \"Buster's knee means flat river trail\",\n    \"I sold my Honda last week\",\n    \"I got a Tesla\"\n  ],\n  \"relations\": [\n    [\"BUSTER\", \"HAS\", \"KNEE\"],\n    [\"I\", \"SOLD\", \"HONDA\"],\n    [\"I\", \"BOUGHT\", \"TESLA\"],\n    [\"HONDA\", \"IS\", \"OLD\"],\n    [\"TESLA\", \"NEEDS\", \"CHARGING STATIONS\"],\n    [\"HONDA\", \"HAS\", \"GAS STATIONS\"],\n    [\"I\", \"NEEDS\", \"CHARGING STATIONS\"],\n    [\"BUSTER\", \"IS\", \"DOG\"],\n    [\"I\", \"DRIVES\", \"",
+        "generated": 160,
+        "ttft_ms": 15.2642,
+        "completion_ms": 1515.3444,
+        "tok_s": 105.586558,
+        "finish": "token_limit"
+      },
+      "batch_slot2": {
+        "text": "{\"queries\": [\"best dog-friendly hiking trails near me\", \"tesla charging stations along highways\", \"flat river trails near me with dog access\"]}",
+        "generated": 31,
+        "ttft_ms": 15.3688,
+        "completion_ms": 312.4645,
+        "tok_s": 99.21127,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 50,
+      "s0_batch_generated": 50,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "s1_direct_ok": false,
+      "s1_direct_error": "Expecting value: line 1 column 1 (char 0)",
+      "s1_diag": "failed",
+      "s1_json": null,
+      "diagnostic_fence_strip": {
+        "s1_parse_ok": false,
+        "parse_error": "Unterminated string starting at: line 16 column 21 (char 424)"
+      },
+      "s2_direct_ok": true,
+      "s2_direct_error": null,
+      "s2_diag": null,
+      "s2_json": {
+        "queries": [
+          "best dog-friendly hiking trails near me",
+          "tesla charging stations along highways",
+          "flat river trails near me with dog access"
+        ]
+      },
+      "relations": {
+        "relations_is_list": false,
+        "triples": [],
+        "malformed": 0,
+        "subject_user_triples": [],
+        "matched": null,
+        "matched_norm": null,
+        "subjects_accepted": [
+          "the user",
+          "user"
+        ]
+      },
+      "queries": {
+        "queries_is_list": true,
+        "queries": [
+          {
+            "q": "best dog-friendly hiking trails near me",
+            "hit": false,
+            "hit_term": null
+          },
+          {
+            "q": "tesla charging stations along highways",
+            "hit": true,
+            "hit_term": "tesla"
+          },
+          {
+            "q": "flat river trails near me with dog access",
+            "hit": false,
+            "hit_term": null
+          }
+        ],
+        "non_string": 0,
+        "any_hit": true
+      },
+      "facts_recall": {
+        "facts_tp": 0,
+        "facts_fp": 0,
+        "matched": [],
+        "unmatched": [],
+        "coverage": {}
+      },
+      "facts_empty": false,
+      "relations_empty": false,
+      "queries_count": 3,
+      "new_vehicle_present": false,
+      "retrieval_hit": true,
+      "host_closure": {
+        "executed": false,
+        "edges_after": [
+          {
+            "id": "e0",
+            "subject": "User",
+            "predicate": "DRIVES",
+            "object": "2019 Honda Civic",
+            "valid_from": "t0",
+            "invalid_at": null
+          }
+        ],
+        "closure_ok": false,
+        "reason": "no new-vehicle triple; graph left at seed state"
+      },
+      "fences": {
+        "s1": true,
+        "s2": false
+      },
+      "comments": {
+        "s1": false,
+        "s2": false
+      },
+      "gpu_wall_s": {
+        "solo_s": 1.768,
+        "batch_s": 2.896,
+        "total_s": 4.663,
+        "preserved_from_prior_run": true
+      },
+      "ratios": {
+        "completion": 1.123273265755918,
+        "ttft": 1.5333657124932967
+      }
+    },
+    {
+      "seed": 1237,
+      "slot_seeds": {
+        "s0": 1237,
+        "s1": 1238,
+        "s2": 1239
+      },
+      "solo_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla will definitely make your commute more convenient. I'll make sure to prioritize flat, river trail routes for Buster, and I'll also keep an eye out for charging stations along your route. Would you like me to suggest any specific charging stations or routes for your Tesla?",
+        "generated": 69,
+        "ttft_ms": 9.8418,
+        "completion_ms": 619.8094,
+        "tok_s": 111.324546,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla will definitely make your commute more convenient. I'll make sure to prioritize flat, river trail routes for Buster, and I'll also keep an eye out for charging stations along your route. Would you like me to suggest any specific charging stations or routes for your Tesla?",
+        "generated": 69,
+        "ttft_ms": 15.1297,
+        "completion_ms": 689.7993,
+        "tok_s": 100.029095,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "```\n{\n  \"facts\": [\n    \"Buster's knee means flat river trail\",\n    \"I sold my Honda last week\",\n    \"I got a Tesla\"\n  ],\n  \"relations\": [\n    [\"BUSTER\", \"HAS\", \"KNEE\"],\n    [\"BUSTER\", \"IS\", \"ACTING_UP\"],\n    [\"I\", \"OWNED\", \"HONDA\"],\n    [\"I\", \"SELL\", \"HONDA\"],\n    [\"I\", \"BOUGHT\", \"TESLA\"],\n    [\"I\", \"NEED\", \"CHARGING_STATIONS\"],\n    [\"I\", \"NEED\", \"GAS_STATIONS\"],\n    [\"I\", \"DRIVE\", \"COMMUTE\"]\n  ]\n}\n```",
+        "generated": 151,
+        "ttft_ms": 15.2122,
+        "completion_ms": 1444.9193,
+        "tok_s": 104.504106,
+        "finish": "eos"
+      },
+      "batch_slot2": {
+        "text": "{\"queries\": [\"Tesla charging stations near me\", \"flat hiking trails near river\", \"dog friendly hiking trails with flat terrain\"]}",
+        "generated": 27,
+        "ttft_ms": 15.2922,
+        "completion_ms": 272.5571,
+        "tok_s": 99.061811,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 69,
+      "s0_batch_generated": 69,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "s1_direct_ok": false,
+      "s1_direct_error": "Expecting value: line 1 column 1 (char 0)",
+      "s1_diag": "fence_stripped_ok",
+      "s1_json": null,
+      "diagnostic_fence_strip": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "I sold my Honda last week",
+            "I got a Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "BUSTER",
+              "IS",
+              "ACTING_UP"
+            ],
+            [
+              "I",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "I",
+              "SELL",
+              "HONDA"
+            ],
+            [
+              "I",
+              "BOUGHT",
+              "TESLA"
+            ],
+            [
+              "I",
+              "NEED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "I",
+              "NEED",
+              "GAS_STATIONS"
+            ],
+            [
+              "I",
+              "DRIVE",
+              "COMMUTE"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "IS",
+                "ACTING_UP"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "is",
+                "acting_up"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "OWNED",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "owned",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "SELL",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "sell",
+                "honda"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "BOUGHT",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "bought",
+                "tesla"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "I",
+                "NEED",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "need",
+                "charging_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "NEED",
+                "GAS_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "need",
+                "gas_stations"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "I",
+                "DRIVE",
+                "COMMUTE"
+              ],
+              "ok": true,
+              "norm": [
+                "i",
+                "drive",
+                "commute"
+              ],
+              "subject_ok": false,
+              "predicate_family": "drives",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 0,
+          "subject_user_triples": [],
+          "matched": null,
+          "matched_norm": null,
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "I got a Tesla"
+          ],
+          "unmatched": [
+            "I sold my Honda last week"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "I got a Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": false,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "I",
+          "BOUGHT",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "s2_direct_ok": true,
+      "s2_direct_error": null,
+      "s2_diag": null,
+      "s2_json": {
+        "queries": [
+          "Tesla charging stations near me",
+          "flat hiking trails near river",
+          "dog friendly hiking trails with flat terrain"
+        ]
+      },
+      "relations": {
+        "relations_is_list": false,
+        "triples": [],
+        "malformed": 0,
+        "subject_user_triples": [],
+        "matched": null,
+        "matched_norm": null,
+        "subjects_accepted": [
+          "the user",
+          "user"
+        ]
+      },
+      "queries": {
+        "queries_is_list": true,
+        "queries": [
+          {
+            "q": "Tesla charging stations near me",
+            "hit": true,
+            "hit_term": "tesla"
+          },
+          {
+            "q": "flat hiking trails near river",
+            "hit": false,
+            "hit_term": null
+          },
+          {
+            "q": "dog friendly hiking trails with flat terrain",
+            "hit": false,
+            "hit_term": null
+          }
+        ],
+        "non_string": 0,
+        "any_hit": true
+      },
+      "facts_recall": {
+        "facts_tp": 0,
+        "facts_fp": 0,
+        "matched": [],
+        "unmatched": [],
+        "coverage": {}
+      },
+      "facts_empty": false,
+      "relations_empty": false,
+      "queries_count": 3,
+      "new_vehicle_present": false,
+      "retrieval_hit": true,
+      "host_closure": {
+        "executed": false,
+        "edges_after": [
+          {
+            "id": "e0",
+            "subject": "User",
+            "predicate": "DRIVES",
+            "object": "2019 Honda Civic",
+            "valid_from": "t0",
+            "invalid_at": null
+          }
+        ],
+        "closure_ok": false,
+        "reason": "no new-vehicle triple; graph left at seed state"
+      },
+      "fences": {
+        "s1": true,
+        "s2": false
+      },
+      "comments": {
+        "s1": false,
+        "s2": false
+      },
+      "gpu_wall_s": {
+        "solo_s": 1.924,
+        "batch_s": 2.832,
+        "total_s": 4.756,
+        "preserved_from_prior_run": true
+      },
+      "ratios": {
+        "completion": 1.112921649784595,
+        "ttft": 1.537289926639436
+      }
+    },
+    {
+      "seed": 1238,
+      "slot_seeds": {
+        "s0": 1238,
+        "s1": 1239,
+        "s2": 1240
+      },
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 9.8807,
+        "completion_ms": 450.5833,
+        "tok_s": 110.967273,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 15.1856,
+        "completion_ms": 502.3184,
+        "tok_s": 99.53846,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "```\n{\n  \"facts\": [\n    \"Buster's knee means flat river trail\",\n    \"Sold Honda\",\n    \"Got Tesla\"\n  ],\n  \"relations\": [\n    [\"BUSTER\", \"HAS\", \"KNEE\"],\n    [\"BUSTER\", \"ACTING_UP\"],\n    [\"TRAIL\", \"LOCATED_IN\", \"RIVER\"],\n    [\"TRAIL\", \"TYPE\", \"FLAT\"],\n    [\"USER\", \"OWNED\", \"HONDA\"],\n    [\"USER\", \"OWNED\", \"TESLA\"],\n    [\"USER\", \"NEEDED\", \"CHARGING_STATIONS\"],\n    [\"USER\", \"NEEDED\", \"GAS_STATIONS\"]\n  ]\n}\n```",
+        "generated": 146,
+        "ttft_ms": 15.2758,
+        "completion_ms": 1385.514,
+        "tok_s": 105.376055,
+        "finish": "eos"
+      },
+      "batch_slot2": {
+        "text": "{\"queries\": [\"Tesla charging stations near me\", \"flat hiking trails with river\", \"dog friendly hiking trails with knee issues\"]}",
+        "generated": 27,
+        "ttft_ms": 15.3773,
+        "completion_ms": 272.4218,
+        "tok_s": 99.111011,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 50,
+      "s0_batch_generated": 50,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "s1_direct_ok": false,
+      "s1_direct_error": "Expecting value: line 1 column 1 (char 0)",
+      "s1_diag": "fence_stripped_ok",
+      "s1_json": null,
+      "diagnostic_fence_strip": {
+        "s1_parse_ok": true,
+        "parse_error": null,
+        "json": {
+          "facts": [
+            "Buster's knee means flat river trail",
+            "Sold Honda",
+            "Got Tesla"
+          ],
+          "relations": [
+            [
+              "BUSTER",
+              "HAS",
+              "KNEE"
+            ],
+            [
+              "BUSTER",
+              "ACTING_UP"
+            ],
+            [
+              "TRAIL",
+              "LOCATED_IN",
+              "RIVER"
+            ],
+            [
+              "TRAIL",
+              "TYPE",
+              "FLAT"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "TESLA"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "GAS_STATIONS"
+            ]
+          ]
+        },
+        "relations": {
+          "relations_is_list": true,
+          "triples": [
+            {
+              "raw": [
+                "BUSTER",
+                "HAS",
+                "KNEE"
+              ],
+              "ok": true,
+              "norm": [
+                "buster",
+                "has",
+                "knee"
+              ],
+              "subject_ok": false,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "BUSTER",
+                "ACTING_UP"
+              ],
+              "ok": false,
+              "why": "not a 3-string array"
+            },
+            {
+              "raw": [
+                "TRAIL",
+                "LOCATED_IN",
+                "RIVER"
+              ],
+              "ok": true,
+              "norm": [
+                "trail",
+                "located_in",
+                "river"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "TRAIL",
+                "TYPE",
+                "FLAT"
+              ],
+              "ok": true,
+              "norm": [
+                "trail",
+                "type",
+                "flat"
+              ],
+              "subject_ok": false,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "OWNED",
+                "HONDA"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "owned",
+                "honda"
+              ],
+              "subject_ok": true,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "OWNED",
+                "TESLA"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "owned",
+                "tesla"
+              ],
+              "subject_ok": true,
+              "predicate_family": "owns",
+              "predicate_ok": true,
+              "new_vehicle_object": true
+            },
+            {
+              "raw": [
+                "USER",
+                "NEEDED",
+                "CHARGING_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "needed",
+                "charging_stations"
+              ],
+              "subject_ok": true,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            },
+            {
+              "raw": [
+                "USER",
+                "NEEDED",
+                "GAS_STATIONS"
+              ],
+              "ok": true,
+              "norm": [
+                "user",
+                "needed",
+                "gas_stations"
+              ],
+              "subject_ok": true,
+              "predicate_family": null,
+              "predicate_ok": false,
+              "new_vehicle_object": false
+            }
+          ],
+          "malformed": 1,
+          "subject_user_triples": [
+            [
+              "USER",
+              "OWNED",
+              "HONDA"
+            ],
+            [
+              "USER",
+              "OWNED",
+              "TESLA"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "CHARGING_STATIONS"
+            ],
+            [
+              "USER",
+              "NEEDED",
+              "GAS_STATIONS"
+            ]
+          ],
+          "matched": [
+            "USER",
+            "OWNED",
+            "TESLA"
+          ],
+          "matched_norm": {
+            "subject": "user",
+            "predicate": "owned",
+            "family": "owns",
+            "object": "tesla"
+          },
+          "subjects_accepted": [
+            "the user",
+            "user"
+          ]
+        },
+        "facts_recall": {
+          "facts_tp": 3,
+          "facts_fp": 1,
+          "matched": [
+            "Buster's knee means flat river trail",
+            "Got Tesla"
+          ],
+          "unmatched": [
+            "Sold Honda"
+          ],
+          "coverage": {
+            "buster_knee_issue": [
+              "Buster's knee means flat river trail"
+            ],
+            "stick_to_flat_river_trail": [
+              "Buster's knee means flat river trail"
+            ],
+            "user_bought_tesla": [
+              "Got Tesla"
+            ]
+          }
+        },
+        "new_vehicle_present": true,
+        "new_vehicle_lenient_subject": true,
+        "matched_lenient": [
+          "USER",
+          "OWNED",
+          "TESLA"
+        ],
+        "note": "non-gating: fence-stripped reparse of Slot 1; lenient subject set adds 'i'/'me'"
+      },
+      "s2_direct_ok": true,
+      "s2_direct_error": null,
+      "s2_diag": null,
+      "s2_json": {
+        "queries": [
+          "Tesla charging stations near me",
+          "flat hiking trails with river",
+          "dog friendly hiking trails with knee issues"
+        ]
+      },
+      "relations": {
+        "relations_is_list": false,
+        "triples": [],
+        "malformed": 0,
+        "subject_user_triples": [],
+        "matched": null,
+        "matched_norm": null,
+        "subjects_accepted": [
+          "the user",
+          "user"
+        ]
+      },
+      "queries": {
+        "queries_is_list": true,
+        "queries": [
+          {
+            "q": "Tesla charging stations near me",
+            "hit": true,
+            "hit_term": "tesla"
+          },
+          {
+            "q": "flat hiking trails with river",
+            "hit": false,
+            "hit_term": null
+          },
+          {
+            "q": "dog friendly hiking trails with knee issues",
+            "hit": false,
+            "hit_term": null
+          }
+        ],
+        "non_string": 0,
+        "any_hit": true
+      },
+      "facts_recall": {
+        "facts_tp": 0,
+        "facts_fp": 0,
+        "matched": [],
+        "unmatched": [],
+        "coverage": {}
+      },
+      "facts_empty": false,
+      "relations_empty": false,
+      "queries_count": 3,
+      "new_vehicle_present": false,
+      "retrieval_hit": true,
+      "host_closure": {
+        "executed": false,
+        "edges_after": [
+          {
+            "id": "e0",
+            "subject": "User",
+            "predicate": "DRIVES",
+            "object": "2019 Honda Civic",
+            "valid_from": "t0",
+            "invalid_at": null
+          }
+        ],
+        "closure_ok": false,
+        "reason": "no new-vehicle triple; graph left at seed state"
+      },
+      "fences": {
+        "s1": true,
+        "s2": false
+      },
+      "comments": {
+        "s1": false,
+        "s2": false
+      },
+      "gpu_wall_s": {
+        "solo_s": 1.759,
+        "batch_s": 2.766,
+        "total_s": 4.525,
+        "preserved_from_prior_run": true
+      },
+      "ratios": {
+        "completion": 1.1148180591690815,
+        "ttft": 1.536895159249851
+      }
+    }
+  ]
+}

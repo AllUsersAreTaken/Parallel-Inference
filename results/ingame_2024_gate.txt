@@ -1,0 +1,23 @@
+Angle 32b - false-suppression boundary: k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+cli_sha256=51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da  built=2026-10-21T12:07:26  tree=dirty
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo0=serial(data/ingame_2024_solo.tsv)  batch=k=2(data/ingame_2024_batch.tsv)
+Slot 1 = angle-31 anti-bleed compaction; final user message states the new item's own year (2024 Tesla)
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r s0same |  tok         fin 2024 2024ln no19T hondX   sea  bst yrAny    ok
+  1234 |      490.3       475.2   0.969   1.427  False |   31         eos False  False  True  True  True True False False
+  1235 |      545.3       514.9   0.944   1.493  False |   31         eos False  False  True  True  True True False False
+  1236 |      392.7       454.9   1.158   1.497  False |   31         eos False  False  True  True  True True False False
+  1237 |      392.4       475.0   1.211   1.489  False |   31         eos False  False  True  True  True True False False
+  1238 |      411.9       437.1   1.061   1.493   True |   31         eos False  False  True  True  True True False False
+median |      411.9       475.0   1.061   1.493 |   31
+
+Per-seed checks: 2024-present=0/5  2024-on-vehicle-line=0/5  2019-Tesla-absent=5/5  honda/civic-absent=5/5  seattle=5/5  buster=5/5  stray-2019-anywhere=0/5  tokens<75=5/5
+2024 lines per rep: [[], [], [], [], []]
+2019 lines per rep: [[], [], [], [], []]
+Profile tokens per rep: [31, 31, 31, 31, 31]  words: [18, 18, 18, 18, 18]  finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 completion ratio batch/solo: median=1.061 mean=1.069 (solo med 411.9 ms, batch med 475.0 ms, ratio of medians 1.153)
+Slot 0 ttft ratio batch/solo:       median=1.493 mean=1.480
+Slot 0 text identical solo vs batch (same seed): 1/5 reps
+ACCEPTANCE: y2024_present_5_of_5=FAIL, tesla_2019_absent_5_of_5=PASS, honda_absent_5_of_5=PASS, seattle_buster_preserved_5_of_5=PASS, profile_tokens_lt_75_all=PASS, slot0_completion_median_le_1_10=PASS
+VERDICT: miss

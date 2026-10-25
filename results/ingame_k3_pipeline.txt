@@ -1,0 +1,123 @@
+Angle 33 - k=3 asymmetric in-game pipeline: parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+cli_sha256=51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da  built=2026-10-21T12:07:26  tree=dirty
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo=serial(data/ingame_k3_solo.tsv)  batch=k=3(data/ingame_k3_batch.tsv; rows sample seed, seed+1, seed+2)
+Slot 0 = angle-27 reply prompt (byte-identical, asserted vs data/ingame_mem_solo.tsv); Slot 1 = semantic scribe (facts+relations JSON); Slot 2 = reverse-HyDE indexer (3 queries JSON)
+no few-shot anchors; no trailing `{` in user text; Output: on its own line after the dialogue block
+
+MATCHERS (documented; raws keep every triple/query for rescoring):
+  relation_subject: casefold + collapse whitespace + strip edge punctuation; accept 'user' or 'the user'
+  relation_predicate: DRIVES family {drive, drives, driving} or OWNS family {own, owns, owned, owning, has, have, bought, purchased, acquired}, casefold-normalized
+  relation_object_new_vehicle: contains 'tesla' and contains neither 'honda' nor 'civic' (case-insensitive substring)
+  relation_gate: triple is a 3-string JSON array AND subject AND predicate AND object all pass; first match wins
+  retrieval_hook: regex \b(tesla|ev|evs|charging|car|cars)\b (case-insensitive) on each Slot 2 query; seed hits if >=1 query matches
+  fence: '```' anywhere in the raw slot text
+  comment: any line whose stripped form starts with '//' or '/*' (angle-28 style comment check)
+  host_closure: mock graph seeded with (User, DRIVES, 2019 Honda Civic, valid_from=t0, invalid_at=NULL); on a new-vehicle triple set invalid_at=now on the open Honda/DRIVES-family edge and append the new edge valid_from=now; closure_ok requires both
+
+  seed |   solo_ms   batch_ms  comp_r  ttft_r  same | s1ok s2ok rel hook clos | s1tok s2tok  s0b |       fin1       fin2
+  1234 |     434.6      581.1   1.337   1.522 False | False True False True    - |    77    27   58 |        eos        eos
+  1235 |     448.8      503.4   1.122   1.565  True | False True False True    - |   136    34   50 |        eos        eos
+  1236 |     449.4      504.8   1.123   1.533  True | False True False True    - |   160    31   50 | token_limit        eos
+  1237 |     619.8      689.8   1.113   1.537  True | False True False True    - |   151    27   69 |        eos        eos
+  1238 |     450.6      502.3   1.115   1.537  True | False True False True    - |   146    27   50 |        eos        eos
+med/sum |     449.4      504.8   1.122   1.537 4/5 |    0/5      5/5     0/5     5/5     0/0  |   146    27
+
+--- seed 1234 (slot seeds s0=1234 s1=1235 s2=1236) ---
+  s1 direct parse FAILED: Expecting value: line 1 column 1 (char 0) (diag=fence_stripped_ok)
+  [diag] fence-stripped parse OK; new_vehicle(strict)=False new_vehicle(lenient i/me)=False facts tp/fp=3/0
+  [diag] rel: {'raw': ['DRIVES', 'Tesla', 'commute'], 'ok': True, 'norm': ['drives', 'tesla', 'commute'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['LOCATED_IN', 'river trail', 'mountain switchbacks'], 'ok': True, 'norm': ['located_in', 'river trail', 'mountain switchbacks'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  facts recall tp/fp=0/0 empty=False matched=[] unmatched=[]
+  q: hit=True term=tesla 'Tesla charging stations near me'
+  q: hit=False term=None 'flat hiking trails with river'
+  q: hit=False term=None 'dog friendly hiking trails with knee issues'
+  host closure NOT executed (no new-vehicle triple)
+  FENCE/COMMENT: fences={'s1': True, 's2': False} comments={'s1': False, 's2': False}
+  s1 raw: '```\n{\n  "facts": [\n    "Buster\'s knee means flat river trail, no mountain switchbacks",\n    "I sold my Honda last week and got a Tesla"\n  ],\n  "relations": [\n    ["DRIVES", "Tesla", "commute"],\n    ["LOCATED_IN", "river trail", "mountain switchbacks"]\n  ]\n}\n```'
+  s2 raw: '{"queries": ["Tesla charging stations near me", "flat hiking trails with river", "dog friendly hiking trails with knee issues"]}'
+--- seed 1235 (slot seeds s0=1235 s1=1236 s2=1237) ---
+  s1 direct parse FAILED: Expecting value: line 1 column 1 (char 0) (diag=fence_stripped_ok)
+  [diag] fence-stripped parse OK; new_vehicle(strict)=False new_vehicle(lenient i/me)=True facts tp/fp=3/1
+  [diag] rel: {'raw': ['BUSTER', 'HAS', 'KNEE'], 'ok': True, 'norm': ['buster', 'has', 'knee'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'SOLD', 'HONDA'], 'ok': True, 'norm': ['i', 'sold', 'honda'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'BOUGHT', 'TESLA'], 'ok': True, 'norm': ['i', 'bought', 'tesla'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': True}
+  [diag] rel: {'raw': ['BUSTER', 'ACTING_UP', 'KNEE'], 'ok': True, 'norm': ['buster', 'acting_up', 'knee'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'NEEDS', 'CHARGING_STATIONS'], 'ok': True, 'norm': ['i', 'needs', 'charging_stations'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['HONDA', 'IS SOLD'], 'ok': False, 'why': 'not a 3-string array'}
+  [diag] rel: {'raw': ['TESLA', 'IS BOUGHT'], 'ok': False, 'why': 'not a 3-string array'}
+  [diag] lenient match: ['I', 'BOUGHT', 'TESLA']
+  facts recall tp/fp=0/0 empty=False matched=[] unmatched=[]
+  q: hit=False term=None 'river trail accessibility for dogs with knee issues'
+  q: hit=True term=tesla 'Tesla charging station locations near me'
+  q: hit=True term=charging 'commute routes with charging stations instead of gas stations'
+  host closure NOT executed (no new-vehicle triple)
+  FENCE/COMMENT: fences={'s1': True, 's2': False} comments={'s1': False, 's2': False}
+  s1 raw: '```\n{\n  "facts": [\n    "Buster\'s knee means flat river trail",\n    "I sold my Honda last week",\n    "I got a Tesla"\n  ],\n  "relations": [\n    ["BUSTER", "HAS", "KNEE"],\n    ["I", "SOLD", "HONDA"],\n    ["I", "BOUGHT", "TESLA"],\n    ["BUSTER", "ACTING_UP", "KNEE"],\n    ["I", "NEEDS", "CHARGING_STATIONS"],\n    ["HONDA", "IS SOLD"],\n    ["TESLA", "IS BOUGHT"]\n  ]\n}\n```'
+  s2 raw: '{"queries": ["river trail accessibility for dogs with knee issues", "Tesla charging station locations near me", "commute routes with charging stations instead of gas stations"]}'
+--- seed 1236 (slot seeds s0=1236 s1=1237 s2=1238) ---
+  s1 direct parse FAILED: Expecting value: line 1 column 1 (char 0) (diag=failed)
+  [diag] fence-stripped parse also FAILED: Unterminated string starting at: line 16 column 21 (char 424)
+  facts recall tp/fp=0/0 empty=False matched=[] unmatched=[]
+  q: hit=False term=None 'best dog-friendly hiking trails near me'
+  q: hit=True term=tesla 'tesla charging stations along highways'
+  q: hit=False term=None 'flat river trails near me with dog access'
+  host closure NOT executed (no new-vehicle triple)
+  FENCE/COMMENT: fences={'s1': True, 's2': False} comments={'s1': False, 's2': False}
+  s1 raw: '```\n{\n  "facts": [\n    "Buster\'s knee means flat river trail",\n    "I sold my Honda last week",\n    "I got a Tesla"\n  ],\n  "relations": [\n    ["BUSTER", "HAS", "KNEE"],\n    ["I", "SOLD", "HONDA"],\n    ["I", "BOUGHT", "TESLA"],\n    ["HONDA", "IS", "OLD"],\n    ["TESLA", "NEEDS", "CHARGING STATIONS"],\n    ["HONDA", "HAS", "GAS STATIONS"],\n    ["I", "NEEDS", "CHARGING STATIONS"],\n    ["BUSTER", "IS", "DOG"],\n    ["I", "DRIVES", "'
+  s2 raw: '{"queries": ["best dog-friendly hiking trails near me", "tesla charging stations along highways", "flat river trails near me with dog access"]}'
+--- seed 1237 (slot seeds s0=1237 s1=1238 s2=1239) ---
+  s1 direct parse FAILED: Expecting value: line 1 column 1 (char 0) (diag=fence_stripped_ok)
+  [diag] fence-stripped parse OK; new_vehicle(strict)=False new_vehicle(lenient i/me)=True facts tp/fp=3/1
+  [diag] rel: {'raw': ['BUSTER', 'HAS', 'KNEE'], 'ok': True, 'norm': ['buster', 'has', 'knee'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['BUSTER', 'IS', 'ACTING_UP'], 'ok': True, 'norm': ['buster', 'is', 'acting_up'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'OWNED', 'HONDA'], 'ok': True, 'norm': ['i', 'owned', 'honda'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'SELL', 'HONDA'], 'ok': True, 'norm': ['i', 'sell', 'honda'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'BOUGHT', 'TESLA'], 'ok': True, 'norm': ['i', 'bought', 'tesla'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': True}
+  [diag] rel: {'raw': ['I', 'NEED', 'CHARGING_STATIONS'], 'ok': True, 'norm': ['i', 'need', 'charging_stations'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'NEED', 'GAS_STATIONS'], 'ok': True, 'norm': ['i', 'need', 'gas_stations'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['I', 'DRIVE', 'COMMUTE'], 'ok': True, 'norm': ['i', 'drive', 'commute'], 'subject_ok': False, 'predicate_family': 'drives', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] lenient match: ['I', 'BOUGHT', 'TESLA']
+  facts recall tp/fp=0/0 empty=False matched=[] unmatched=[]
+  q: hit=True term=tesla 'Tesla charging stations near me'
+  q: hit=False term=None 'flat hiking trails near river'
+  q: hit=False term=None 'dog friendly hiking trails with flat terrain'
+  host closure NOT executed (no new-vehicle triple)
+  FENCE/COMMENT: fences={'s1': True, 's2': False} comments={'s1': False, 's2': False}
+  s1 raw: '```\n{\n  "facts": [\n    "Buster\'s knee means flat river trail",\n    "I sold my Honda last week",\n    "I got a Tesla"\n  ],\n  "relations": [\n    ["BUSTER", "HAS", "KNEE"],\n    ["BUSTER", "IS", "ACTING_UP"],\n    ["I", "OWNED", "HONDA"],\n    ["I", "SELL", "HONDA"],\n    ["I", "BOUGHT", "TESLA"],\n    ["I", "NEED", "CHARGING_STATIONS"],\n    ["I", "NEED", "GAS_STATIONS"],\n    ["I", "DRIVE", "COMMUTE"]\n  ]\n}\n```'
+  s2 raw: '{"queries": ["Tesla charging stations near me", "flat hiking trails near river", "dog friendly hiking trails with flat terrain"]}'
+--- seed 1238 (slot seeds s0=1238 s1=1239 s2=1240) ---
+  s1 direct parse FAILED: Expecting value: line 1 column 1 (char 0) (diag=fence_stripped_ok)
+  [diag] fence-stripped parse OK; new_vehicle(strict)=True new_vehicle(lenient i/me)=True facts tp/fp=3/1
+  [diag] rel: {'raw': ['BUSTER', 'HAS', 'KNEE'], 'ok': True, 'norm': ['buster', 'has', 'knee'], 'subject_ok': False, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['BUSTER', 'ACTING_UP'], 'ok': False, 'why': 'not a 3-string array'}
+  [diag] rel: {'raw': ['TRAIL', 'LOCATED_IN', 'RIVER'], 'ok': True, 'norm': ['trail', 'located_in', 'river'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['TRAIL', 'TYPE', 'FLAT'], 'ok': True, 'norm': ['trail', 'type', 'flat'], 'subject_ok': False, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['USER', 'OWNED', 'HONDA'], 'ok': True, 'norm': ['user', 'owned', 'honda'], 'subject_ok': True, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['USER', 'OWNED', 'TESLA'], 'ok': True, 'norm': ['user', 'owned', 'tesla'], 'subject_ok': True, 'predicate_family': 'owns', 'predicate_ok': True, 'new_vehicle_object': True}
+  [diag] rel: {'raw': ['USER', 'NEEDED', 'CHARGING_STATIONS'], 'ok': True, 'norm': ['user', 'needed', 'charging_stations'], 'subject_ok': True, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] rel: {'raw': ['USER', 'NEEDED', 'GAS_STATIONS'], 'ok': True, 'norm': ['user', 'needed', 'gas_stations'], 'subject_ok': True, 'predicate_family': None, 'predicate_ok': False, 'new_vehicle_object': False}
+  [diag] lenient match: ['USER', 'OWNED', 'TESLA']
+  facts recall tp/fp=0/0 empty=False matched=[] unmatched=[]
+  q: hit=True term=tesla 'Tesla charging stations near me'
+  q: hit=False term=None 'flat hiking trails with river'
+  q: hit=False term=None 'dog friendly hiking trails with knee issues'
+  host closure NOT executed (no new-vehicle triple)
+  FENCE/COMMENT: fences={'s1': True, 's2': False} comments={'s1': False, 's2': False}
+  s1 raw: '```\n{\n  "facts": [\n    "Buster\'s knee means flat river trail",\n    "Sold Honda",\n    "Got Tesla"\n  ],\n  "relations": [\n    ["BUSTER", "HAS", "KNEE"],\n    ["BUSTER", "ACTING_UP"],\n    ["TRAIL", "LOCATED_IN", "RIVER"],\n    ["TRAIL", "TYPE", "FLAT"],\n    ["USER", "OWNED", "HONDA"],\n    ["USER", "OWNED", "TESLA"],\n    ["USER", "NEEDED", "CHARGING_STATIONS"],\n    ["USER", "NEEDED", "GAS_STATIONS"]\n  ]\n}\n```'
+  s2 raw: '{"queries": ["Tesla charging stations near me", "flat hiking trails with river", "dog friendly hiking trails with knee issues"]}'
+
+Gate counts: s1 direct parse 0/5, s2 direct parse 5/5; new-vehicle relation 0/5 (seeds []); retrieval hook 5/5 (seeds [1234, 1235, 1236, 1237, 1238])
+Host closure: executed+ok on 0/0 gate-2 seeds; skipped on seeds [1234, 1235, 1236, 1237, 1238]
+Fences 5/5 seeds [1234, 1235, 1236, 1237, 1238]; comments 0/5 seeds [] (expect 0)
+Facts recall (angle-27 label, facts list only): TP=0 FP=0 of 20 possible; concept hits={'buster_knee_issue': 0, 'stick_to_flat_river_trail': 0, 'user_bought_tesla': 0, 'needs_charging_stations': 0}
+Empty lists: facts none; relations none; queries count per rep=[3, 3, 3, 3, 3]
+DIAGNOSTIC (non-gating) fence-stripped Slot 1: parse ok 4/5; new-vehicle strict-subject 1/5; new-vehicle lenient (adds 'i'/'me') 3/5; subjects seen=['buster', 'drives', 'i', 'located_in', 'trail', 'user']; facts TP/FP 12/3; matched lenient triples [['I', 'BOUGHT', 'TESLA'], ['I', 'BOUGHT', 'TESLA'], ['USER', 'OWNED', 'TESLA']]
+Slot 1 tokens per rep: [77, 136, 160, 151, 146] finish=['eos', 'eos', 'token_limit', 'eos', 'eos']
+Slot 2 tokens per rep: [27, 34, 31, 27, 27] finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 completion ratio batch(k=3)/solo: median=1.122 mean=1.162 (solo med 449.4 ms, batch med 504.8 ms, ratio of medians 1.123)
+Slot 0 ttft ratio batch/solo: median=1.537 mean=1.539
+Slot 0 text identical solo vs batch (same seed): 4/5
+GPU wall time (10 CLI invocations, incl. model loads): 22.3 s total; per rep [3.951, 4.417, 4.663, 4.756, 4.525]
+ACCEPTANCE: gate1_json_integrity_direct_5_of_5_both_slots=FAIL, gate2_new_vehicle_relation_ge_4_of_5=FAIL, gate3_retrieval_hook_ge_4_of_5=PASS, gate4_host_closure_all_gate2_seeds=FAIL, gate5_slot0_completion_median_le_1_12=FAIL
+VERDICT: miss

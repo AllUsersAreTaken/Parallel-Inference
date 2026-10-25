@@ -1,0 +1,382 @@
+{
+  "experiment": "Angle 31 attribute-bleed gate (k=2, Slot 0 chat + Slot 1 bleed-blocked compaction)",
+  "parent": "results/ingame_letta_compact.json (angle 29)",
+  "model": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "system": "You are a helpful assistant.",
+  "seeds": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+  ],
+  "max_tokens": 160,
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "n_reps": 5,
+  "data_files": {
+    "solo_slot0": "data/ingame_mem_solo.tsv",
+    "solo_slot1": "data/ingame_bleed_solo.tsv",
+    "batch": "data/ingame_bleed_batch.tsv",
+    "note": "s0 prompt byte-identical to angle 27; s1 = angle 29 compaction prompt + one inserted anti-bleed sentence; solo1 at seed+1"
+  },
+  "profile_token_max": 75,
+  "acceptance": {
+    "tesla_2019_absent_0_of_5": true,
+    "original_phase2_checks_all_pass": true,
+    "slot0_completion_median_le_1_10": true
+  },
+  "seeds_passing_all_checks": 5,
+  "phase2_checks_passing": 5,
+  "check_totals": {
+    "tesla_present": 5,
+    "honda_absent": 5,
+    "seattle_preserved": 5,
+    "buster_preserved": 5,
+    "tesla_2019_absent": 5,
+    "year_survives": 0
+  },
+  "profile_tokens_ok_seeds": 5,
+  "profile_tokens": [
+    31,
+    31,
+    31,
+    31,
+    31
+  ],
+  "profile_words": [
+    18,
+    18,
+    18,
+    18,
+    18
+  ],
+  "year_lines": [
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "slot1_finish": [
+    "eos",
+    "eos",
+    "eos",
+    "eos",
+    "eos"
+  ],
+  "latency": {
+    "completion_ratio_median": 1.0485298534777492,
+    "completion_ratio_mean": 1.0157713187067092,
+    "ttft_ratio_median": 1.4901631240731588,
+    "ttft_ratio_mean": 1.4763764441376153,
+    "slot1_completion_ratio_median": 1.0619987481268605,
+    "solo0_completion_ms_median": 507.4718,
+    "batch_slot0_completion_ms_median": 532.9439,
+    "solo1_completion_ms_median": 315.8438,
+    "batch_slot1_completion_ms_median": 335.4288,
+    "solo0_ttft_ms_median": 11.1265,
+    "batch_slot0_ttft_ms_median": 16.5337,
+    "ratio_of_completion_medians": 1.050194119160907,
+    "per_rep_completion_ratios": [
+      1.0485298534777492,
+      1.050194119160907,
+      1.0447906577473693,
+      0.8814357523024666,
+      1.0539062108450543
+    ],
+    "per_rep_ttft_ratios": [
+      1.3983783123276192,
+      1.5053216187918241,
+      1.4887295997711958,
+      1.4992895657242784,
+      1.4901631240731588
+    ],
+    "per_rep_slot1_completion_ratios": [
+      1.058282899677519,
+      1.0619987481268605,
+      1.0614417167601935,
+      1.065701429707275,
+      1.06547445287829
+    ]
+  },
+  "s0_prompt_identical_all_reps": true,
+  "verdict": "meets",
+  "reps": [
+    {
+      "seed": 1234,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any pet-friendly stops along the way?",
+        "generated": 48,
+        "ttft_ms": 11.4572,
+        "completion_ms": 487.4072,
+        "tok_s": 98.480285,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along our route. Shall I also check for any pet-friendly stops along the way?",
+        "generated": 48,
+        "ttft_ms": 16.0215,
+        "completion_ms": 511.061,
+        "tok_s": 93.922252,
+        "finish": "eos"
+      },
+      "solo_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 11.4193,
+        "completion_ms": 316.918,
+        "tok_s": 97.817101,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 16.1149,
+        "completion_ms": 335.3889,
+        "tok_s": 92.430012,
+        "finish": "eos"
+      },
+      "s0_prompt_identical": true,
+      "checks": {
+        "tesla_present": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "tesla_2019_absent": true,
+        "year_survives": false,
+        "year_lines": []
+      },
+      "phase2_checks_ok": true,
+      "profile_tokens": 31,
+      "profile_words": 18,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.0485298534777492,
+        "ttft": 1.3983783123276192,
+        "slot1_completion": 1.058282899677519
+      }
+    },
+    {
+      "seed": 1235,
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 10.9835,
+        "completion_ms": 507.4718,
+        "tok_s": 98.527642,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize charging stations along our route, so you can enjoy the scenic views without worrying about your car's battery. I'll also keep an eye out for any potential charging stops along the way.",
+        "generated": 50,
+        "ttft_ms": 16.5337,
+        "completion_ms": 532.9439,
+        "tok_s": 93.818505,
+        "finish": "eos"
+      },
+      "solo_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 11.2886,
+        "completion_ms": 315.8467,
+        "tok_s": 98.14888,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 16.6209,
+        "completion_ms": 335.4288,
+        "tok_s": 92.419017,
+        "finish": "eos"
+      },
+      "s0_prompt_identical": true,
+      "checks": {
+        "tesla_present": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "tesla_2019_absent": true,
+        "year_survives": false,
+        "year_lines": []
+      },
+      "phase2_checks_ok": true,
+      "profile_tokens": 31,
+      "profile_words": 18,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.050194119160907,
+        "ttft": 1.5053216187918241,
+        "slot1_completion": 1.0619987481268605
+      }
+    },
+    {
+      "seed": 1236,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 11.1886,
+        "completion_ms": 508.4855,
+        "tok_s": 98.331221,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 16.6568,
+        "completion_ms": 531.2609,
+        "tok_s": 94.115716,
+        "finish": "eos"
+      },
+      "solo_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 10.819,
+        "completion_ms": 315.3102,
+        "tok_s": 98.315881,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 16.751,
+        "completion_ms": 334.6834,
+        "tok_s": 92.624851,
+        "finish": "eos"
+      },
+      "s0_prompt_identical": true,
+      "checks": {
+        "tesla_present": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "tesla_2019_absent": true,
+        "year_survives": false,
+        "year_lines": []
+      },
+      "phase2_checks_ok": true,
+      "profile_tokens": 31,
+      "profile_words": 18,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.0447906577473693,
+        "ttft": 1.4887295997711958,
+        "slot1_completion": 1.0614417167601935
+      }
+    },
+    {
+      "seed": 1237,
+      "solo_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla will definitely make your commute more convenient. I'll make sure to prioritize flat, river trail routes for Buster, and I'll also keep an eye out for charging stations along your route. Would you like me to suggest any specific charging stations or routes for your Tesla?",
+        "generated": 69,
+        "ttft_ms": 10.9792,
+        "completion_ms": 697.9254,
+        "tok_s": 98.864435,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're making some great changes in your life - a new Tesla and a more gentle hike for Buster! I'll make sure to prioritize flat trails and charging stations along your route. I'll also keep an eye out for any scenic stops or dog-friendly spots along the way.",
+        "generated": 58,
+        "ttft_ms": 16.461,
+        "completion_ms": 615.1764,
+        "tok_s": 94.2819,
+        "finish": "eos"
+      },
+      "solo_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 11.2497,
+        "completion_ms": 315.1834,
+        "tok_s": 98.355434,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 16.5463,
+        "completion_ms": 335.8914,
+        "tok_s": 92.291735,
+        "finish": "eos"
+      },
+      "s0_prompt_identical": true,
+      "checks": {
+        "tesla_present": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "tesla_2019_absent": true,
+        "year_survives": false,
+        "year_lines": []
+      },
+      "phase2_checks_ok": true,
+      "profile_tokens": 31,
+      "profile_words": 18,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 0.8814357523024666,
+        "ttft": 1.4992895657242784,
+        "slot1_completion": 1.065701429707275
+      }
+    },
+    {
+      "seed": 1238,
+      "solo_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 11.1265,
+        "completion_ms": 506.8006,
+        "tok_s": 98.658131,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Sounds like you're enjoying some quality time with Buster and upgrading to a more eco-friendly ride. I'll make sure to prioritize flat trails and charging stations along your route. Would you like me to suggest alternative routes or charging stops along the way?",
+        "generated": 50,
+        "ttft_ms": 16.5803,
+        "completion_ms": 534.1203,
+        "tok_s": 93.61187,
+        "finish": "eos"
+      },
+      "solo_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 11.2358,
+        "completion_ms": 315.8438,
+        "tok_s": 98.149782,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "â€¢ Location: Seattle\nâ€¢ Pet: Buster (golden retriever, knee issues)\nâ€¢ Vehicle: Tesla\nâ€¢ Commute: 25 minutes highway",
+        "generated": 31,
+        "ttft_ms": 16.6647,
+        "completion_ms": 336.5235,
+        "tok_s": 92.118381,
+        "finish": "eos"
+      },
+      "s0_prompt_identical": true,
+      "checks": {
+        "tesla_present": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "tesla_2019_absent": true,
+        "year_survives": false,
+        "year_lines": []
+      },
+      "phase2_checks_ok": true,
+      "profile_tokens": 31,
+      "profile_words": 18,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.0539062108450543,
+        "ttft": 1.4901631240731588,
+        "slot1_completion": 1.06547445287829
+      }
+    }
+  ]
+}

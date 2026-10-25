@@ -1,0 +1,178 @@
+Angle 36 - delta compaction (the angle-32c fix): k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+cli_sha256=51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da  built=2026-10-21T12:07:26  tree=dirty
+turns=10 seeds=3001..3010  batch k=2 + fresh solo Slot 0 per turn; host state machine (update + pop); GPU wall 40.3 s
+dialogue = 32c script VERBATIM (asserted); Slot 0 = 32c s0 byte-identical (asserted vs 32c raw); Slot 1 = delta instruction
+gates EXPLORATORY (non-preregistered)
+
+SCRIPT (angle-32c verbatim):
+   1 introduce  I started learning piano last month, and I practice at home in the evenings.
+   2 alter      I moved to Portland last week, so my new place is there.
+   3 untouched  The weather has been really nice this week.
+   4 introduce  I also adopted a cat named Miso, so now I have two pets.
+   5 alter      I traded the 2019 Honda for a 2024 Tesla last week, so I need charging stations along my commute.
+   6 untouched  How long is my commute again?
+   7 introduce  I'm fostering a dog named Ranger for the next few weeks.
+   8 introduce  I started a new job at Nimbus downtown.
+   9 alter      I moved back to Seattle last month, so Portland is behind me.
+  10 untouched  Thanks for keeping track of all that for me.
+
+turn kind       bare  lbl attr resu sTok dTok   s0_r  ident      ev  gate
+   1 introduce  True False False True   37   19  1.043   True 0/0/1  False
+   2 alter      True True False True   35   30  1.227  False 2/0/0  False
+   3 untouched  True False False True   14   28  1.059   True 0/2/0  False
+   4 introduce  True False False True   13   25  1.053   True 0/2/1  False
+   5 alter      True False False True   25   35  0.997  False 0/2/2  False
+   6 untouched  True True False True   25   35  1.032   True 0/0/0  False
+   7 introduce  True False False True   25   51  1.068   True 0/0/1  False
+   8 introduce  True False False True   25   51  1.077  False 0/0/1  False
+   9 alter      True False False True   14   30  0.929  False 1/1/1  False
+  10 untouched  True False False False   50   91  1.334  False 0/6/0  False
+ med                                  25   32  1.056 5/10
+
+turn 1 delta (19 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"commute": "25 minutes highway"}, "delete": []}
+  state after (37 tok):
+    [User Profile]
+    - location: Seattle
+    - pet: Buster (golden retriever, knee issues)
+    - vehicle: 2019 Honda Civic
+    - commute: 25 minutes highway
+  FAIL label checks: ['hobby_piano'] diag={'prev_keys_lost': [], 'state_values_lower': 'location: seattle || pet: buster (golden retriever, knee issues) || vehicle: 2019 honda civic || commute: 25 minutes highway', 'has_2019_anywhere': True, 'has_2024_anywhere': False, 'piano_anywhere': False}
+  FAIL concept attrition=['hobby_piano']
+turn 2 delta (30 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"location": "portland", "commute": "home"}, "delete": ["practice", "knee issues"]}
+  state after (35 tok):
+    [User Profile]
+    - location: portland
+    - pet: Buster (golden retriever, knee issues)
+    - vehicle: 2019 Honda Civic
+    - commute: home
+  events: [('add', 'location', ['location_portland']), ('invalidate', 'location', ['location_seattle'])] (expected add=['location_portland'] inv=['location_seattle'])
+  FAIL concept attrition=['hobby_piano']
+turn 3 delta (28 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"commute": "home", "location": "portland"}, "delete": ["pet", "vehicle"]}
+  state after (14 tok):
+    [User Profile]
+    - location: portland
+    - commute: home
+  events: [('invalidate', 'pet', ['pet_buster']), ('invalidate', 'vehicle', ['vehicle_2019_honda'])] (expected add=[] inv=[])
+  FAIL label checks: ['prev_keys_kept', 'state_unchanged'] diag={'prev_keys_lost': ['pet', 'vehicle'], 'state_values_lower': 'location: portland || commute: home', 'has_2019_anywhere': False, 'has_2024_anywhere': False}
+  FAIL concept attrition=['hobby_piano', 'pet_buster', 'vehicle_2019_honda']
+  apply: deleted=['pet', 'vehicle'] contradictory=[]
+turn 4 delta (25 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"commute": "home", "practice": "evenings"}, "delete": ["location"]}
+  state after (13 tok):
+    [User Profile]
+    - commute: home
+    - practice: evenings
+  events: [('invalidate', 'location', ['location_portland']), ('add', 'practice', [])] (expected add=['pet_miso'] inv=[])
+  FAIL label checks: ['prev_keys_kept', 'both_animals_present'] diag={'prev_keys_lost': ['location'], 'state_values_lower': 'commute: home || practice: evenings', 'has_2019_anywhere': False, 'has_2024_anywhere': False}
+  FAIL concept attrition=['hobby_piano', 'location_portland', 'pet_buster', 'pet_miso', 'vehicle_2019_honda']
+  apply: deleted=['location'] contradictory=[]
+turn 5 delta (35 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "location": "portland", "pet": "miso"}, "delete": ["commute: home"]}
+  state after (25 tok):
+    [User Profile]
+    - commute: home
+    - practice: evenings
+    - location: portland
+    - pet: miso
+  events: [('add', 'location', ['location_portland']), ('add', 'pet', ['pet_miso'])] (expected add=['vehicle_2024_tesla'] inv=['vehicle_2019_honda'])
+  FAIL label checks: ['vehicle_has_tesla'] diag={'prev_keys_lost': [], 'state_values_lower': 'commute: home || practice: evenings || location: portland || pet: miso', 'has_2019_anywhere': False, 'has_2024_anywhere': False, 'vehicle_value': None, 'tesla_anywhere': False}
+  FAIL concept attrition=['hobby_piano', 'pet_buster', 'vehicle_2024_tesla']
+turn 6 delta (35 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "location": "portland", "pet": "miso"}, "delete": ["commute: home"]}
+  state after (25 tok):
+    [User Profile]
+    - commute: home
+    - practice: evenings
+    - location: portland
+    - pet: miso
+  FAIL concept attrition=['hobby_piano', 'pet_buster', 'vehicle_2024_tesla']
+turn 7 delta (51 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "location": "portland", "pet": "miso"}, "delete": ["commute: home", "pet: miso"], "update": {"commute": "home"}}
+  state after (25 tok):
+    [User Profile]
+    - commute: home
+    - practice: evenings
+    - location: portland
+    - pet: miso
+  FAIL label checks: ['ranger_and_buster_present'] diag={'prev_keys_lost': [], 'state_values_lower': 'commute: home || practice: evenings || location: portland || pet: miso', 'has_2019_anywhere': False, 'has_2024_anywhere': False}
+  FAIL concept attrition=['hobby_piano', 'pet_buster', 'pet_ranger_foster', 'vehicle_2024_tesla']
+turn 8 delta (51 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "location": "portland", "pet": "miso"}, "delete": ["commute: home", "pet: miso"], "update": {"commute": "home"}}
+  state after (25 tok):
+    [User Profile]
+    - commute: home
+    - practice: evenings
+    - location: portland
+    - pet: miso
+  FAIL label checks: ['job_nimbus'] diag={'prev_keys_lost': [], 'state_values_lower': 'commute: home || practice: evenings || location: portland || pet: miso', 'has_2019_anywhere': False, 'has_2024_anywhere': False, 'nimbus_anywhere': False}
+  FAIL concept attrition=['hobby_piano', 'job_nimbus', 'pet_buster', 'pet_ranger_foster', 'vehicle_2024_tesla']
+turn 9 delta (30 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "pet": "miso"}, "delete": ["location", "commute"]}
+  state after (14 tok):
+    [User Profile]
+    - practice: evenings
+    - pet: miso
+  events: [('invalidate', 'commute', ['commute_25min']), ('invalidate', 'location', ['location_portland'])] (expected add=['location_seattle'] inv=['location_portland'])
+  FAIL label checks: ['commute_key_present', 'prev_keys_kept', 'location_seattle_no_portland'] diag={'prev_keys_lost': ['commute', 'location'], 'state_values_lower': 'practice: evenings || pet: miso', 'has_2019_anywhere': False, 'has_2024_anywhere': False, 'location_value': None}
+  FAIL concept attrition=['commute_25min', 'hobby_piano', 'job_nimbus', 'location_seattle', 'pet_buster', 'pet_ranger_foster', 'vehicle_2024_tesla']
+  apply: deleted=['location', 'commute'] contradictory=[]
+turn 10 delta (91 tok, finish=eos, bare=True, robust=True):
+    {"upsert": {"practice": "evenings", "pet": "miso", "location": "portland", "job": "nimbus", "commute": "unknown", "hobby": "none", "vehicle": "2024 tesla", "foster": "ranger"}, "delete": ["weather", "pet:old", "location:old", "vehicle:old", "foster:old"]}
+  state after (50 tok):
+    [User Profile]
+    - practice: evenings
+    - pet: miso
+    - location: portland
+    - job: nimbus
+    - commute: unknown
+    - hobby: none
+    - vehicle: 2024 tesla
+    - foster: ranger
+  events: [('add', 'commute', ['commute_25min']), ('add', 'foster', ['pet_ranger_foster']), ('add', 'hobby', []), ('add', 'job', ['job_nimbus']), ('add', 'location', ['location_portland']), ('add', 'vehicle', ['vehicle_2024_tesla'])] (expected add=[] inv=[])
+  FAIL label checks: ['state_unchanged'] diag={'prev_keys_lost': [], 'state_values_lower': 'practice: evenings || pet: miso || location: portland || job: nimbus || commute: unknown || hobby: none || vehicle: 2024 tesla || foster: ranger', 'has_2019_anywhere': False, 'has_2024_anywhere': True}
+  FAIL concept attrition=['hobby_piano', 'location_seattle', 'pet_buster']
+  FAIL concept resurrection=['location_portland']
+
+Label-fail turns: [1, 3, 4, 5, 7, 8, 9, 10]   Concept attrition turns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]   Resurrection turns: [10]
+Bare parse: 10/10  robust parse: 10/10  shape ok: 10/10  fences: 0/10
+State-transition events vs hand labels: TP=3 FP=13 FN=7 precision=0.19 recall=0.30
+Delta sizes (Slot 1 generated tok): [19, 30, 28, 25, 35, 35, 51, 51, 30, 91] median=32.5
+
+FINAL STATE SIDE-BY-SIDE (concept | expected t10 | 32c final | delta final):
+  commute_25min                  True        True         True
+  hobby_piano                    True        True        False
+  job_nimbus                     True        True         True
+  location_portland             False        True         True
+  location_seattle               True        True        False
+  pet_buster                     True       False        False
+  pet_miso                       True        True         True
+  pet_ranger_foster              True        True         True
+  vehicle_2019_honda            False       False        False
+  vehicle_2024_tesla             True        True         True
+  delta final state:
+    [User Profile]
+    - practice: evenings
+    - pet: miso
+    - location: portland
+    - job: nimbus
+    - commute: unknown
+    - hobby: none
+    - vehicle: 2024 tesla
+    - foster: ranger
+  angle-32c final profile:
+    • Location: Seattle
+    • Pet: Miso (cat), Ranger (dog)
+    • Hobby: Piano
+    • Commute: 25 minutes highway
+    • Transportation: Tesla
+    • Occupation: Nimbus downtown
+    • Current Residence: Portland
+
+Slot 0 completion ratio batch/solo: median=1.056 mean=1.082 (solo med 437.0 ms, batch med 459.5 ms)
+Slot 0 ttft ratio batch/solo:       median=1.522 mean=1.521
+ACCEPTANCE: G1_delta_bare_parse_10_of_10=PASS, G2_key_level_labels_all_turns=FAIL, G3_no_resurrection_all_turns=FAIL, G4_state_tokens_le_75_all_turns=PASS, G5_slot0_completion_median_le_1_10=PASS
+VERDICT: miss

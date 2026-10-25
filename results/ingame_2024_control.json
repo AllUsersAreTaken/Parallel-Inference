@@ -1,0 +1,469 @@
+{
+  "experiment": "Angle 36 control arm for 32b attribution (k=2, angle-29 compaction WITHOUT the anti-bleed sentence + angle-32b's 2024 dialogue)",
+  "parent": "results/ingame_2024_gate.json (angle 32b)",
+  "model": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "system": "You are a helpful assistant.",
+  "seeds": [
+    1234,
+    1235,
+    1236,
+    1237,
+    1238
+  ],
+  "max_tokens": 160,
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "n_reps": 5,
+  "metadata": {
+    "cli": "app/parallel_cli.exe",
+    "cli_sha256": "51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da",
+    "cli_built_mtime": "2026-10-21T12:07:26",
+    "git_tree": "dirty",
+    "git_tree_note": "exe built from dirty tree: parallel/src/runtime.cpp, parallel/include/parallel/types.hpp and scripts/build_tool.bat have uncommitted modifications; app/ is untracked. Same binary for all arms within each run, so comparisons are internally valid but not reproducible from HEAD."
+  },
+  "data_files": {
+    "solo_slot0": "data/ingame_2024_control_solo.tsv",
+    "batch": "data/ingame_2024_control_batch.tsv",
+    "note": "derived from data/ingame_compact_batch.tsv by replacing ONLY the final user message (byte-substring, verified at generation time); solo TSV is the derived s0 row only (angle-32b arm design)"
+  },
+  "derivation_verification": {
+    "old_final_count_in_source_is_2": true,
+    "reverse_substitution_recovers_source": true,
+    "anti_bleed_sentence_absent_in_s1": true,
+    "profile_seed_present_in_s1": true,
+    "new_final_in_s0": true,
+    "new_final_in_s1": true,
+    "old_final_absent_both": true,
+    "solo_is_s0_only": true,
+    "control_s1_equals_32b_s1_minus_sentence": true,
+    "control_s0_equals_32b_s0": true,
+    "angle29_s1_plus_sentence_equals_angle31_s1": true
+  },
+  "unified_diffs": {
+    "control_s0_vs_angle29_s0": [
+      "--- angle29:s0:src",
+      "+++ control:s0",
+      "@@ -1,6 +1,6 @@",
+      " Conversation:",
+      " User: I've been hiking with my dog Buster, but his knee is acting up, so we should stick to the flat trail by the river.",
+      " Assistant: Got it — Buster's knee means flat river trail, no mountain switchbacks. I'll keep our routes gentle.",
+      "-User: Also, I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations.",
+      "+User: I traded the 2019 Honda for a 2024 Tesla last week, so I need charging stations along my commute.",
+      " ",
+      " Reply to the user in 2–3 warm, concise sentences."
+    ],
+    "control_s1_vs_angle29_s1": [
+      "--- angle29:s1:src",
+      "+++ control:s1",
+      "@@ -1,7 +1,7 @@",
+      " Conversation:",
+      " User: I've been hiking with my dog Buster, but his knee is acting up, so we should stick to the flat trail by the river.",
+      " Assistant: Got it — Buster's knee means flat river trail, no mountain switchbacks. I'll keep our routes gentle.",
+      "-User: Also, I sold my Honda last week and got a Tesla, so I'll need charging stations along my commute instead of gas stations.",
+      "+User: I traded the 2019 Honda for a 2024 Tesla last week, so I need charging stations along my commute.",
+      " ",
+      " [User Profile]",
+      " - Location: Seattle"
+    ],
+    "control_s0_vs_angle32b_s0": [],
+    "control_s1_vs_angle32b_s1": [
+      "--- angle32b:s1:src",
+      "+++ control:s1",
+      "@@ -9,4 +9,4 @@",
+      " - Vehicle: 2019 Honda Civic",
+      " - Commute: 25 minutes highway",
+      " ",
+      "-You maintain the active [User Profile]. Incorporate new facts from the latest conversation turn into the profile while strictly removing superseded or obsolete lines. Do not carry over adjectives, years, or specs from replaced items unless explicitly stated. Keep the profile under 60 words as a clean bulleted list. Output the updated block directly.",
+      "+You maintain the active [User Profile]. Incorporate new facts from the latest conversation turn into the profile while strictly removing superseded or obsolete lines. Keep the profile under 60 words as a clean bulleted list. Output the updated block directly."
+    ]
+  },
+  "final_user_message": "I traded the 2019 Honda for a 2024 Tesla last week, so I need charging stations along my commute.",
+  "profile_token_max": 75,
+  "acceptance": {
+    "y2024_present_5_of_5": true,
+    "tesla_2019_absent_5_of_5": true,
+    "honda_absent_5_of_5": true,
+    "seattle_buster_preserved_5_of_5": true,
+    "profile_tokens_lt_75_all": true,
+    "slot0_completion_median_le_1_10": true
+  },
+  "seeds_passing_all_checks": 5,
+  "core_checks_passing": 5,
+  "check_totals": {
+    "y2024_present": 5,
+    "tesla_present": 5,
+    "tesla_2019_absent": 5,
+    "honda_absent": 5,
+    "seattle_preserved": 5,
+    "buster_preserved": 5,
+    "stray_2019_anywhere": 0,
+    "y2024_on_vehicle_or_tesla_line": 5
+  },
+  "profile_tokens_ok_seeds": 5,
+  "profile_tokens": [
+    61,
+    34,
+    42,
+    45,
+    34
+  ],
+  "profile_words": [
+    38,
+    19,
+    25,
+    28,
+    19
+  ],
+  "y2024_lines": [
+    [
+      "• Vehicle: 2024 Tesla"
+    ],
+    [
+      "• Vehicle: 2024 Tesla"
+    ],
+    [
+      "• Vehicle: 2024 Tesla"
+    ],
+    [
+      "• Vehicle: 2024 Tesla"
+    ],
+    [
+      "• Vehicle: 2024 Tesla"
+    ]
+  ],
+  "y2019_lines": [
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "slot0_text_identical_seeds": 1,
+  "slot1_finish": [
+    "eos",
+    "eos",
+    "eos",
+    "eos",
+    "eos"
+  ],
+  "latency": {
+    "completion_ratio_median": 1.0619259458137866,
+    "completion_ratio_mean": 1.069471155341117,
+    "ttft_ratio_median": 1.5103380341150099,
+    "ttft_ratio_mean": 1.5189664373959346,
+    "solo0_completion_ms_median": 388.1212,
+    "batch_slot0_completion_ms_median": 412.9332,
+    "ratio_of_completion_medians": 1.0639284841951433,
+    "per_rep_completion_ratios": [
+      1.2649042950665672,
+      0.9455658052740239,
+      1.011031246356064,
+      1.0619259458137866,
+      1.0639284841951433
+    ],
+    "per_rep_ttft_ratios": [
+      1.5103380341150099,
+      1.5337175209786675,
+      1.4960133155261426,
+      1.5468383388080713,
+      1.5079249775517822
+    ]
+  },
+  "s0_prompt_identical_all_reps": true,
+  "decision": "sentence_is_cause: 2024 present 5/5 without the anti-bleed sentence -> the sentence IS the cause of the suppression (control confirms)",
+  "decision_rule": "2024 present >=4/5 -> sentence IS the cause (control confirms); 0/5 -> suppression persists without the sentence (sentence exonerated; dialogue/prompt-driven); 1-3/5 inconclusive",
+  "gpu_wall_s": 17.8,
+  "verdict": "meets",
+  "reps": [
+    {
+      "seed": 1234,
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I've got you covered - I'll make sure to prioritize routes with convenient charging stations along your commute. I'll also keep an eye out for any Tesla-specific features or amenities that might make your daily drive more enjoyable.",
+        "generated": 51,
+        "ttft_ms": 9.9487,
+        "completion_ms": 460.3002,
+        "tok_s": 110.797258,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I've checked the route and found that there are several charging stations along the flat trail by the river, spaced about 5-10 miles apart. I'll make sure to include them in our route so you can keep Buster comfortable and your Tesla charged throughout your commute.",
+        "generated": 61,
+        "ttft_ms": 15.0259,
+        "completion_ms": 582.2357,
+        "tok_s": 104.768567,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "• Location: Seattle\n• Pet: Buster (golden retriever, knee issues)\n• Vehicle: 2024 Tesla\n• Commute: 25 minutes highway\n• Preferred Trail: Flat river trail (no mountain switchbacks)\n• Charging Needs: Charging stations along the 25-minute highway commute",
+        "generated": 61,
+        "ttft_ms": 15.1175,
+        "completion_ms": 582.2363,
+        "tok_s": 104.768459,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 51,
+      "s0_batch_generated": 61,
+      "s0_gen_delta": 10,
+      "s0_similarity": 0.2756183745583039,
+      "s0_first_divergence_word": 6,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "checks": {
+        "y2024_present": true,
+        "tesla_present": true,
+        "y2024_lines": [
+          "• Vehicle: 2024 Tesla"
+        ],
+        "y2024_on_vehicle_or_tesla_line": true,
+        "tesla_2019_absent": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "stray_2019_anywhere": false,
+        "y2019_lines": []
+      },
+      "core_checks_ok": true,
+      "profile_tokens": 61,
+      "profile_words": 38,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.2649042950665672,
+        "ttft": 1.5103380341150099
+      }
+    },
+    {
+      "seed": 1235,
+      "solo_slot0": {
+        "text": "Congratulations on your new Tesla! I'll make sure to prioritize routes with charging stations along your commute, so you can keep your new ride charged and ready to go. I'll also keep an eye out for any potential charging station locations along the river trail route we'll be taking.",
+        "generated": 57,
+        "ttft_ms": 9.891,
+        "completion_ms": 514.0629,
+        "tok_s": 110.881373,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new Tesla! I'll make sure to prioritize routes with charging stations along your commute, so you can keep Buster comfortable and your car charged. I'll also keep an eye out for any road closures or construction that might impact your route.",
+        "generated": 51,
+        "ttft_ms": 15.17,
+        "completion_ms": 486.0803,
+        "tok_s": 104.920936,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "• Location: Seattle\n• Pet: Buster (golden retriever, knee issues)\n• Vehicle: 2024 Tesla\n• Commute: 25 minutes highway",
+        "generated": 34,
+        "ttft_ms": 15.2589,
+        "completion_ms": 329.0275,
+        "tok_s": 103.334828,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 57,
+      "s0_batch_generated": 51,
+      "s0_gen_delta": -6,
+      "s0_similarity": 0.6423357664233577,
+      "s0_first_divergence_word": 21,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "checks": {
+        "y2024_present": true,
+        "tesla_present": true,
+        "y2024_lines": [
+          "• Vehicle: 2024 Tesla"
+        ],
+        "y2024_on_vehicle_or_tesla_line": true,
+        "tesla_2019_absent": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "stray_2019_anywhere": false,
+        "y2019_lines": []
+      },
+      "core_checks_ok": true,
+      "profile_tokens": 34,
+      "profile_words": 19,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 0.9455658052740239,
+        "ttft": 1.5337175209786675
+      }
+    },
+    {
+      "seed": 1236,
+      "solo_slot0": {
+        "text": "Congratulations on your new Tesla! I'll make sure to prioritize routes with convenient charging stations along your commute. I'll also keep an eye out for any Tesla-specific charging infrastructure to ensure a smooth ride.",
+        "generated": 41,
+        "ttft_ms": 10.0334,
+        "completion_ms": 371.3361,
+        "tok_s": 110.412104,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new Tesla! I'll make sure to prioritize routes with convenient charging stations along your commute. I'll also keep an eye out for any Tesla-specific charging infrastructure along the way.",
+        "generated": 39,
+        "ttft_ms": 15.0101,
+        "completion_ms": 375.4324,
+        "tok_s": 103.880219,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "• Location: Seattle\n• Pet: Buster (golden retriever, knee issues)\n• Vehicle: 2024 Tesla\n• Commute: 25 minutes highway\n• Charging stations: along the commute",
+        "generated": 42,
+        "ttft_ms": 15.1171,
+        "completion_ms": 405.1364,
+        "tok_s": 103.668789,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 41,
+      "s0_batch_generated": 39,
+      "s0_gen_delta": -2,
+      "s0_similarity": 0.9170506912442397,
+      "s0_first_divergence_word": 29,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "checks": {
+        "y2024_present": true,
+        "tesla_present": true,
+        "y2024_lines": [
+          "• Vehicle: 2024 Tesla"
+        ],
+        "y2024_on_vehicle_or_tesla_line": true,
+        "tesla_2019_absent": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "stray_2019_anywhere": false,
+        "y2019_lines": []
+      },
+      "core_checks_ok": true,
+      "profile_tokens": 42,
+      "profile_words": 25,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.011031246356064,
+        "ttft": 1.4960133155261426
+      }
+    },
+    {
+      "seed": 1237,
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize routes with convenient charging stations along your commute. I'll also keep an eye out for any Tesla-specific charging infrastructure to ensure a smooth ride.",
+        "generated": 41,
+        "ttft_ms": 10.2288,
+        "completion_ms": 370.9689,
+        "tok_s": 110.521394,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize routes with convenient charging stations along your commute. I'll also keep an eye out for any Tesla-specific charging infrastructure to ensure a smooth ride.",
+        "generated": 41,
+        "ttft_ms": 15.8223,
+        "completion_ms": 393.9415,
+        "tok_s": 104.076367,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "• Location: Seattle\n• Pet: Buster (golden retriever, knee issues)\n• Vehicle: 2024 Tesla\n• Commute: 25 minutes highway\n• Preferred Trail: Flat river trail with gentle routes",
+        "generated": 45,
+        "ttft_ms": 15.9058,
+        "completion_ms": 432.9272,
+        "tok_s": 103.943573,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 41,
+      "s0_batch_generated": 41,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "checks": {
+        "y2024_present": true,
+        "tesla_present": true,
+        "y2024_lines": [
+          "• Vehicle: 2024 Tesla"
+        ],
+        "y2024_on_vehicle_or_tesla_line": true,
+        "tesla_2019_absent": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "stray_2019_anywhere": false,
+        "y2019_lines": []
+      },
+      "core_checks_ok": true,
+      "profile_tokens": 45,
+      "profile_words": 28,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.0619259458137866,
+        "ttft": 1.5468383388080713
+      }
+    },
+    {
+      "seed": 1238,
+      "solo_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize routes with charging stations along your commute. I'll also keep an eye out for any Tesla-specific features or updates that might be available along the way.",
+        "generated": 43,
+        "ttft_ms": 9.9117,
+        "completion_ms": 388.1212,
+        "tok_s": 110.790135,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on the new Tesla! I'll make sure to prioritize routes with charging stations along your commute. I'll also keep an eye out for any Tesla-specific features or charging options that might be convenient for you.",
+        "generated": 43,
+        "ttft_ms": 14.9461,
+        "completion_ms": 412.9332,
+        "tok_s": 104.133066,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "• Location: Seattle\n• Pet: Buster (golden retriever, knee issues)\n• Vehicle: 2024 Tesla\n• Commute: 25 minutes highway",
+        "generated": 34,
+        "ttft_ms": 15.0299,
+        "completion_ms": 328.7429,
+        "tok_s": 103.424287,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 43,
+      "s0_batch_generated": 43,
+      "s0_gen_delta": 0,
+      "s0_similarity": 0.8648648648648649,
+      "s0_first_divergence_word": 28,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "checks": {
+        "y2024_present": true,
+        "tesla_present": true,
+        "y2024_lines": [
+          "• Vehicle: 2024 Tesla"
+        ],
+        "y2024_on_vehicle_or_tesla_line": true,
+        "tesla_2019_absent": true,
+        "honda_absent": true,
+        "seattle_preserved": true,
+        "buster_preserved": true,
+        "stray_2019_anywhere": false,
+        "y2019_lines": []
+      },
+      "core_checks_ok": true,
+      "profile_tokens": 34,
+      "profile_words": 19,
+      "profile_token_ok": true,
+      "seed_ok": true,
+      "ratios": {
+        "completion": 1.0639284841951433,
+        "ttft": 1.5079249775517822
+      }
+    }
+  ]
+}

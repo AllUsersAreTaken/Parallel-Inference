@@ -1,0 +1,14 @@
+{
+ "exact": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "segmented": [
+  "SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  <  2009 INTERSECT SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  >  2011",
+  "SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  <  2009 INTERSECT SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  >  2011",
+  "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' OR museum.Open_Year > '2011';",
+  "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND visit.Num_of_Ticket > 0 AND visit.Total_spent > 0;"
+ ]
+}

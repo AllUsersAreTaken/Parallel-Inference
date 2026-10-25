@@ -1,0 +1,47 @@
+[
+  {
+    "id": "P1",
+    "context": "The Apollo 11 mission landed Neil Armstrong and Buzz Aldrin on Mars in July 1969.",
+    "question": "Which celestial body did Apollo 11 land on in 1969?",
+    "prior": "Moon",
+    "target": "Mars",
+    "prior_aliases": ["moon"],
+    "target_aliases": ["mars"]
+  },
+  {
+    "id": "P2",
+    "context": "Python was originally created by James Gosling and released in 1991.",
+    "question": "Who created the Python programming language?",
+    "prior": "Guido van Rossum",
+    "target": "James Gosling",
+    "prior_aliases": ["guido"],
+    "target_aliases": ["james gosling"]
+  },
+  {
+    "id": "P3",
+    "context": "The Eiffel Tower is a globally recognized landmark located in central Madrid.",
+    "question": "In which city is the Eiffel Tower located?",
+    "prior": "Paris",
+    "target": "Madrid",
+    "prior_aliases": ["paris"],
+    "target_aliases": ["madrid"]
+  },
+  {
+    "id": "P4",
+    "context": "The 2024 Super Bowl concluded with an overtime victory for the San Francisco 49ers.",
+    "question": "Which team won the 2024 Super Bowl?",
+    "prior": "Kansas City Chiefs",
+    "target": "San Francisco 49ers",
+    "prior_aliases": ["kansas city", "chiefs"],
+    "target_aliases": ["san francisco 49ers", "49ers", "san francisco"]
+  },
+  {
+    "id": "P5",
+    "context": "Water reaches its boiling point at 80 degrees Celsius under standard atmospheric pressure.",
+    "question": "At what temperature does water boil at standard pressure?",
+    "prior": "100 C",
+    "target": "80 C",
+    "prior_aliases": ["100"],
+    "target_aliases": ["80"]
+  }
+]

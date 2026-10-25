@@ -217,6 +217,124 @@ Exploratory second cost curve (cliff size and unshared-tail penalty scale with
 bandwidth), reported as characterization, not as the latency result. Optional:
 NVML energy on Linux (not available on the 4060).
 
+---
+
+## AMENDMENT 5 - 2026-10-23 (angle 41 Adaptive Compute Router; written before any independent run)
+
+Angle 41 asks whether a per-question compute router (few streams when
+confident, escalate only when the vote is unstable) can match full-vote
+accuracy at a fraction of the streams, on top of the row-38/40 disagreement
+signals. Phase A was a zero-GPU offline simulation on existing dumps
+(`harness/sim_router.py`, `results/router_sim_report.txt`). Reviewer audit
+(ses_e98981840ffeEP1oNldtl4tLw7) reopened the blanket dead-end and identified
+two modeling choices that flip the N=8 verdict. This amendment freezes the
+resolved definitions and the decisive test BEFORE that test runs.
+
+### Frozen definitions (resolve the audit's MAJOR-1 / MAJOR-4)
+- **Tie rule = first-seen plurality**, matching `run_disagree_probe.analyze()`
+  (line 153) which produced every `maj_ok` label in the dumps. Strict
+  plurality (tie = wrong) is reported as a labeled sensitivity column only.
+- **Latency multipliers** are illustrative bounds derived from the E0 step-time
+  sweep (`results/e0_full.csv`): N=3 -> 1.19, N=5 -> 1.44, N=8 -> 1.92 raw
+  (p50-tail range 1.70-2.06). They are NOT from the E2 sweeps (which have no
+  N=3/N=5 rows). No pass/fail gate depends on latency.
+
+### Pre-registered gate: plurality@3 (the audit's MAJOR-2 omission)
+- **Rule:** look at the first 3 streams' answers. If there is a UNIQUE
+  plurality (max count strictly greater than runner-up), stop and return it
+  (cost = 3 streams). If tied (1-1-1 all distinct, or any tie for first),
+  escalate to all N=8 and return the first-seen majority (cost = 8).
+  unanimous@3 (3-0) is a subset of this rule.
+- Rationale: the tested ladder family gated only on unanimous@3; plurality@3
+  is the parameter-free next rung and met the offline bar on both N=8 dumps
+  (probs32 84.38% @ 3.00 str; dis30 86.67% @ 3.33 str, both equal to their
+  always-8 accuracy) — but dis30 is a subset of probs32[0:30], so those are
+  ONE experiment, not two. An independent run is required.
+
+### Decisive test (this amendment's whole point)
+- **Independent run:** `run_disagree_probe.py --n 100 --nstreams 8 --seed 2234
+  --out disagree_probe100_n8_s2234` on llama3.2-3b, the same 100 length-quantile
+  problems as the n=100 N=5 probe but a FRESH seed base (2234, vs 1234) and
+  N=8 — none of these streams informed the plurality@3 hypothesis (which used
+  the 30-problem N=8 dumps at seed 1234). ~15 min GPU, no --probs capture.
+- **Success (ADVANCE):** plurality@3 accuracy on the new run is within **1
+  percentage point** of always-8 accuracy on the SAME run, AND mean streams
+  spent <= **0.6 x 8 = 4.8**. (Offline: plurality@3 saved 59-63% of streams at
+  equal accuracy; the bar allows some slip.)
+- **Dead end (STOP):** plurality@3 loses >1pp vs always-8 on the independent
+  run, or mean streams >4.8. Also dead: if escalation precision is <20% (the
+  escalated bucket is mostly still-correct pluralities, i.e. split != wrong,
+  as row 38 found).
+
+### Scope note
+This amendment governs only the plurality@3 gate vs the always-1/always-8
+endpoints. The lp_min and reform-stability ladders remain offline-simulated
+(lp_min: stream-1 deployable AUROC only 0.70-0.76; reform arm: a second
+invocation outside the latency model) and are NOT advanced to GPU by this
+amendment.
+
+---
+
+## AMENDMENT 6 - 2026-10-23 (POST-RUN: corrections to Amendment 5 and the decisive result)
+
+Written after the Amendment-5 decisive run completed. This section is
+documentation/correction, not a new pre-registration; it records what was
+found and fixes errors in Amendment 5's stated rationale. The gate itself was
+frozen before the run and is unchanged.
+
+### Correction 1 - Amendment 5's rationale numbers were wrong (reviewer M1)
+Amendment 5 justified plurality@3 with "probs32 84.38% @ 3.00 str; dis30
+86.67% @ 3.33 str, both equal to their always-8 accuracy". That is the
+**always-stop-at-3, first-seen plurality** accuracy, not the frozen
+escalate-on-tie rule. The frozen rule (unique plurality among the first 3
+stops; any tie for first escalates to N) actually produces, under first-seen:
+- probs32: **81.25% @ 3.47 streams** (escalates 3/32), vs always-8 84.38 ->
+  a 3.13pp loss;
+- disagree30: **86.67% @ 3.33** vs always-8 **90.00** (not 86.67) -> 3.33pp
+  loss.
+So the offline rationale overstated the gate: it loses ~3pp wherever the
+first-seen tie-break differs from strict. The round-1 report's blanket
+"ADVANCE" and the round-2 "ADVANCE via L1/L3" are both withdrawn (the latter
+was an out-of-scope lp_min ladder passing ADVANCE-B by one question on n=32,
+McNemar p~1.0, and ADVANCE-B was never pre-registered).
+
+### Correction 2 - N=5 stream cap was implicit (reviewer M2)
+Amendment 5 wrote only the N=8 cap (0.6 x 8 = 4.8). The N=5 datasets are
+governed by the same rule at 0.6 x N = **3.0 streams**. At N=5 the bar is
+nearly vacuous (mean = 3 + 2e/5, so 3.0 means zero escalations); noted.
+
+### Decisive result (Amendment 5 test, independent run)
+`run_disagree_probe.py --n 100 --nstreams 8 --seed 2234 --out
+disagree_probe100_n8_s2234` (fresh seeds; default --models so both 3B models
+ran; the registered model is llama3.2-3b). Artifacts:
+`results/disagree_probe100_n8_s2234.{json,csv}`. First-seen rule,
+n=100/model:
+
+| model | always-1 | always-8 | plurality@3 (L4) | loss vs always-8 | mean streams | escalations | esc precision |
+|---|---|---|---|---|---|---|---|
+| **llama3.2-3b (registered)** | 76.00% | 89.00% | **84.00%** | **-5.00pp** | 3.40 | 8/100 | 50% |
+| qwen2.5-3b (sensitivity) | 88.00% | 93.00% | 92.00% | -1.00pp | 3.30 | 6/100 | 50% |
+
+**Verdict: DEAD END** for the frozen plurality@3 gate. The registered model
+loses 5.00pp against always-8, far outside the 1pp tolerance (the stream
+budget is met — 3.40 <= 4.8 — so the failure is purely accuracy). Mechanism:
+stopping at 3 streams on 2-1 plurality splits freezes a 2-stream majority that
+the full 8-stream vote would sometimes have overturned; the ~3pp offline loss
+on the N=8 dumps reproduced at ~5pp on independent data. Qwen sits at the
+1pp boundary, i.e. no model shows a usable saving.
+
+### What survives (recorded for follow-ups, not gated here)
+- Unanimous@3 stop-else-full (L2) preserves always-full accuracy exactly on
+  every dump (0 violations) at 3.78/5 and 5.17/8 streams (24-35% stream
+  savings, zero accuracy cost) — a real but modest product feature, short of
+  the 40% budget that failed in Phase A.
+- Escalation precision is only ~40-60%: non-unanimity at 3 streams flags
+  mostly still-correct pluralities ("split != wrong", row 38). Any future
+  router needs a signal that separates *wrong* pluralities from merely
+  contested ones; agreement alone cannot.
+- Answer-phase probability features are dead as a discriminator (row 40), so
+  a post-hoc confidence re-check of the emitted answer has no basis.
+
 
 
 

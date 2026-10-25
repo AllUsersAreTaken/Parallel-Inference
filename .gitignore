@@ -27,3 +27,31 @@ desktop.ini
 /results/logits_*.txt
 /results/c_b*.csv
 
+
+
+# ---- large / regenerable / scratch (session work) ----
+/data/_spider/
+/data/_hf_lora/
+/data/_synth/
+/data/_probs_p*
+/data/_hid_p*
+/data/_rc_*
+/data/_gui_*
+/data/_b.tsv
+/data/_b.json
+/data/_mbr_batch.*
+/data/_mbr_prompt.txt
+/data/_mbr_views.tsv
+/data/_live_*
+/data/_one.*
+/data/_gsm8k_lora.*
+/data/_humaneval_canon.jsonl
+/app/_gui_*
+/app/_agents_*
+/app/memory_state.json
+/results/_*/
+/results/arm_*.json
+*.log
+__pycache__/
+.pytest_cache/
+.opencode/

@@ -1,0 +1,24 @@
+[
+ {"id":"L1","family":"logic","prompt":"A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost, in dollars? Answer with a number.","check":{"type":"num","gold":[0.05,5]}},
+ {"id":"L2","family":"logic","prompt":"A patch of lily pads doubles in size every day. If it covers the whole lake on day 48, on what day does it cover half the lake? Answer with a number.","check":{"type":"num","gold":[47]}},
+ {"id":"L3","family":"logic","prompt":"If 5 machines take 5 minutes to make 5 widgets, how many minutes would 100 machines take to make 100 widgets? Answer with a number.","check":{"type":"num","gold":[5]}},
+ {"id":"L4","family":"logic","prompt":"A father is 4 times as old as his son. In 20 years he will be twice as old as his son. How old is the son now? Answer with a number.","check":{"type":"num","gold":[10]}},
+ {"id":"L5","family":"logic","prompt":"A farmer has 17 sheep. All but 9 die. How many sheep are left? Answer with a number.","check":{"type":"num","gold":[9]}},
+ {"id":"L6","family":"logic","prompt":"How many months of the year have 28 days? Answer with a number.","check":{"type":"num","gold":[12]}},
+ {"id":"L7","family":"logic","prompt":"If it takes 3 minutes to boil one egg, how many minutes does it take to boil 5 eggs in the same pot? Answer with a number.","check":{"type":"num","gold":[3]}},
+ {"id":"L8","family":"logic","prompt":"A snail climbs 3 feet up a 10-foot wall each day and slips 2 feet each night. On which day does it first reach the top? Answer with a number.","check":{"type":"num","gold":[8]}},
+
+ {"id":"C1","family":"constraint","prompt":"Summarize the following in exactly 2 sentences: The Eiffel Tower is in Paris. It was completed in 1889. It is made of iron. It attracts millions of tourists.","check":{"type":"sentences","n":2}},
+ {"id":"C2","family":"constraint","prompt":"Write one sentence about the ocean without using the letter 'e'.","check":{"type":"no_letter","letter":"e"}},
+ {"id":"C3","family":"constraint","prompt":"Output a JSON object with exactly the keys 'name', 'age', 'city' and nothing else.","check":{"type":"json_keys","keys":["name","age","city"],"exact":true}},
+ {"id":"C4","family":"constraint","prompt":"List exactly 3 fruits, one per line, each line starting with '- '.","check":{"type":"lines_dash","n":3}},
+ {"id":"C5","family":"constraint","prompt":"Answer the following in ALL UPPERCASE: what is the capital of France?","check":{"type":"upper","must":"PARIS"}},
+ {"id":"C6","family":"constraint","prompt":"Write a sentence that contains the word 'banana' exactly twice.","check":{"type":"count_word","word":"banana","n":2}},
+
+ {"id":"T1","family":"technical","prompt":"Explain in one sentence what the --n-gpu-layers flag does in llama.cpp.","check":{"type":"keywords","all":["gpu","layer"]}},
+ {"id":"T2","family":"technical","prompt":"Write a JSON schema for an object with fields id (integer), name (string), email (string). Output only the JSON.","check":{"type":"json_schema","keys":{"id":"int","name":"str","email":"str"}}},
+ {"id":"T3","family":"technical","prompt":"What does llama_decode do? Answer in one sentence.","check":{"type":"keywords","all":["decode"]}},
+ {"id":"T4","family":"technical","prompt":"Give the git command to undo the last commit but keep the changes staged.","check":{"type":"cmd","substrings":["reset --soft","HEAD~1"]}},
+ {"id":"T5","family":"technical","prompt":"Write a Python function add(a, b) that returns their sum. Output only code.","check":{"type":"code","substrings":["def add","return"]}},
+ {"id":"T6","family":"technical","prompt":"Explain the difference between git fetch and git pull in exactly two sentences.","check":{"type":"sentences","n":2,"all":["fetch","pull"]}}
+]

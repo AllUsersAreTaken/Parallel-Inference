@@ -1,0 +1,21 @@
+Phase 2 - Letta-style block compaction: k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo0=serial(data/ingame_mem_solo.tsv)  solo1=serial(data/ingame_compact_solo.tsv, seed+1)  batch=k=2(data/ingame_compact_batch.tsv)
+Slot 1 input = same dialogue + seeded [User Profile] + compaction rule (in user text)
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r | s1_solo_ms s1_batch_ms   s1_r  tok         fin tesla hondX   sea  bst    ok
+  1234 |      433.5       458.5   1.058   1.496 |      306.9       328.4  1.070   34         eos  True  True  True True  True
+  1235 |      450.3       475.2   1.055   1.523 |      307.4       327.6  1.066   34         eos  True  True  True True  True
+  1236 |      450.4       465.9   1.035   1.509 |      306.8       327.4  1.067   34         eos  True  True  True True  True
+  1237 |      619.8       647.0   1.044   1.529 |      306.9       326.9  1.065   34         eos  True  True  True True  True
+  1238 |      449.5       477.2   1.062   1.519 |      306.6       327.8  1.069   34         eos  True  True  True True  True
+median |      450.3       475.2   1.055   1.519 |      306.9       327.6  1.067   34             5/    5 5/    5 5/    5 5/   5 5/    5
+
+Per-seed checks passing: tesla=5/5  honda/civic_absent=5/5  seattle=5/5  buster=5/5  tokens<75=5/5
+Profile tokens per rep: [34, 34, 34, 34, 34]  words: [19, 19, 19, 19, 19]  finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 completion ratio batch/solo: median=1.055 mean=1.051 (solo med 450.3 ms, batch med 475.2 ms, ratio of medians 1.055)
+Slot 0 ttft ratio batch/solo:       median=1.519 mean=1.515
+Slot 1 completion ratio batch/solo (standalone control): median=1.067 per-rep=[1.07, 1.066, 1.067, 1.065, 1.069]
+Slot 0 prompt identical solo vs batch (same seed): True
+ACCEPTANCE: per_seed_checks_all_pass=PASS, profile_tokens_lt_75_all_seeds=PASS, slot0_completion_median_le_1_10=PASS
+VERDICT: meets

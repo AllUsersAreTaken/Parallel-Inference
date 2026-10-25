@@ -1,0 +1,98 @@
+{
+ "n": 3,
+ "temp": 0.6,
+ "adapters": [
+  "varshitha",
+  "amer",
+  "korg",
+  "khanh"
+ ],
+ "seeds": [
+  1234,
+  1235
+ ],
+ "wall_s": {
+  "sequential": 24.88750670000445,
+  "parallel": 10.52013389999047,
+  "speedup": 2.365702465063396
+ },
+ "vram_mb": {
+  "sequential": 3820,
+  "parallel": 4334
+ },
+ "row_exact": {
+  "match": 20,
+  "total": 24,
+  "rate": 0.8333333333333334
+ },
+ "consensus": {
+  "sequential": 2,
+  "parallel": 2,
+  "sequential_pct": 66.66666666666667,
+  "parallel_pct": 66.66666666666667
+ },
+ "sequential": [
+  [
+   "SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_ID = T3.ID WHERE T2.Open_Year < 2009 INTERSECT SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_ID = T3.ID WHERE T2.Open_Year > 2011",
+   "SELECT T1.Name FROM visitor AS T1 JOIN visit AS T2 ON T1.ID = T2.visitor_ID JOIN museum AS T3 ON T2.Museum_ID = T3.Museum_ID WHERE T3.Open_Year < 2009 AND T3.Open_Year > 2011",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' OR museum.Open_Year > '2011';",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND visit.Num_of_Ticket > 0 AND visit.Total_spent > 0;",
+   "SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  <  2009 INTERSECT SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  >  2011",
+   "SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  <  2009 INTERSECT SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  >  2011",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND museum.Open_Year > '2011' GROUP BY visitor.Name HAVING COUNT(DISTINCT visit.Museum_ID) > 1;",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND museum.Open_Year > '2011';"
+  ],
+  [
+   "SELECT T1.Series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = \"The Rise of the Blue Beetle!\"",
+   "SELECT T3.Series_name FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel JOIN TV_Channel AS T3 ON T2.Channel = T3.id WHERE T1.Title = \"The Rise of the Blue Beetle!\"",
+   "SELECT T1.series_name FROM TV_Channel AS T1 INNER JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T2.series_name FROM Cartoon AS T1 INNER JOIN TV_Channel AS T2 ON T1.Channel = T2.id WHERE T1.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T1.series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id  =  T2.Channel WHERE T2.Title  =  \"The Rise of the Blue Beetle!\"",
+   "SELECT T2.series_name FROM cartoon AS T1 JOIN TV_channel AS T2 ON T1.channel  =  T2.id WHERE T1.title  =  \"The Rise of the Blue Beetle!\";",
+   "SELECT T1.series_name FROM TV_Channel T1 INNER JOIN Cartoon T2 ON T1.id = T2.id WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T2.series_name FROM Cartoon AS T1 INNER JOIN TV_Channel AS T2 ON T1.Channel = T2.id WHERE T1.Title = 'The Rise of the Blue Beetle!';"
+  ],
+  [
+   "SELECT T2.Title FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel ORDER BY T2.Title",
+   "SELECT T1.Title FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel ORDER BY T1.Title",
+   "SELECT Title FROM Cartoon ORDER BY Title;",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;",
+   "SELECT title FROM cartoon ORDER BY title",
+   "SELECT title FROM cartoon ORDER BY title",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;"
+  ]
+ ],
+ "parallel": [
+  [
+   "SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_ID = T3.ID WHERE T2.Open_Year < 2009 INTERSECT SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_ID = T3.ID WHERE T2.Open_Year > 2011",
+   "SELECT T1.Name FROM visitor AS T1 JOIN visit AS T2 ON T1.ID = T2.visitor_ID JOIN museum AS T3 ON T2.Museum_ID = T3.Museum_ID WHERE T3.Open_Year < 2009 AND T3.Open_Year > 2011",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' OR museum.Open_Year > '2011';",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND visit.Num_of_Ticket > 0 AND visit.Total_spent > 0;",
+   "SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  <  2009 INTERSECT SELECT T2.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID  =  T2.Museum_ID WHERE T2.Open_Year  >  2011",
+   "SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  <  2009 INTERSECT SELECT T3.name FROM visit AS T1 JOIN museum AS T2 ON T1.museum_id  =  T2.museum_id JOIN visitor AS T3 ON T1.visitor_id  =  T3.id WHERE T2.open_year  >  2011",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND museum.Open_Year > '2011' GROUP BY visitor.Name HAVING COUNT(DISTINCT visit.Museum_ID) = 2;",
+   "SELECT visitor.Name FROM visitor INNER JOIN visit ON visitor.ID = visit.visitor_ID INNER JOIN museum ON visit.Museum_ID = museum.Museum_ID WHERE museum.Open_Year < '2009' AND museum.Open_Year > '2011';"
+  ],
+  [
+   "SELECT T1.series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = \"The Rise of the Blue Beetle!\"",
+   "SELECT T3.Series_name FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel JOIN TV_Channel AS T3 ON T2.Channel = T3.id WHERE T1.Title = \"The Rise of the Blue Beetle!\"",
+   "SELECT T1.Series_name FROM TV_Channel AS T1 INNER JOIN Cartoon AS T2 ON T1.id = T2.Channel WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T2.series_name FROM Cartoon AS T1 INNER JOIN TV_Channel AS T2 ON T1.Channel = T2.id WHERE T1.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T1.series_name FROM TV_Channel AS T1 JOIN Cartoon AS T2 ON T1.id  =  T2.Channel WHERE T2.Title  =  \"The Rise of the Blue Beetle!\"",
+   "SELECT T2.series_name FROM cartoon AS T1 JOIN TV_channel AS T2 ON T1.channel  =  T2.id WHERE T1.title  =  \"The Rise of the Blue Beetle!\";",
+   "SELECT T1.Series_name FROM TV_Channel T1 INNER JOIN Cartoon T2 ON T1.Series_name = T2.Channel WHERE T2.Title = 'The Rise of the Blue Beetle!';",
+   "SELECT T2.series_name FROM Cartoon AS T1 INNER JOIN TV_Channel AS T2 ON T1.Channel = T2.id WHERE T1.Title = 'The Rise of the Blue Beetle!';"
+  ],
+  [
+   "SELECT T2.Title FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel ORDER BY T2.Title",
+   "SELECT T1.Title FROM Cartoon AS T1 JOIN TV_series AS T2 ON T1.Channel = T2.Channel ORDER BY T1.Title",
+   "SELECT Title FROM Cartoon ORDER BY Title;",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;",
+   "SELECT title FROM cartoon ORDER BY title",
+   "SELECT title FROM cartoon ORDER BY title",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;",
+   "SELECT Title FROM Cartoon ORDER BY Title ASC;"
+  ]
+ ]
+}

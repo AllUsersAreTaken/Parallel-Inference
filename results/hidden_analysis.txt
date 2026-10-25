@@ -1,0 +1,107 @@
+=== row 41 hidden-state consensus analysis ===
+runs=32  streams=256  hidden steps=55567  consensus steps=8099
+groups: UR=12 SP=19 UW=1
+capture: last-layer embedding after final norm, per emitted-token row;
+consensus = mean/min/max pairwise cosine over live streams at that step.
+phase split uses row-40 probs offsets (the two runs are token-identical).
+
+--- group means (run-level features) ---
+feature             UR (n=12)    SP (n=19)     UW (n=1)
+cos_mean_all           0.3584       0.3732       0.3952
+cos_min_all           -0.0704      -0.0458      -0.0356
+cos_max_all            0.9998       0.9998       0.9998
+slope                 -0.0812      -0.0817      -0.0438
+argmin_step_rel        0.9414       0.9785       0.9956
+cos_mean_rsn           0.3598       0.3772       0.4003
+cos_mean_ans           0.3501       0.2735       0.2550
+cos_std                0.1285       0.1298       0.1039
+cos_mean_n8            0.3766       0.3961       0.4040
+cos_min_n8            -0.0528      -0.0376      -0.0297
+token_agree            0.0758       0.0823       0.0743
+n_cons               207.5000     283.1579     229.0000
+n8_steps             145.5833     182.7368     139.0000
+
+--- all 32 runs: AUROC -> maj_ok (higher score -> correct) ---
+feature               auc oriented  direction
+pairwise_agree      0.778    0.778  high
+lp_min              0.844    0.844  high
+token_agree         0.378    0.622  low
+cos_mean_all        0.333    0.667  low
+cos_min_all         0.370    0.630  low
+cos_max_all         0.522    0.522  high
+slope               0.326    0.674  low
+argmin_step_rel     0.437    0.563  low
+cos_mean_rsn        0.333    0.667  low
+cos_mean_ans        0.377    0.623  low
+cos_std             0.600    0.600  high
+cos_mean_n8         0.385    0.615  low
+cos_min_n8          0.393    0.607  low
+
+--- within-SP only (n=19, agree<1) ---
+feature               auc oriented
+pairwise_agree      0.850    0.850
+lp_min              0.850    0.850
+token_agree         0.317    0.683
+cos_mean_all        0.450    0.550
+cos_min_all         0.533    0.533
+cos_max_all         0.517    0.517
+slope               0.400    0.600
+argmin_step_rel     0.583    0.583
+cos_mean_rsn        0.433    0.567
+cos_mean_ans        0.286    0.714
+cos_std             0.550    0.550
+cos_mean_n8         0.483    0.517
+cos_min_n8          0.550    0.550
+
+--- DECISIVE: within-unanimous (agreement constant = 1.0) ---
+UR=12 UW=1 (single UW run: percentile report, not a test)
+UW qid=31 src=n100_id28 gold=17 maj=2 n_cons=229
+  cos_mean_all     UW=   0.3952 UR median=   0.3678 -> 100th pct TOP-decile
+  cos_min_all      UW=  -0.0356 UR median=  -0.0534 -> 92th pct TOP-decile
+  cos_max_all      UW=   0.9998 UR median=   0.9998 -> 42th pct 
+  slope            UW=  -0.0438 UR median=  -0.0816 -> 92th pct TOP-decile
+  argmin_step_rel  UW=   0.9956 UR median=   0.9776 -> 92th pct TOP-decile
+  cos_mean_rsn     UW=   0.4003 UR median=   0.3598 -> 92th pct TOP-decile
+  cos_mean_ans     UW=   0.2550 UR median=   0.2777 -> 42th pct 
+  cos_std          UW=   0.1039 UR median=   0.1197 -> 17th pct 
+  cos_mean_n8      UW=   0.4040 UR median=   0.3719 -> 83th pct 
+  cos_min_n8       UW=  -0.0297 UR median=  -0.0434 -> 83th pct 
+  token_agree      UW=   0.0743 UR median=   0.0790 -> 42th pct 
+
+--- confound: is consensus just token-path agreement? ---
+  pearson(cos_mean_all, token_agree) = 0.583 over 32 runs
+  pearson(cos_min_all,  token_agree) = -0.072
+  token_agree -> maj_ok AUC=0.378; within-SP AUC=0.317
+  pearson(cos_mean_all, n_cons) = -0.209 (long n=2 tails inflate the mean)
+  among unanimous runs: UR median token_agree=0.079, UW=0.074
+  within UR only (n=12): pearson(cos_mean_all, token_agree) = 0.328
+  UW cos_mean_all = 0.3952 vs UR mean 0.3584 (sd 0.0245) -> z=+1.50
+  UW cos_min_all = -0.0356 vs UR mean -0.0704 (sd 0.0375) -> z=+0.93
+
+--- stream level: mean cosine-to-others -> that stream's correctness ---
+n=256 (pos=184 neg=72), pooled AUC=0.364 oriented=0.636; clustered in runs, not iid
+  runs with both classes: 19, mean within-run AUC=0.542 (oriented 0.731)
+  mean cmean correct=0.3719 wrong=0.3893
+
+=== pre-stated success / dead-end gate ===
+best representation feature: slope auc=0.326 oriented=0.674 (agreement oriented=0.778, margin=-0.104)
+  UW edge: cos_mean_all     at 100th pct
+  UW edge: cos_min_all      at 92th pct
+  UW edge: slope            at 92th pct
+  UW edge: argmin_step_rel  at 92th pct
+  UW edge: cos_mean_rsn     at 92th pct
+  criterion A (oriented AUC >= 0.85 and >= agreement+0.05): NOT MET
+  criterion B (UW in bottom/top decile of UR on >= 2 features): MET (5 features)
+verdict: INCONCLUSIVE: criterion B fires on the single UW run only; primary AUC criterion fails
+  pre-stated rule: ADVANCE if (oriented AUC >= 0.85 and beats agreement
+  by >= 0.05) or (UW in the bottom/top decile of UR on >= 2 features)
+  primary AUC result: fails (oriented 0.674 <= agreement 0.778)
+  mean within-run std(cos_mean) = 0.12853 -> varies
+
+caveats: n=32 runs / 12 UR / 1 UW; one model, one seed (per-stream
+seeds 1234..1241), one machine; embeddings are post-final-norm and
+identical-text streams sit at ~0.999 (batch numerics), compressing the
+top of the scale; consensus compares the same token index even when the
+streams' texts have diverged; stream-level samples are clustered in runs.
+the UW-decile clause rests on 1 run, and with n_UR=12 the '90th pct' is
+the top 1-2 values, so it is an anecdote, not a separation.

@@ -1,0 +1,84 @@
+=== row 40 prob-shape analysis ===
+runs=32 streams=256 answer-marker found in 242/256 streams
+unanimous-identical text pairs: 0 (mean |dH| aligned: n/a)
+groups: UR=12 SP=19 UW=1
+
+--- group medians (run-level features) ---
+feature              UR (n=12)      SP (n=19)       UW (n=1)
+H_all                   0.2247         0.2357         0.2666
+H_p95                   0.9602         1.0796         1.0608
+frac_unc                0.0497         0.0620         0.0689
+lp_all                 -0.1470        -0.1591        -0.1793
+lp_min                 -2.2522        -2.6122        -2.3941
+early_lp               -0.2181        -0.2489        -0.2410
+H_rsn                   0.2295         0.2418         0.2732
+lp_rsn                 -0.1501        -0.1636        -0.1840
+H_ans                   0.0555         0.0682         0.0644
+p1_ans                  0.9767         0.9733         0.9742
+mg_ans                  0.9602         0.9528         0.9505
+lp_ans                 -0.0439        -0.0347        -0.0339
+ans_conf_disp           0.0416         0.0303         0.0413
+H_ans_disp              0.0454         0.0555         0.0571
+
+--- AUROC -> maj_ok (all 32 runs; oriented = max(a,1-a)) ---
+baseline pairwise_agree: 0.778
+  H_all           auc=0.237 oriented=0.763 (low)
+  H_p95           auc=0.237 oriented=0.763 (low)
+  frac_unc        auc=0.230 oriented=0.770 (low)
+  lp_all          auc=0.778 oriented=0.778 (high)
+  lp_min          auc=0.844 oriented=0.844 (high)
+  early_lp        auc=0.519 oriented=0.519 (high)
+  H_rsn           auc=0.237 oriented=0.763 (low)
+  lp_rsn          auc=0.778 oriented=0.778 (high)
+  H_ans           auc=0.481 oriented=0.519 (low)
+  p1_ans          auc=0.489 oriented=0.511 (low)
+  mg_ans          auc=0.481 oriented=0.519 (low)
+  lp_ans          auc=0.422 oriented=0.578 (low)
+  ans_conf_disp   auc=0.585 oriented=0.585 (high)
+  H_ans_disp      auc=0.326 oriented=0.674 (low)
+  best feature: lp_min 0.844 vs agree 0.778
+
+--- within-SP only (n=19, agree<1): features vs maj_ok ---
+  pairwise_agree auc=0.850
+  H_all           auc=0.250 oriented=0.750
+  H_p95           auc=0.250 oriented=0.750
+  frac_unc        auc=0.250 oriented=0.750
+  lp_all          auc=0.750 oriented=0.750
+  lp_min          auc=0.850 oriented=0.850
+  early_lp        auc=0.467 oriented=0.533
+  H_rsn           auc=0.250 oriented=0.750
+  lp_rsn          auc=0.750 oriented=0.750
+  H_ans           auc=0.533 oriented=0.533
+  p1_ans          auc=0.433 oriented=0.567
+  mg_ans          auc=0.417 oriented=0.583
+  lp_ans          auc=0.417 oriented=0.583
+  ans_conf_disp   auc=0.617 oriented=0.617
+  H_ans_disp      auc=0.400 oriented=0.600
+
+--- DECISIVE: within-unanimous (agreement constant = 1.0) ---
+UR=12 UW=1  (UW is 1 run -- percentile report, not a test)
+UW run: qid=31 src=n100_id28 gold=17 maj=2
+  H_all           UW=0.2666  UR median=0.2247  UW at 92th pct of UR
+  H_p95           UW=1.0608  UR median=0.9602  UW at 92th pct of UR
+  frac_unc        UW=0.0689  UR median=0.0497  UW at 92th pct of UR
+  lp_all          UW=-0.1793  UR median=-0.1470  UW at 8th pct of UR
+  lp_min          UW=-2.3941  UR median=-2.2522  UW at 33th pct of UR
+  early_lp        UW=-0.2410  UR median=-0.2181  UW at 33th pct of UR
+  H_rsn           UW=0.2732  UR median=0.2295  UW at 92th pct of UR
+  lp_rsn          UW=-0.1840  UR median=-0.1501  UW at 8th pct of UR
+  H_ans           UW=0.0644  UR median=0.0555  UW at 50th pct of UR
+  p1_ans          UW=0.9742  UR median=0.9767  UW at 50th pct of UR
+  mg_ans          UW=0.9505  UR median=0.9602  UW at 50th pct of UR
+  lp_ans          UW=-0.0339  UR median=-0.0439  UW at 67th pct of UR
+  ans_conf_disp   UW=0.0413  UR median=0.0416  UW at 50th pct of UR
+  H_ans_disp      UW=0.0571  UR median=0.0454  UW at 92th pct of UR
+
+--- stream level (n=242, clustered in runs; not iid) ---
+  lp_ans          auc=0.529 oriented=0.529
+  H_ans           auc=0.434 oriented=0.566
+  p1_ans          auc=0.536 oriented=0.536
+  mg_ans          auc=0.523 oriented=0.523
+  lp_all          auc=0.733 oriented=0.733
+  frac_unc        auc=0.247 oriented=0.753
+  pos/neg: 178/64
+

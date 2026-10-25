@@ -1,0 +1,42 @@
+{
+ "n": 100,
+ "temp": 0.6,
+ "arms": {
+  "base1": {
+   "acc": 71,
+   "oracle": 71
+  },
+  "ad_varshitha": {
+   "acc": 39,
+   "oracle": 39
+  },
+  "ad_amer": {
+   "acc": 58,
+   "oracle": 58
+  },
+  "ad_korg": {
+   "acc": 69,
+   "oracle": 69
+  },
+  "ad_khanh": {
+   "acc": 59,
+   "oracle": 59
+  },
+  "seed8_cons": {
+   "acc": 76,
+   "oracle": 80
+  },
+  "seed8": {
+   "acc": 68,
+   "oracle": 80
+  },
+  "adapt8_cons": {
+   "acc": 77,
+   "oracle": 85
+  },
+  "adapt8": {
+   "acc": 34,
+   "oracle": 85
+  }
+ }
+}

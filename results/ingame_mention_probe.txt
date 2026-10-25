@@ -1,0 +1,24 @@
+Angle 30 - must-mention probe: k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9 system='You are a helpful assistant.'
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo=serial(data/ingame_mem_solo.tsv)  batch=k=2(data/ingame_mention_batch.tsv)
+Slot 1 = raw-JSON-only rule, schema previous/current, no few-shot, trailing `{` in user turn
+Scoring: STRICT direct json.loads (no fence strip / brace scan / comment strip)
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r | s1_tok      s1_fin parse hondPrev tesCur hondAny wrongL oldFld
+  1234 |      488.2       523.0   1.071   1.425 |     39         eos False    False  False   False   None      -
+  1235 |      506.2       537.4   1.062   1.577 |    133         eos False    False  False    True   None      -
+  1236 |      506.8       536.1   1.058   1.520 |    145         eos False    False  False   False   None      -
+  1237 |      697.5       726.6   1.042   1.492 |     26         eos False    False  False   False   None      -
+  1238 |      506.0       531.4   1.050   1.407 |     29         eos  True    False   True   False  False      -
+median |      506.2       536.1   1.058   1.492 |                          0/5     1/5  1/5
+
+Slot 1 STRICT direct parse rate: 20% (1/5)
+Honda in previous: 0/5  (gate >=4/5)   Tesla in current: 1/5   wrong-list seeds: 0   old-schema field fallback seeds: 0
+Honda anywhere in raw output: 1/5 (misplace vs drop discriminator)
+fence in output: 0/5  comment marker in output: 0/5
+Slot 1 tokens per rep: [39, 133, 145, 26, 29] finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 completion ratio batch/solo: median=1.058 mean=1.057 (solo med 506.2 ms, batch med 536.1 ms, ratio of medians 1.059)
+Slot 0 ttft ratio batch/solo:       median=1.492 mean=1.484
+Slot 0 prompt identical solo vs batch (same seed): True
+ACCEPTANCE: honda_in_previous_ge_4_of_5=FAIL, direct_json_parse_5_of_5=FAIL, slot0_completion_median_le_1_10=PASS
+VERDICT: miss

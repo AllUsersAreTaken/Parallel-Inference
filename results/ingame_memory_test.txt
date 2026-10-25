@@ -1,0 +1,19 @@
+In-flight memory extraction: k=2 parallel::Runtime
+model=models/Llama-3.2-3B-Instruct-Q4_K_M.gguf  max_tokens=160 temp=0.2 top_p=0.9
+reps=5 seeds=[1234, 1235, 1236, 1237, 1238]  solo=serial(Slot0)  batch=k=2(Slot0+Slot1)
+
+  seed | s0_solo_ms s0_batch_ms  comp_r  ttft_r s0_same | s1_tok      s1_fin parse factTP/FP invTP/FP
+  1234 |      487.0       509.2   1.046   1.475    True |     32         eos  True       3/0      0/0
+  1235 |      503.5       528.5   1.050   1.485    True |     32         eos  True       3/0      0/0
+  1236 |      503.6       534.4   1.061   1.425    True |     51         eos  True       4/0      0/0
+  1237 |      687.0       584.9   0.851   1.512   False |     32         eos  True       3/0      0/0
+  1238 |      500.1       533.3   1.066   1.505    True |     51         eos  True       4/0      0/0
+
+Slot 1 parse rate: 100% (5/5)  methods=['direct', 'direct', 'direct', 'direct', 'direct']
+Slot 1 facts TP/FP: 17/0 of 20 possible; invalidated TP/FP: 0/0 of 10 possible; wrong-list mentions: 7
+Concept covered in its expected list (reps): buster_knee_issue=5/5, stick_to_flat_river_trail=5/5, user_bought_tesla=5/5, needs_charging_stations=2/5, user_drives_honda=0/5, needs_gas_stations=0/5
+Slot 0 completion ratio batch/solo: median=1.050 mean=1.015 (solo med 503.5 ms, batch med 533.3 ms)
+Slot 0 ttft ratio batch/solo:       median=1.485 mean=1.480 (solo med 10.99 ms, batch med 16.54 ms)
+Slot 1 tokens per rep: [32, 32, 51, 32, 51] finish=['eos', 'eos', 'eos', 'eos', 'eos']
+Slot 0 text identical solo vs batch (same seed): False
+VERDICT: meets - parse rate >=95% and Slot 0 median completion ratio <=1.10x solo

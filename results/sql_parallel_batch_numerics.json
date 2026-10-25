@@ -1,0 +1,24 @@
+{
+ "segment_vs_global_same_batch": {
+  "match": 8,
+  "total": 8
+ },
+ "identical_rows_same_seed": {
+  "equal_to_row0": [
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   false,
+   true
+  ],
+  "first_diff_token": {
+   "2": 10,
+   "4": 10,
+   "6": 10
+  },
+  "row0_matches_2row_baseline": true
+ }
+}

@@ -1,0 +1,2065 @@
+{
+  "experiment": "Angle 36 delta compaction (10 turns, k=2, Slot 1 emits atomic {upsert,delete} deltas, pure-Python host state machine; the angle-32c fix)",
+  "parent": "results/ingame_multiturn.json (angle 32c)",
+  "model": "models/Llama-3.2-3B-Instruct-Q4_K_M.gguf",
+  "system": "You are a helpful assistant.",
+  "max_tokens": 160,
+  "temperature": 0.2,
+  "top_p": 0.9,
+  "n_turns": 10,
+  "metadata": {
+    "cli": "app/parallel_cli.exe",
+    "cli_sha256": "51a827ff7fdd92ad6b2cdbecf6f71360dfa6d55735a82b3838ad1f80c83488da",
+    "cli_built_mtime": "2026-10-21T12:07:26",
+    "git_tree": "dirty",
+    "git_tree_note": "exe built from dirty tree: parallel/src/runtime.cpp, parallel/include/parallel/types.hpp and scripts/build_tool.bat have uncommitted modifications; app/ is untracked. Same binary for all arms within each run, so comparisons are internally valid but not reproducible from HEAD."
+  },
+  "seed_base": 3000,
+  "seed_profile_32c": "- Location: Seattle\n- Pet: Buster (golden retriever, knee issues)\n- Vehicle: 2019 Honda Civic\n- Commute: 25 minutes highway",
+  "state_0": {
+    "location": "Seattle",
+    "pet": "Buster (golden retriever, knee issues)",
+    "vehicle": "2019 Honda Civic",
+    "commute": "25 minutes highway"
+  },
+  "s1_instruction": "You maintain the user's profile as key-value state. Output ONLY the atomic changes needed. JSON schema: {\"upsert\": {\"key\": \"new value\"}, \"delete\": [\"key\"]}. Rules: upsert keys whose value is new or changed; delete keys the user explicitly retracts or that are superseded; if nothing changed output {\"upsert\": {}, \"delete\": []}; keys you do not mention are left untouched — never restate the full profile; subject-style keys in lowercase_snake_case (e.g. location, pet, vehicle, commute, hobby, job). No markdown, no commentary.",
+  "s1_prompt_construction": "S1_INSTR (spec-verbatim) + ' ' + angle-32c dialogue_upto(t) (Conversation: header, user turns 1..t, trailing blank line) + render_state(state_{t-1}) in angle-32c profile style ('S1_PROFILE_MARKER' + '- key: value' bullets, lowercase_snake_case keys) + '\\n\\nOutput:'; instruction-first scribe shape (angles 33-35), proximal 'No markdown, no commentary.' tail closes the instruction block",
+  "s0_prompt": "angle-32c dialogue_upto(t) + S0_INSTRUCTION (byte-identical)",
+  "reuse_verification": {
+    "turns_equal_to_32c": true,
+    "seed_profile_equal_to_32c": true,
+    "s0_prompt_matches_32c_raw": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true,
+      "6": true,
+      "7": true,
+      "8": true,
+      "9": true,
+      "10": true
+    },
+    "all_s0_prompts_match_32c": true,
+    "rendered_seed_state": "[User Profile]\n- location: Seattle\n- pet: Buster (golden retriever, knee issues)\n- vehicle: 2019 Honda Civic\n- commute: 25 minutes highway",
+    "seed_render_matches_spec": true
+  },
+  "gates_note": "exploratory (non-preregistered) per chain lesson",
+  "hand_labels": {
+    "key_level": {
+      "1": "state['hobby'] (case-insensitive key match) contains 'piano'",
+      "2": "state['location'] contains 'portland' and not 'seattle' (same-key upsert supersedes Seattle; no delete needed)",
+      "3": "state == state after t2 (exact dict equality; prior deltas persist)",
+      "4": "'buster' AND 'miso' both present in state values (merged pet value OR a second pet key - both animals present is the acceptance)",
+      "5": "state['vehicle'] contains 'tesla'; 'honda'/'civic' absent from every value ('2024' presence = OBSERVATION, not gated)",
+      "6": "state == state after t5 (exact dict equality)",
+      "7": "'ranger' present in state values AND 'buster' present in state values",
+      "8": "state['job'] contains 'nimbus'",
+      "9": "state['location'] contains 'seattle' and not 'portland'; 'portland' absent from every value",
+      "10": "state == state after t9 (exact dict equality)"
+    },
+    "concept_keywords": {
+      "location_seattle": [
+        "seattle"
+      ],
+      "location_portland": [
+        "portland"
+      ],
+      "pet_buster": [
+        "buster"
+      ],
+      "pet_miso": [
+        "miso"
+      ],
+      "pet_ranger_foster": [
+        "ranger"
+      ],
+      "vehicle_2019_honda": [
+        "honda",
+        "civic"
+      ],
+      "vehicle_2024_tesla": [
+        "tesla"
+      ],
+      "job_nimbus": [
+        "nimbus"
+      ],
+      "hobby_piano": [
+        "piano"
+      ],
+      "commute_25min": [
+        "commute"
+      ]
+    },
+    "expected_presence_turns": {
+      "location_seattle": [
+        1,
+        9,
+        10
+      ],
+      "location_portland": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "pet_buster": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "pet_miso": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "pet_ranger_foster": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "vehicle_2019_honda": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "vehicle_2024_tesla": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "job_nimbus": [
+        8,
+        9,
+        10
+      ],
+      "hobby_piano": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "commute_25min": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "expected_events": {
+      "1": {
+        "add": [
+          "hobby_piano"
+        ],
+        "invalidate": []
+      },
+      "2": {
+        "add": [
+          "location_portland"
+        ],
+        "invalidate": [
+          "location_seattle"
+        ]
+      },
+      "3": {
+        "add": [],
+        "invalidate": []
+      },
+      "4": {
+        "add": [
+          "pet_miso"
+        ],
+        "invalidate": []
+      },
+      "5": {
+        "add": [
+          "vehicle_2024_tesla"
+        ],
+        "invalidate": [
+          "vehicle_2019_honda"
+        ]
+      },
+      "6": {
+        "add": [],
+        "invalidate": []
+      },
+      "7": {
+        "add": [
+          "pet_ranger_foster"
+        ],
+        "invalidate": []
+      },
+      "8": {
+        "add": [
+          "job_nimbus"
+        ],
+        "invalidate": []
+      },
+      "9": {
+        "add": [
+          "location_seattle"
+        ],
+        "invalidate": [
+          "location_portland"
+        ]
+      },
+      "10": {
+        "add": [],
+        "invalidate": []
+      }
+    },
+    "universal": "commute key present every turn; no previously-established key lost; rendered state <=75 tok; previously-established facts persist by host construction"
+  },
+  "host_state_machine": "state.update(upsert); for k in delete: state.pop(k, None) (never error); apply only when shape_ok (upsert: dict, delete: list); contradictory upsert+delete same-key recorded (update-then-pop per spec)",
+  "profile_token_max": 75,
+  "acceptance": {
+    "G1_delta_bare_parse_10_of_10": true,
+    "G2_key_level_labels_all_turns": false,
+    "G3_no_resurrection_all_turns": false,
+    "G4_state_tokens_le_75_all_turns": true,
+    "G5_slot0_completion_median_le_1_10": true
+  },
+  "turns_passing": 0,
+  "bare_parse_passing": 10,
+  "robust_parse_passing": 10,
+  "shape_ok_turns": 10,
+  "fence_turns": [],
+  "label_fail_turns": [
+    1,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10
+  ],
+  "attrition_turns": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "resurrection_turns": [
+    10
+  ],
+  "state_tokens": [
+    37,
+    35,
+    14,
+    13,
+    25,
+    25,
+    25,
+    25,
+    14,
+    50
+  ],
+  "delta_tokens": [
+    19,
+    30,
+    28,
+    25,
+    35,
+    35,
+    51,
+    51,
+    30,
+    91
+  ],
+  "delta_tokens_median": 32.5,
+  "slot0_text_identical_turns": 5,
+  "line_diff_events": {
+    "tp": 3,
+    "fp": 13,
+    "fn": 7,
+    "precision": 0.1875,
+    "recall": 0.3
+  },
+  "latency": {
+    "completion_ratio_median": 1.0559935188496097,
+    "completion_ratio_mean": 1.0819093493618583,
+    "ttft_ratio_median": 1.5215190334729742,
+    "ttft_ratio_mean": 1.5209331810117104,
+    "solo0_completion_ms_median": 436.99564999999996,
+    "batch_slot0_completion_ms_median": 459.45079999999996,
+    "ratio_of_completion_medians": 1.051385294109907,
+    "per_turn_completion_ratios": [
+      1.0433542818445931,
+      1.226931145032494,
+      1.0592999508245167,
+      1.0526870868747027,
+      0.996550016588396,
+      1.0318237619838924,
+      1.0681116980224465,
+      1.0768059893258382,
+      0.9294120745329535,
+      1.3341174885887497
+    ],
+    "per_turn_ttft_ratios": [
+      1.5171845225753582,
+      1.5542084424921703,
+      1.5651880434016059,
+      1.5224952702771062,
+      1.517648359823466,
+      1.460267060606642,
+      1.5273862463273244,
+      1.526714714231071,
+      1.5205427966688425,
+      1.4976963537135175
+    ]
+  },
+  "final_state_side_by_side": {
+    "concept_matrix": {
+      "commute_25min": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": true
+      },
+      "hobby_piano": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": false
+      },
+      "job_nimbus": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": true
+      },
+      "location_portland": {
+        "expected_t10": false,
+        "in_32c_final": true,
+        "in_delta_final": true
+      },
+      "location_seattle": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": false
+      },
+      "pet_buster": {
+        "expected_t10": true,
+        "in_32c_final": false,
+        "in_delta_final": false
+      },
+      "pet_miso": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": true
+      },
+      "pet_ranger_foster": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": true
+      },
+      "vehicle_2019_honda": {
+        "expected_t10": false,
+        "in_32c_final": false,
+        "in_delta_final": false
+      },
+      "vehicle_2024_tesla": {
+        "expected_t10": true,
+        "in_32c_final": true,
+        "in_delta_final": true
+      }
+    },
+    "delta_final_state": "[User Profile]\n- practice: evenings\n- pet: miso\n- location: portland\n- job: nimbus\n- commute: unknown\n- hobby: none\n- vehicle: 2024 tesla\n- foster: ranger",
+    "delta_final_keys": [
+      "practice",
+      "pet",
+      "location",
+      "job",
+      "commute",
+      "hobby",
+      "vehicle",
+      "foster"
+    ],
+    "angle32c_final_profile": "• Location: Seattle\n• Pet: Miso (cat), Ranger (dog)\n• Hobby: Piano\n• Commute: 25 minutes highway\n• Transportation: Tesla\n• Occupation: Nimbus downtown\n• Current Residence: Portland",
+    "angle32c_final_attrition": [
+      "pet_buster"
+    ],
+    "delta_final_attrition": [
+      "hobby_piano",
+      "location_seattle",
+      "pet_buster"
+    ]
+  },
+  "gpu_wall_s": 40.3,
+  "verdict": "miss",
+  "turns": [
+    {
+      "turn": 1,
+      "kind": "introduce",
+      "user_message": "I started learning piano last month, and I practice at home in the evenings.",
+      "seed": 3001,
+      "state_prev": {
+        "location": "Seattle",
+        "pet": "Buster (golden retriever, knee issues)",
+        "vehicle": "2019 Honda Civic",
+        "commute": "25 minutes highway"
+      },
+      "delta_raw": "{\"upsert\": {\"commute\": \"25 minutes highway\"}, \"delete\": []}",
+      "delta": {
+        "upsert": {
+          "commute": "25 minutes highway"
+        },
+        "delete": []
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "delete\": []}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [],
+      "state": {
+        "location": "Seattle",
+        "pet": "Buster (golden retriever, knee issues)",
+        "vehicle": "2019 Honda Civic",
+        "commute": "25 minutes highway"
+      },
+      "rendered_state": "[User Profile]\n- location: Seattle\n- pet: Buster (golden retriever, knee issues)\n- vehicle: 2019 Honda Civic\n- commute: 25 minutes highway",
+      "state_tokens": 37,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "hobby_piano": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "location: seattle || pet: buster (golden retriever, knee issues) || vehicle: 2019 honda civic || commute: 25 minutes highway",
+        "has_2019_anywhere": true,
+        "has_2024_anywhere": false,
+        "piano_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_seattle",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_seattle",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_portland",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "attrition_missing": [
+          "hobby_piano"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [],
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "missed_expected": [
+          "hobby_piano"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "hobby_piano"
+        ],
+        "invalidate": []
+      },
+      "delta_tokens": 19,
+      "solo_slot0": {
+        "text": "That's great to hear! Learning piano can be such a rewarding hobby, and practicing at home in the evenings is a great way to fit it into your schedule. How's your progress been so far - are you enjoying the process and finding it challenging in any particular way?",
+        "generated": 56,
+        "ttft_ms": 10.1283,
+        "completion_ms": 510.0442,
+        "tok_s": 109.794406,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "That's great to hear! Learning piano can be such a rewarding hobby, and practicing at home in the evenings is a great way to fit it into your schedule. How's your progress been so far - are you enjoying the process and finding it challenging in any particular way?",
+        "generated": 56,
+        "ttft_ms": 15.3665,
+        "completion_ms": 532.1568,
+        "tok_s": 105.232142,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"commute\": \"25 minutes highway\"}, \"delete\": []}",
+        "generated": 19,
+        "ttft_ms": 15.4568,
+        "completion_ms": 189.5258,
+        "tok_s": 100.250203,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 56,
+      "s0_batch_generated": 56,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0433542818445931,
+        "ttft": 1.5171845225753582
+      }
+    },
+    {
+      "turn": 2,
+      "kind": "alter",
+      "user_message": "I moved to Portland last week, so my new place is there.",
+      "seed": 3002,
+      "state_prev": {
+        "location": "Seattle",
+        "pet": "Buster (golden retriever, knee issues)",
+        "vehicle": "2019 Honda Civic",
+        "commute": "25 minutes highway"
+      },
+      "delta_raw": "{\"upsert\": {\"location\": \"portland\", \"commute\": \"home\"}, \"delete\": [\"practice\", \"knee issues\"]}",
+      "delta": {
+        "upsert": {
+          "location": "portland",
+          "commute": "home"
+        },
+        "delete": [
+          "practice",
+          "knee issues"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "ee issues\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "practice",
+          "knee issues"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [],
+      "state": {
+        "location": "portland",
+        "pet": "Buster (golden retriever, knee issues)",
+        "vehicle": "2019 Honda Civic",
+        "commute": "home"
+      },
+      "rendered_state": "[User Profile]\n- location: portland\n- pet: Buster (golden retriever, knee issues)\n- vehicle: 2019 Honda Civic\n- commute: home",
+      "state_tokens": 35,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "location_portland_no_seattle": true
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "location: portland || pet: buster (golden retriever, knee issues) || vehicle: 2019 honda civic || commute: home",
+        "has_2019_anywhere": true,
+        "has_2024_anywhere": false,
+        "portland_anywhere": true
+      },
+      "label_ok": true,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "attrition_missing": [
+          "hobby_piano"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "add",
+            "key": "location",
+            "value": "portland",
+            "concepts": [
+              "location_portland"
+            ],
+            "matched": [
+              "location_portland"
+            ]
+          },
+          {
+            "type": "invalidate",
+            "key": "location",
+            "value": "Seattle",
+            "concepts": [
+              "location_seattle"
+            ],
+            "matched": [
+              "location_seattle"
+            ]
+          }
+        ],
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "missed_expected": []
+      },
+      "expected_events": {
+        "add": [
+          "location_portland"
+        ],
+        "invalidate": [
+          "location_seattle"
+        ]
+      },
+      "delta_tokens": 30,
+      "solo_slot0": {
+        "text": "Congratulations on starting your piano journey! I hope you're enjoying your new home in Portland so far. How's the transition been, and are you finding any new favorite spots in the city?",
+        "generated": 39,
+        "ttft_ms": 10.1534,
+        "completion_ms": 357.8667,
+        "tok_s": 108.979125,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on starting your piano journey! I hope you're enjoying the new city and finding your way around Portland. How's the transition been so far, and are you finding any great spots to practice in your new home?",
+        "generated": 45,
+        "ttft_ms": 15.7805,
+        "completion_ms": 439.0778,
+        "tok_s": 102.487532,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"location\": \"portland\", \"commute\": \"home\"}, \"delete\": [\"practice\", \"knee issues\"]}",
+        "generated": 30,
+        "ttft_ms": 15.9072,
+        "completion_ms": 298.7216,
+        "tok_s": 100.427957,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 39,
+      "s0_batch_generated": 45,
+      "s0_gen_delta": 6,
+      "s0_similarity": 0.4166666666666667,
+      "s0_first_divergence_word": 10,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.226931145032494,
+        "ttft": 1.5542084424921703
+      }
+    },
+    {
+      "turn": 3,
+      "kind": "untouched",
+      "user_message": "The weather has been really nice this week.",
+      "seed": 3003,
+      "state_prev": {
+        "location": "portland",
+        "pet": "Buster (golden retriever, knee issues)",
+        "vehicle": "2019 Honda Civic",
+        "commute": "home"
+      },
+      "delta_raw": "{\"upsert\": {\"commute\": \"home\", \"location\": \"portland\"}, \"delete\": [\"pet\", \"vehicle\"]}",
+      "delta": {
+        "upsert": {
+          "commute": "home",
+          "location": "portland"
+        },
+        "delete": [
+          "pet",
+          "vehicle"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": " \"vehicle\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [
+          "pet",
+          "vehicle"
+        ],
+        "popped_missing": [],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [],
+      "state": {
+        "location": "portland",
+        "commute": "home"
+      },
+      "rendered_state": "[User Profile]\n- location: portland\n- commute: home",
+      "state_tokens": 14,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": false,
+        "state_unchanged": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [
+          "pet",
+          "vehicle"
+        ],
+        "state_values_lower": "location: portland || commute: home",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "pet_buster",
+          "vehicle_2019_honda"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "invalidate",
+            "key": "pet",
+            "value": "Buster (golden retriever, knee issues)",
+            "concepts": [
+              "pet_buster"
+            ],
+            "matched": []
+          },
+          {
+            "type": "invalidate",
+            "key": "vehicle",
+            "value": "2019 Honda Civic",
+            "concepts": [
+              "vehicle_2019_honda"
+            ],
+            "matched": []
+          }
+        ],
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "missed_expected": []
+      },
+      "expected_events": {
+        "add": [],
+        "invalidate": []
+      },
+      "delta_tokens": 28,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland! I hope you're enjoying the beautiful weather and finding your new place to be a great fit. How's your piano practice going so far?",
+        "generated": 37,
+        "ttft_ms": 9.9259,
+        "completion_ms": 341.4303,
+        "tok_s": 108.367652,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland! I hope you're enjoying the beautiful weather and finding your new place to be a great fit. How's your piano practice going so far?",
+        "generated": 37,
+        "ttft_ms": 15.5359,
+        "completion_ms": 361.6771,
+        "tok_s": 102.301196,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"commute\": \"home\", \"location\": \"portland\"}, \"delete\": [\"pet\", \"vehicle\"]}",
+        "generated": 28,
+        "ttft_ms": 15.6242,
+        "completion_ms": 276.6452,
+        "tok_s": 101.212672,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 37,
+      "s0_batch_generated": 37,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0592999508245167,
+        "ttft": 1.5651880434016059
+      }
+    },
+    {
+      "turn": 4,
+      "kind": "introduce",
+      "user_message": "I also adopted a cat named Miso, so now I have two pets.",
+      "seed": 3004,
+      "state_prev": {
+        "location": "portland",
+        "commute": "home"
+      },
+      "delta_raw": "{\"upsert\": {\"commute\": \"home\", \"practice\": \"evenings\"}, \"delete\": [\"location\"]}",
+      "delta": {
+        "upsert": {
+          "commute": "home",
+          "practice": "evenings"
+        },
+        "delete": [
+          "location"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "\"location\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [
+          "location"
+        ],
+        "popped_missing": [],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [],
+      "state": {
+        "commute": "home",
+        "practice": "evenings"
+      },
+      "rendered_state": "[User Profile]\n- commute: home\n- practice: evenings",
+      "state_tokens": 13,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": false,
+        "both_animals_present": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [
+          "location"
+        ],
+        "state_values_lower": "commute: home || practice: evenings",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "vehicle_2019_honda"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "vehicle_2019_honda"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "invalidate",
+            "key": "location",
+            "value": "portland",
+            "concepts": [
+              "location_portland"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "practice",
+            "value": "evenings",
+            "concepts": [],
+            "matched": []
+          }
+        ],
+        "tp": 0,
+        "fp": 2,
+        "fn": 1,
+        "missed_expected": [
+          "pet_miso"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "pet_miso"
+        ],
+        "invalidate": []
+      },
+      "delta_tokens": 25,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland! I hope you're enjoying the beautiful weather and settling into your new space. How's Miso adjusting to the new surroundings, and how's your piano practice going so far?",
+        "generated": 44,
+        "ttft_ms": 9.8843,
+        "completion_ms": 402.6926,
+        "tok_s": 109.264486,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland! I hope you're enjoying the beautiful weather and settling into your new space. How's Miso adjusting to the new surroundings, and how's your piano practice going so far?",
+        "generated": 44,
+        "ttft_ms": 15.0488,
+        "completion_ms": 423.9093,
+        "tok_s": 103.795788,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"commute\": \"home\", \"practice\": \"evenings\"}, \"delete\": [\"location\"]}",
+        "generated": 25,
+        "ttft_ms": 15.1313,
+        "completion_ms": 246.0294,
+        "tok_s": 101.613872,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 44,
+      "s0_batch_generated": 44,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0526870868747027,
+        "ttft": 1.5224952702771062
+      }
+    },
+    {
+      "turn": 5,
+      "kind": "alter",
+      "user_message": "I traded the 2019 Honda for a 2024 Tesla last week, so I need charging stations along my commute.",
+      "seed": 3005,
+      "state_prev": {
+        "commute": "home",
+        "practice": "evenings"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\"]}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "location": "portland",
+          "pet": "miso"
+        },
+        "delete": [
+          "commute: home"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "ute: home\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "commute: home"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "location",
+        "pet"
+      ],
+      "state": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "rendered_state": "[User Profile]\n- commute: home\n- practice: evenings\n- location: portland\n- pet: miso",
+      "state_tokens": 25,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "vehicle_has_tesla": false,
+        "honda_civic_gone_everywhere": true
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "commute: home || practice: evenings || location: portland || pet: miso",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false,
+        "vehicle_value": null,
+        "tesla_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland",
+          "pet_miso"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "pet_ranger_foster",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "pet_buster",
+          "vehicle_2024_tesla"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "add",
+            "key": "location",
+            "value": "portland",
+            "concepts": [
+              "location_portland"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "pet",
+            "value": "miso",
+            "concepts": [
+              "pet_miso"
+            ],
+            "matched": []
+          }
+        ],
+        "tp": 0,
+        "fp": 2,
+        "fn": 2,
+        "missed_expected": [
+          "vehicle_2019_honda",
+          "vehicle_2024_tesla"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "vehicle_2024_tesla"
+        ],
+        "invalidate": [
+          "vehicle_2019_honda"
+        ]
+      },
+      "delta_tokens": 35,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland and your exciting new pets, Miso and the cat! I hope you're enjoying the beautiful weather and finding it inspiring for your piano practice. How's the transition to your new Tesla going so far?",
+        "generated": 49,
+        "ttft_ms": 9.9471,
+        "completion_ms": 446.6978,
+        "tok_s": 109.693847,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland and your exciting new car! It sounds like you're settling into your new life nicely, with music, pets, and a new ride to enjoy. How's the transition been so far?",
+        "generated": 46,
+        "ttft_ms": 15.0962,
+        "completion_ms": 445.1567,
+        "tok_s": 103.334399,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\"]}",
+        "generated": 35,
+        "ttft_ms": 15.1816,
+        "completion_ms": 341.4432,
+        "tok_s": 102.506068,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 49,
+      "s0_batch_generated": 46,
+      "s0_gen_delta": -3,
+      "s0_similarity": 0.38288288288288286,
+      "s0_first_divergence_word": 11,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 0.996550016588396,
+        "ttft": 1.517648359823466
+      }
+    },
+    {
+      "turn": 6,
+      "kind": "untouched",
+      "user_message": "How long is my commute again?",
+      "seed": 3006,
+      "state_prev": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\"]}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "location": "portland",
+          "pet": "miso"
+        },
+        "delete": [
+          "commute: home"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "ute: home\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "commute: home"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "location",
+        "pet"
+      ],
+      "state": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "rendered_state": "[User Profile]\n- commute: home\n- practice: evenings\n- location: portland\n- pet: miso",
+      "state_tokens": 25,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "state_unchanged": true
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "commute: home || practice: evenings || location: portland || pet: miso",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false
+      },
+      "label_ok": true,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland",
+          "pet_miso"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "pet_ranger_foster",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "pet_buster",
+          "vehicle_2024_tesla"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [],
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "missed_expected": []
+      },
+      "expected_events": {
+        "add": [],
+        "invalidate": []
+      },
+      "delta_tokens": 35,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland! I'm glad to hear you're enjoying the nice weather. It sounds like you're settling into a new routine with your piano practice, Miso the cat, and your new Tesla - how's the transition going so far?",
+        "generated": 54,
+        "ttft_ms": 10.4246,
+        "completion_ms": 502.1845,
+        "tok_s": 107.530201,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland! I'm glad to hear you're enjoying the nice weather. It sounds like you're settling into a new routine with your piano practice, Miso the cat, and your new Tesla - how's the transition going so far?",
+        "generated": 54,
+        "ttft_ms": 15.2227,
+        "completion_ms": 518.1659,
+        "tok_s": 104.213728,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\"]}",
+        "generated": 35,
+        "ttft_ms": 15.3088,
+        "completion_ms": 341.2652,
+        "tok_s": 102.559534,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 54,
+      "s0_batch_generated": 54,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0318237619838924,
+        "ttft": 1.460267060606642
+      }
+    },
+    {
+      "turn": 7,
+      "kind": "introduce",
+      "user_message": "I'm fostering a dog named Ranger for the next few weeks.",
+      "seed": 3007,
+      "state_prev": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\", \"pet: miso\"], \"update\": {\"commute\": \"home\"}}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "location": "portland",
+          "pet": "miso"
+        },
+        "delete": [
+          "commute: home",
+          "pet: miso"
+        ],
+        "update": {
+          "commute": "home"
+        }
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "e\": \"home\"}}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "commute: home",
+          "pet: miso"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "location",
+        "pet"
+      ],
+      "state": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "rendered_state": "[User Profile]\n- commute: home\n- practice: evenings\n- location: portland\n- pet: miso",
+      "state_tokens": 25,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "ranger_and_buster_present": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "commute: home || practice: evenings || location: portland || pet: miso",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland",
+          "pet_miso"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "job_nimbus",
+          "location_seattle",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "pet_buster",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [],
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "missed_expected": [
+          "pet_ranger_foster"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "pet_ranger_foster"
+        ],
+        "invalidate": []
+      },
+      "delta_tokens": 51,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland! It sounds like you're settling in well, and I'm sure you'll enjoy playing piano, spending time with Miso and Ranger, and exploring the city. How's the transition to your new Tesla going, and are you finding the charging stations convenient?",
+        "generated": 60,
+        "ttft_ms": 10.0744,
+        "completion_ms": 545.4922,
+        "tok_s": 109.992407,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland! It sounds like you're settling in well, and I'm sure you'll enjoy playing piano, spending time with Miso and Ranger, and exploring the city. How's the transition to your new Tesla going, and are you finding the charging stations convenient?",
+        "generated": 60,
+        "ttft_ms": 15.3875,
+        "completion_ms": 582.6466,
+        "tok_s": 102.978375,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\", \"pet: miso\"], \"update\": {\"commute\": \"home\"}}",
+        "generated": 51,
+        "ttft_ms": 15.4734,
+        "completion_ms": 497.1383,
+        "tok_s": 102.587147,
+        "finish": "eos"
+      },
+      "s0_identical": true,
+      "s0_solo_generated": 60,
+      "s0_batch_generated": 60,
+      "s0_gen_delta": 0,
+      "s0_similarity": 1.0,
+      "s0_first_divergence_word": null,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0681116980224465,
+        "ttft": 1.5273862463273244
+      }
+    },
+    {
+      "turn": 8,
+      "kind": "introduce",
+      "user_message": "I started a new job at Nimbus downtown.",
+      "seed": 3008,
+      "state_prev": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\", \"pet: miso\"], \"update\": {\"commute\": \"home\"}}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "location": "portland",
+          "pet": "miso"
+        },
+        "delete": [
+          "commute: home",
+          "pet: miso"
+        ],
+        "update": {
+          "commute": "home"
+        }
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "e\": \"home\"}}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "commute: home",
+          "pet: miso"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "location",
+        "pet"
+      ],
+      "state": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "rendered_state": "[User Profile]\n- commute: home\n- practice: evenings\n- location: portland\n- pet: miso",
+      "state_tokens": 25,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "job_nimbus": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "commute: home || practice: evenings || location: portland || pet: miso",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false,
+        "nimbus_anywhere": false
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "location_portland",
+          "pet_miso"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "job_nimbus",
+          "location_portland",
+          "pet_buster",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "location_seattle",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "job_nimbus",
+          "pet_buster",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [],
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "missed_expected": [
+          "job_nimbus"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "job_nimbus"
+        ],
+        "invalidate": []
+      },
+      "delta_tokens": 51,
+      "solo_slot0": {
+        "text": "Congratulations on your new home in Portland, and welcome to the city! It sounds like you're settling in nicely with your new piano, cat, and Tesla. How's the transition to your new job at Nimbus going so far?",
+        "generated": 47,
+        "ttft_ms": 9.9346,
+        "completion_ms": 427.2935,
+        "tok_s": 109.994652,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "Congratulations on your new home in Portland, and welcome to the city! It sounds like you're settling in nicely with your new place, pets, and car. How's the transition to your new job at Nimbus going so far?",
+        "generated": 47,
+        "ttft_ms": 15.1673,
+        "completion_ms": 460.1122,
+        "tok_s": 102.148998,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"location\": \"portland\", \"pet\": \"miso\"}, \"delete\": [\"commute: home\", \"pet: miso\"], \"update\": {\"commute\": \"home\"}}",
+        "generated": 51,
+        "ttft_ms": 15.2458,
+        "completion_ms": 499.7087,
+        "tok_s": 102.05946,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 47,
+      "s0_batch_generated": 47,
+      "s0_gen_delta": 0,
+      "s0_similarity": 0.9448441247002398,
+      "s0_first_divergence_word": 22,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.0768059893258382,
+        "ttft": 1.526714714231071
+      }
+    },
+    {
+      "turn": 9,
+      "kind": "alter",
+      "user_message": "I moved back to Seattle last month, so Portland is behind me.",
+      "seed": 3009,
+      "state_prev": {
+        "commute": "home",
+        "practice": "evenings",
+        "location": "portland",
+        "pet": "miso"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"pet\": \"miso\"}, \"delete\": [\"location\", \"commute\"]}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "pet": "miso"
+        },
+        "delete": [
+          "location",
+          "commute"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": " \"commute\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [
+          "location",
+          "commute"
+        ],
+        "popped_missing": [],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "pet"
+      ],
+      "state": {
+        "practice": "evenings",
+        "pet": "miso"
+      },
+      "rendered_state": "[User Profile]\n- practice: evenings\n- pet: miso",
+      "state_tokens": 14,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": false,
+        "prev_keys_kept": false,
+        "location_seattle_no_portland": false,
+        "portland_gone_everywhere": true
+      },
+      "label_diag": {
+        "prev_keys_lost": [
+          "commute",
+          "location"
+        ],
+        "state_values_lower": "practice: evenings || pet: miso",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": false,
+        "location_value": null
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "pet_miso"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "job_nimbus",
+          "location_seattle",
+          "pet_buster",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "location_portland",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "commute_25min",
+          "hobby_piano",
+          "job_nimbus",
+          "location_seattle",
+          "pet_buster",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "resurrection_present": [],
+        "no_attrition": false,
+        "no_resurrection": true
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "invalidate",
+            "key": "commute",
+            "value": "home",
+            "concepts": [
+              "commute_25min"
+            ],
+            "matched": []
+          },
+          {
+            "type": "invalidate",
+            "key": "location",
+            "value": "portland",
+            "concepts": [
+              "location_portland"
+            ],
+            "matched": [
+              "location_portland"
+            ]
+          }
+        ],
+        "tp": 1,
+        "fp": 1,
+        "fn": 1,
+        "missed_expected": [
+          "location_seattle"
+        ]
+      },
+      "expected_events": {
+        "add": [
+          "location_seattle"
+        ],
+        "invalidate": [
+          "location_portland"
+        ]
+      },
+      "delta_tokens": 30,
+      "solo_slot0": {
+        "text": "It sounds like you're settling into your new life in Portland! Congratulations on the new Tesla, and I hope you're enjoying the city so far. How's the adjustment to having two pets, and are you finding the commute to be manageable with your new car?",
+        "generated": 54,
+        "ttft_ms": 10.1106,
+        "completion_ms": 493.634,
+        "tok_s": 109.392789,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "It sounds like you're settling into your new life in Portland! Congratulations on the new home, piano, and pets - I hope you're enjoying the city so far. How's the transition to your new job at Nimbus going?",
+        "generated": 47,
+        "ttft_ms": 15.3736,
+        "completion_ms": 458.7894,
+        "tok_s": 102.443518,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"pet\": \"miso\"}, \"delete\": [\"location\", \"commute\"]}",
+        "generated": 30,
+        "ttft_ms": 15.4591,
+        "completion_ms": 299.0905,
+        "tok_s": 100.304089,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 54,
+      "s0_batch_generated": 47,
+      "s0_gen_delta": -7,
+      "s0_similarity": 0.6578947368421053,
+      "s0_first_divergence_word": 15,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 0.9294120745329535,
+        "ttft": 1.5205427966688425
+      }
+    },
+    {
+      "turn": 10,
+      "kind": "untouched",
+      "user_message": "Thanks for keeping track of all that for me.",
+      "seed": 3010,
+      "state_prev": {
+        "practice": "evenings",
+        "pet": "miso"
+      },
+      "delta_raw": "{\"upsert\": {\"practice\": \"evenings\", \"pet\": \"miso\", \"location\": \"portland\", \"job\": \"nimbus\", \"commute\": \"unknown\", \"hobby\": \"none\", \"vehicle\": \"2024 tesla\", \"foster\": \"ranger\"}, \"delete\": [\"weather\", \"pet:old\", \"location:old\", \"vehicle:old\", \"foster:old\"]}",
+      "delta": {
+        "upsert": {
+          "practice": "evenings",
+          "pet": "miso",
+          "location": "portland",
+          "job": "nimbus",
+          "commute": "unknown",
+          "hobby": "none",
+          "vehicle": "2024 tesla",
+          "foster": "ranger"
+        },
+        "delete": [
+          "weather",
+          "pet:old",
+          "location:old",
+          "vehicle:old",
+          "foster:old"
+        ]
+      },
+      "delta_parse": {
+        "bare_ok": true,
+        "bare_error": null,
+        "robust_ok": true,
+        "shape_ok": true,
+        "fences": false,
+        "ends_with": "oster:old\"]}"
+      },
+      "apply": {
+        "applied": true,
+        "deleted_keys": [],
+        "popped_missing": [
+          "weather",
+          "pet:old",
+          "location:old",
+          "vehicle:old",
+          "foster:old"
+        ],
+        "contradictory_keys": [],
+        "pop_errors": []
+      },
+      "dead_key_readd": [
+        "commute",
+        "location",
+        "pet",
+        "vehicle"
+      ],
+      "state": {
+        "practice": "evenings",
+        "pet": "miso",
+        "location": "portland",
+        "job": "nimbus",
+        "commute": "unknown",
+        "hobby": "none",
+        "vehicle": "2024 tesla",
+        "foster": "ranger"
+      },
+      "rendered_state": "[User Profile]\n- practice: evenings\n- pet: miso\n- location: portland\n- job: nimbus\n- commute: unknown\n- hobby: none\n- vehicle: 2024 tesla\n- foster: ranger",
+      "state_tokens": 50,
+      "state_tokens_ok": true,
+      "label_checks": {
+        "commute_key_present": true,
+        "prev_keys_kept": true,
+        "state_unchanged": false
+      },
+      "label_diag": {
+        "prev_keys_lost": [],
+        "state_values_lower": "practice: evenings || pet: miso || location: portland || job: nimbus || commute: unknown || hobby: none || vehicle: 2024 tesla || foster: ranger",
+        "has_2019_anywhere": false,
+        "has_2024_anywhere": true
+      },
+      "label_ok": false,
+      "concept_checks": {
+        "hits": [
+          "commute_25min",
+          "job_nimbus",
+          "location_portland",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "expected_present": [
+          "commute_25min",
+          "hobby_piano",
+          "job_nimbus",
+          "location_seattle",
+          "pet_buster",
+          "pet_miso",
+          "pet_ranger_foster",
+          "vehicle_2024_tesla"
+        ],
+        "expected_absent": [
+          "location_portland",
+          "vehicle_2019_honda"
+        ],
+        "attrition_missing": [
+          "hobby_piano",
+          "location_seattle",
+          "pet_buster"
+        ],
+        "resurrection_present": [
+          "location_portland"
+        ],
+        "no_attrition": false,
+        "no_resurrection": false
+      },
+      "events": {
+        "observed": [
+          {
+            "type": "add",
+            "key": "commute",
+            "value": "unknown",
+            "concepts": [
+              "commute_25min"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "foster",
+            "value": "ranger",
+            "concepts": [
+              "pet_ranger_foster"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "hobby",
+            "value": "none",
+            "concepts": [],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "job",
+            "value": "nimbus",
+            "concepts": [
+              "job_nimbus"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "location",
+            "value": "portland",
+            "concepts": [
+              "location_portland"
+            ],
+            "matched": []
+          },
+          {
+            "type": "add",
+            "key": "vehicle",
+            "value": "2024 tesla",
+            "concepts": [
+              "vehicle_2024_tesla"
+            ],
+            "matched": []
+          }
+        ],
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "missed_expected": []
+      },
+      "expected_events": {
+        "add": [],
+        "invalidate": []
+      },
+      "delta_tokens": 91,
+      "solo_slot0": {
+        "text": "It's been a whirlwind few weeks, hasn't it? I've got all the updates on your new life in Portland, from piano practice to furry friends and a new ride. How's everything settling in so far?",
+        "generated": 46,
+        "ttft_ms": 10.1144,
+        "completion_ms": 418.7096,
+        "tok_s": 109.861345,
+        "finish": "eos"
+      },
+      "batch_slot0": {
+        "text": "It's been a whirlwind few weeks, hasn't it? I've got all the details down - you're commuting from Portland to downtown Seattle, and you're looking into charging stations for your new Tesla. How's the transition to your new job at Nimbus going so far?",
+        "generated": 57,
+        "ttft_ms": 15.1483,
+        "completion_ms": 558.6078,
+        "tok_s": 102.039392,
+        "finish": "eos"
+      },
+      "batch_slot1": {
+        "text": "{\"upsert\": {\"practice\": \"evenings\", \"pet\": \"miso\", \"location\": \"portland\", \"job\": \"nimbus\", \"commute\": \"unknown\", \"hobby\": \"none\", \"vehicle\": \"2024 tesla\", \"foster\": \"ranger\"}, \"delete\": [\"weather\", \"pet:old\", \"location:old\", \"vehicle:old\", \"foster:old\"]}",
+        "generated": 91,
+        "ttft_ms": 15.2334,
+        "completion_ms": 876.8793,
+        "tok_s": 103.77711,
+        "finish": "eos"
+      },
+      "s0_identical": false,
+      "s0_solo_generated": 46,
+      "s0_batch_generated": 57,
+      "s0_gen_delta": 11,
+      "s0_similarity": 0.4063926940639269,
+      "s0_first_divergence_word": 12,
+      "s0_mojibake_in_either": false,
+      "s0_prompt_identical": true,
+      "turn_ok": false,
+      "ratios": {
+        "completion": 1.3341174885887497,
+        "ttft": 1.4976963537135175
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+==============================================================================
+TOKEN-LEVEL PREFIX-TRIE ANALYSIS - 8 streams, llama3.2-3b, T=0.6/top_p=0.95
+==============================================================================
+problems=32  streams/problem=8  seed=1234  model=llama3.2-3b
+selection: 30 length quantiles (i+0.5)/30 + n100 UW boost
+
+Integrity
+  ok: trace counts, step contiguity, JSON stream ids, and recomputed
+      correctness all match the records
+  axis: token-id prefix trie (exact token equality, no semantic merging)
+  answers: records' canonical answers; None answers are unanswered and never correct
+  None answers: 0; a non-empty trace is kept in the trie but its answer is
+  unanswered and never correct; only an empty token sequence is excluded.
+  answers in both classes (correct + incorrect): 19/32; all-correct=12; all-wrong=1
+
+GATES
+  maj@8 acc      = 0.8438 (27/32)
+  stream-1 acc   = 0.7812 (25/32)
+  oracle@8 acc   = 0.9688 (31/32)
+  G1 = maj@8 - stream1 = +0.0625
+  G2 = oracle@8 - maj@8 = +0.1250
+  G3 = tail-only-correct (oracle, maj wrong, correct support == 1) = 3  ids=[14, 29, 32]
+       trace-level variant (all correct escapes at mass <= 1/8) = 3  ids=[14, 29, 32]
+       minority-correct (oracle, maj wrong, support > 1)         = [(18, 3)]
+
+TRUNK / SHARED PREFIX
+  first split depth (shared tokens before first fork; 0=first token differs):
+    mean=1.00 median=0.00 p10=0.00 p90=2.00 max=11.00
+  first split / mean trace length (0=immediate, 1=never):
+    mean=0.0048 median=0.0000 p10=0.0000 p90=0.0090
+  never split (all traces prefix-chain): 0/32
+  normalized histogram: 0.0-0.01:29  0.01-0.02:2  0.02-0.05:0  0.05-0.1:1  0.1-0.25:0  0.25-0.5:0  0.5-1.0:0
+  trunk_frac_mass (mean modal share over depths; 1/8=no concentration, 1=identical):
+    mean=0.2810 median=0.2588 min=0.1806
+  trie_token_saving (1 - unique nodes/tokens):    mean=0.0476 median=0.0424 max=0.1613
+  distinct token traces per problem: mean=8.00 median=8.00 (answers distinct: mean=2.41)
+    all 32 problems have 8/8 distinct token traces; answer-level unanimity does
+    not imply token-level unanimity.
+  live prefixes by absolute depth (mean over problems where depth exists):
+    d1=1.53(n=32)  d2=1.78(n=32)  d3=3.03(n=32)  d5=3.22(n=32)  d10=4.88(n=32)  d20=6.81(n=32)  d50=7.97(n=32)  d100=7.97(n=32)  d200=5.11(n=27)
+  live prefixes at normalized depth f*mean_len (mean over problems):
+    f0.05=5.00  f0.10=6.84  f0.25=7.91  f0.50=7.97  f0.75=7.59  f1.00=3.72
+
+FORKS
+  n_forks/problem: total=222 mean=6.9 median=7.0 min=6 max=7 zero=0
+    (8 distinct traces -> at most 7 branching nodes; observed max=7)
+    forks include the root (depth 0 = first-token split): 17/222 forks
+  fork depth (raw tokens): p10=1.0 p25=2.0 p50=8.0 p75=16.0 p90=22.0
+  fork depth / mean_len:   p10=0.0055 p25=0.0112 p50=0.0401 p75=0.0801 p90=0.1145
+  normalized fork-depth histogram: 0.0-0.02:74  0.02-0.05:56  0.05-0.1:59  0.1-0.2:23  0.2-0.5:10  0.5-1.0:0
+  branch mass at forks (child instances, pooled): total=446
+    k=1 (0.125):  256  ( 57.4%)
+    k=2 (0.250):   84  ( 18.8%)
+    k=3 (0.375):   41  (  9.2%)
+    k=4 (0.500):   22  (  4.9%)
+    k=5 (0.625):   22  (  4.9%)
+    k=6 (0.750):   16  (  3.6%)
+    k=7 (0.875):    5  (  1.1%)
+    Singleton children are 57.4% of fork children: the mass spectrum is
+    heavily skewed to 1/8, not a balanced front-loaded fork.
+
+CORRECT-BRANCH MASS (first pure-correct escape; 1/8..7/8)
+  eligible problems (>=1 correct and >=1 incorrect trace): 19
+  per-problem mass at first separation:  1/8:8 2/8:7 3/8:2 4/8:1 5/8:0 6/8:1 7/8:0
+  per-problem max over escapes:          1/8:7 2/8:5 3/8:3 4/8:3 5/8:0 6/8:1 7/8:0
+  per-correct-stream escape mass:        1/8:32 2/8:20 3/8:18 4/8:12 5/8:0 6/8:6 7/8:0
+  first-separation mass: mean=0.250 median=0.250 min=0.125; max-over-escapes mean=0.289
+  first correct escape depth / mean_len: mean=0.0191 median=0.0123
+  first-separation mass <= 1/8: 8  (qid, mass, correct stream count) = [(9, 0.125, 4), (13, 0.125, 4), (14, 0.125, 1), (22, 0.125, 3), (25, 0.125, 4), (29, 0.125, 1), (30, 0.125, 5), (32, 0.125, 1)]
+  first-separation mass < answer-level correct support: 16 [(1, 0.25, 7), (8, 0.25, 7), (9, 0.125, 4), (10, 0.25, 6), (12, 0.5, 7), (13, 0.125, 4), (15, 0.375, 7), (16, 0.25, 6), (18, 0.25, 3), (21, 0.375, 7), (22, 0.125, 3), (24, 0.25, 3), (25, 0.125, 4), (26, 0.75, 7), (27, 0.25, 5), (30, 0.125, 5)]
+    Trace-level branch mass is not answer support. Correct traces diverge
+    from each other while sharing a prefix with an incorrect trace, so the
+    largest pure-correct token branch can be far smaller than the 7/8 answer
+    group (q1: 7/8 correct answers, largest pure-correct branch 2/8).
+
+MONOTONICITY: P(child correct | child mass), all fork children pooled
+  universe: problems with both correct and incorrect traces
+  child instances=264  problems=19
+    k  mass   n_child  mean_corr  mean_excess  P(pure)  P(any correct)
+    1  0.125      152     0.5789       0.0000   0.5789         0.5789
+    2  0.250       47     0.5851       0.0080   0.4255         0.7447
+    3  0.375       26     0.6154      -0.0000   0.4231         0.8077
+    4  0.500       13     0.5769      -0.0577   0.2308         0.7692
+    5  0.625       13     0.4615      -0.0288   0.0000         0.8462
+    6  0.750       10     0.5500      -0.0250   0.1000         0.9000
+    7  0.875        3     0.3333      -0.0417   0.0000         1.0000
+    mean_corr is the correctness density of streams in branches of that size.
+    P(any correct) is size-biased (bigger branches hold more streams and are
+    likelier to contain at least one correct trace); it is not the monotonicity test.
+  high-mass bucket (k>=4): n_child=39 from 19 problems
+  trend: spearman(k, excess)=-0.0806  mean_excess(k<=2)=0.0019  mean_excess(k>=4)=-0.0385  delta=-0.0403
+  classification: slightly decreasing with mass (weak)
+  caveat: child instances are nested (one stream feeds many forks) and only
+  19 problems are independent; this is descriptive, not a significance test.
+
+VERDICT
+  1) Large shared trunk to bank?
+     NO all-8 trunk: median first fork after 0.0 shared token(s) (p90=2.0).
+     The all-8 trunk is 0-2 tokens for 90% of problems; by 25% of the trace the
+     population is ~8 distinct prefixes (mean 7.9), i.e. 8 separate chains.
+     Prefix collapse saves a median 4.24% of token positions (max 16.13%); a few
+     problems keep a 6/8 modal branch for ~20 tokens, but that is modest, not large.
+  2) Fork timing?
+     FRONT-LOADED. Median fork depth is 4.0% of trace length (p90=11.5%).
+     After that the trie is a set of long singleton chains; 57.4% of fork
+     children are 1/8 branches.
+  3) Correctness monotone in branch mass?
+     NO increasing trend: slightly decreasing with mass (weak), delta=-0.0403, spearman=-0.0806.
+     Decision statistic is correctness density; P(any correct) is size-biased.
+     Low-mass branches are not systematically less correct. The high-mass
+     bucket is only 39 child instances and the rows are nested, so treat the
+     flat/slightly-negative point estimate as weak, not a reliable negative law.
+  4) Tail-only-correct problems (G3): 3  ids=[14, 29, 32]
+  5) Decision rule (monotone means monotone-increasing in mass):
+     G3>0 and correctness is not increasing with branch mass -> WORTH A GPU SESSION.
+     Tail cases exist and mass does not identify them in advance. This is a weak
+     structural green light, not a demonstrated capability: the monotonicity
+     evidence is flat, n=32, and one of the three tail cases (q32) is a selected
+     boost. The next step is a cheap targeted amplification experiment, not a sweep.
+
+CAVEATS
+  * n=32 problems, 8 streams, one model (llama3.2-3b), one seed (1234), T=0.6/top_p=0.95.
+  * Branch masses are integer counts / 8 (multiples of 1/8); with 8 streams the
+    smallest non-zero mass is 0.125 and estimates are coarse.
+  * Forks are token-level and nested: the same stream contributes to many fork
+    children, so the monotonicity table is descriptive, not an independent-sample test.
+  * Branch correctness density uses one sampled continuation per stream. It is not
+    P(correct | more samples from that prefix), which is what an amplification
+    experiment would need; this analysis cannot estimate that conditional.
+  * The trie merges exact token-id prefixes only. Different text that tokenizes
+    differently, or reasoning paths that re-converge after diverging, are counted
+    as separate; token_saving is an upper bound on prefix-collapse savings and a
+    lower bound on any broader (non-prefix) reuse.
+  * Traces are the sidecar's emitted tokens, including EOS (tok 128009) where the
+    stream finished by EOS; EOS sits under each terminal prefix and merges nothing.
+  * 12/32 problems are all-correct, 1/32 all-wrong, and 19/32 have both classes.
+    Only the both-class problems can inform correctness-vs-mass; the mass table
+    excludes all-correct/all-wrong problems, while fork-depth stats include all.
+  * selection is 30 length quantiles + 2 boosts chosen as unanimous-wrong in the
+    n=100 run (q31, q32). q32 is one of the tail-only cases, so G3 is inflated by
+    the boost design; the random quantile subset alone contributes q14 and q29 (2/30).
+  * answers are the probe's canonicalized answers; correctness is exact string
+    equality after that canonicalization. No semantic/numeric tolerance is added.
+  * This is structural analysis of token sequences, not a wall-clock or GPU measurement.

@@ -1,0 +1,352 @@
+=== angle 41 Phase A: adaptive compute router (offline, zero GPU) ===
+data only; no GPU touched; no existing files modified
+
+PRIMARY tie rule = first-seen plurality; STRICT = sensitivity.
+Both rules are recomputed end-to-end and reported side by side.
+
+--- datasets ---
+  probs32         n= 32 N=8  lp_min=yes agree=yes stability=no
+  disagree_n5     n=100 N=5  lp_min=no agree=yes stability=no
+  disagree30      n= 30 N=8  lp_min=no agree=yes stability=no
+  reform30_join   n= 30 N=5  lp_min=no agree=yes stability=yes
+  NOTE: disagree30 is the same run as probs32[0:30] (identical questions
+        and answers) — not independent evidence.
+
+
+==============================================================================
+TIE RULE: FIRST-SEEN plurality (PRIMARY; ties -> earliest-seen)
+==============================================================================
+
+--- endpoint baselines under this rule ---
+  probs32         E1  78.12% | E3  84.38% | E_full(N=8)  84.38% | full-plurality ties=1 file-label mismatches=0
+  disagree_n5     E1  74.00% | E3  79.00% | E_full(N=5)  83.00% | full-plurality ties=5 file-label mismatches=0
+  disagree30      E1  80.00% | E3  86.67% | E_full(N=8)  90.00% | full-plurality ties=1 file-label mismatches=0
+  reform30_join   E1  63.33% | E3  70.00% | E_full(N=5)  76.67% | full-plurality ties=0 file-label mismatches=0
+
+--- feature AUROC vs first-seen full-majority correctness ---
+  probs32         uni3=0.715  lp_min_reason_1=0.696  lp_min_1=0.696
+  disagree_n5     uni3=0.797
+  disagree30      uni3=0.815
+  reform30_join   uni3=0.683  stability=0.890
+
+--- ladders: CV frontiers (thresholds fitted inside CV) ---
+  dataset probs32 (n=32 N=8, CV=loo): E1=78.12% E_full=84.38%  budget=4.8 streams
+    ladder L1 selected-by-CV: acc  71.88%  streams  1.94  lat_seq  1.43  lat_bat  1.12  esc  15.6%  prec_esc 60.0%  prec_skip 7.1%  flag_rec 40.0%  acc_esc 40.0%  acc_noesc 77.8%
+      selected level-config mode: tau_lo=q0.0 tau_hi=q0.1 (29/32 folds)
+      CV-frontier tau_lo=q0.0 tau_hi=q0.0 acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00
+      CV-frontier tau_lo=q0.0 tau_hi=q0.1 acc  81.25%  streams  1.72  lat_seq  1.33  lat_bat  1.09 <== meets ADVANCE-B (CV)
+      CV-frontier tau_lo=q0.0 tau_hi=q1.0 acc  84.38%  streams  5.19  lat_seq  3.03  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau_lo=q0.0 tau_hi=q0.0 acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00  esc   0.0%  prec_esc n/a  prec_skip 15.6%  flag_rec 100.0%  acc_esc n/a  acc_noesc 78.1%
+        tau_lo=q0.0 tau_hi=q0.1 acc  81.25%  streams  1.72  lat_seq  1.33  lat_bat  1.09  esc  12.5%  prec_esc 25.0%  prec_skip 13.8%  flag_rec 80.0%  acc_esc 75.0%  acc_noesc 82.1%
+        tau_lo=q0.0 tau_hi=q1.0 acc  84.38%  streams  5.19  lat_seq  3.03  lat_bat  1.51  esc 100.0%  prec_esc 15.6%  prec_skip 5.6%  flag_rec 20.0%  acc_esc 84.4%  acc_noesc n/a
+    ladder L2 selected-by-CV: acc  84.38%  streams  5.19  lat_seq  2.03  lat_bat  1.51  esc  43.8%  prec_esc 28.6%  prec_skip 5.6%  flag_rec 20.0%  acc_esc 71.4%  acc_noesc 94.4%
+      selected level-config mode: (no threshold) (32/32 folds)
+      CV-frontier (no threshold)         acc  84.38%  streams  5.19  lat_seq  2.03  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  84.38%  streams  5.19  lat_seq  2.03  lat_bat  1.51  esc  43.8%  prec_esc 28.6%  prec_skip 5.6%  flag_rec 20.0%  acc_esc 71.4%  acc_noesc 94.4%
+    ladder L3 selected-by-CV: acc  78.12%  streams  1.66  lat_seq  1.18  lat_bat  1.09  esc   9.4%  prec_esc 33.3%  prec_skip 13.8%  flag_rec 80.0%  acc_esc 66.7%  acc_noesc 79.3%
+      selected level-config mode: tau=q0.1 (31/32 folds)
+      CV-frontier tau=q0.0               acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00
+      CV-frontier tau=q0.1               acc  81.25%  streams  1.88  lat_seq  1.24  lat_bat  1.11 <== meets ADVANCE-B (CV)
+      CV-frontier tau=q1.0               acc  84.38%  streams  8.00  lat_seq  2.92  lat_bat  1.92
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau=q0.0               acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00  esc   0.0%  prec_esc n/a  prec_skip 15.6%  flag_rec 100.0%  acc_esc n/a  acc_noesc 78.1%
+        tau=q0.1               acc  81.25%  streams  1.88  lat_seq  1.24  lat_bat  1.11  esc  12.5%  prec_esc 25.0%  prec_skip 14.3%  flag_rec 80.0%  acc_esc 75.0%  acc_noesc 82.1%
+        tau=q1.0               acc  84.38%  streams  8.00  lat_seq  2.92  lat_bat  1.92  esc 100.0%  prec_esc 15.6%  prec_skip n/a  flag_rec 0.0%  acc_esc 84.4%  acc_noesc n/a
+    ladder L4 selected-by-CV: acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26  esc   9.4%  prec_esc 66.7%  prec_skip 10.3%  flag_rec 60.0%  acc_esc 33.3%  acc_noesc 86.2%
+      selected level-config mode: (no threshold) (32/32 folds)
+      CV-frontier (no threshold)         acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26  esc   9.4%  prec_esc 66.7%  prec_skip 10.3%  flag_rec 60.0%  acc_esc 33.3%  acc_noesc 86.2%
+
+  dataset disagree_n5 (n=100 N=5, CV=fold5): E1=74.00% E_full=83.00%  budget=3.0 streams
+    ladder L2 selected-by-CV: acc  83.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29  esc  39.0%  prec_esc 38.5%  prec_skip 3.3%  flag_rec 11.8%  acc_esc 61.5%  acc_noesc 96.7%
+      selected level-config mode: (no threshold) (100/100 folds)
+      CV-frontier (no threshold)         acc  83.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  83.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29  esc  39.0%  prec_esc 38.5%  prec_skip 3.3%  flag_rec 11.8%  acc_esc 61.5%  acc_noesc 96.7%
+    ladder L4 selected-by-CV: acc  83.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23  esc  16.0%  prec_esc 62.5%  prec_skip 8.3%  flag_rec 41.2%  acc_esc 37.5%  acc_noesc 91.7%
+      selected level-config mode: (no threshold) (100/100 folds)
+      CV-frontier (no threshold)         acc  83.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  83.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23  esc  16.0%  prec_esc 62.5%  prec_skip 8.3%  flag_rec 41.2%  acc_esc 37.5%  acc_noesc 91.7%
+
+  dataset disagree30 (n=30 N=8, CV=loo): E1=80.00% E_full=90.00%  budget=4.8 streams
+    ladder L2 selected-by-CV: acc  90.00%  streams  5.17  lat_seq  2.02  lat_bat  1.51  esc  43.3%  prec_esc 23.1%  prec_skip 0.0%  flag_rec 0.0%  acc_esc 76.9%  acc_noesc 100.0%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  90.00%  streams  5.17  lat_seq  2.02  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  90.00%  streams  5.17  lat_seq  2.02  lat_bat  1.51  esc  43.3%  prec_esc 23.1%  prec_skip 0.0%  flag_rec 0.0%  acc_esc 76.9%  acc_noesc 100.0%
+    ladder L4 selected-by-CV: acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24  esc   6.7%  prec_esc 50.0%  prec_skip 7.1%  flag_rec 66.7%  acc_esc 50.0%  acc_noesc 89.3%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24  esc   6.7%  prec_esc 50.0%  prec_skip 7.1%  flag_rec 66.7%  acc_esc 50.0%  acc_noesc 89.3%
+
+  dataset reform30_join (n=30 N=5, CV=loo): E1=63.33% E_full=76.67%  budget=3.0 streams
+    ladder L2 selected-by-CV: acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+    ladder L2s selected-by-CV: acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+      selected level-config mode: tau=q0.0 (30/30 folds)
+      CV-frontier tau=q0.0               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      CV-frontier tau=q0.1               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau=q0.0               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+        tau=q0.1               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+    ladder L4 selected-by-CV: acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23  esc  16.7%  prec_esc 40.0%  prec_skip 20.0%  flag_rec 71.4%  acc_esc 60.0%  acc_noesc 80.0%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23  esc  16.7%  prec_esc 40.0%  prec_skip 20.0%  flag_rec 71.4%  acc_esc 60.0%  acc_noesc 80.0%
+
+--- verdict vs pre-registered criteria (CV-validated points only) ---
+  probs32         L1   ADVANCE-A:no  ADVANCE-B:YES(5)  dominates-both:YES(10)  [ADVANCE]
+      closest to A: tau_lo=q0.0 tau_hi=q1.0  acc 84.38% at 5.19 streams (budget 4.8, gap +0.39)
+      closest to B: tau_lo=q0.0 tau_hi=q0.1  acc 81.25% at 1.72 streams (cap 3.0, gap -1.28)
+  probs32         L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 84.38% at 5.19 streams (budget 4.8, gap +0.39)
+      closest to B: (no threshold)  acc 84.38% at 5.19 streams (cap 3.0, gap +2.19)
+  probs32         L3   ADVANCE-A:no  ADVANCE-B:YES(2)  dominates-both:no  [ADVANCE]
+      closest to A: tau=q1.0  acc 84.38% at 8.00 streams (budget 4.8, gap +3.20)
+      closest to B: tau=q0.1  acc 81.25% at 1.88 streams (cap 3.0, gap -1.12)
+  probs32         L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:no  [no]
+      closest to B: (no threshold)  acc 81.25% at 3.47 streams (cap 3.0, gap +0.47)
+  disagree_n5     L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 83.00% at 3.78 streams (budget 3.0, gap +0.78)
+      closest to B: (no threshold)  acc 83.00% at 3.78 streams (cap 3.0, gap +0.78)
+  disagree_n5     L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 83.00% at 3.32 streams (budget 3.0, gap +0.32)
+      closest to B: (no threshold)  acc 83.00% at 3.32 streams (cap 3.0, gap +0.32)
+  disagree30      L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 90.00% at 5.17 streams (budget 4.8, gap +0.37)
+      closest to B: (no threshold)  acc 90.00% at 5.17 streams (cap 3.0, gap +2.17)
+  disagree30      L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:no  [no]
+      closest to B: (no threshold)  acc 86.67% at 3.33 streams (cap 3.0, gap +0.33)
+  reform30_join   L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 76.67% at 3.87 streams (budget 3.0, gap +0.87)
+      closest to B: (no threshold)  acc 76.67% at 3.87 streams (cap 3.0, gap +0.87)
+  reform30_join   L2s  ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(10)  [no]
+      closest to A: tau=q0.0  acc 76.67% at 3.87 streams (budget 3.0, gap +0.87)
+      closest to B: tau=q0.0  acc 76.67% at 3.87 streams (cap 3.0, gap +0.87)
+  reform30_join   L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 76.67% at 3.33 streams (budget 3.0, gap +0.33)
+      closest to B: (no threshold)  acc 76.67% at 3.33 streams (cap 3.0, gap +0.33)
+
+PHASE A VERDICT: ADVANCE — at least one CV-validated adaptive point
+meets a pre-registered criterion (see marks above).
+  NOTE: L2 Pareto-dominates the endpoints on (mean streams, accuracy) on
+  all four datasets (dominates-both:YES) but still misses the
+  40%-savings budget (mean_streams <= 0.6*N), so it does not meet
+  ADVANCE-A; both statements are true at once.
+  escalation-quality notes (always printed):
+  low skip precision: probs32/L1 tau_lo=q0.0 tau_hi=q0.1 at acc  81.25%  streams  1.72  lat_seq  1.33  lat_bat  1.09 prec_skip=13.8%
+  low skip precision: probs32/L1 tau_lo=q0.1 tau_hi=q0.1 at acc  81.25%  streams  1.88  lat_seq  1.39  lat_bat  1.11 prec_skip=14.3%
+  low skip precision: probs32/L1 tau_lo=q0.0 tau_hi=q0.2 at acc  81.25%  streams  1.91  lat_seq  1.44  lat_bat  1.11 prec_skip=13.8%
+  low skip precision: probs32/L1 tau_lo=q0.1 tau_hi=q0.2 at acc  81.25%  streams  2.06  lat_seq  1.50  lat_bat  1.13 prec_skip=14.3%
+  low skip precision: probs32/L1 tau_lo=q0.2 tau_hi=q0.2 at acc  81.25%  streams  2.53  lat_seq  1.68  lat_bat  1.20 prec_skip=16.0%
+  low skip precision: probs32/L3 tau=q0.1 at acc  81.25%  streams  1.88  lat_seq  1.24  lat_bat  1.11 prec_skip=14.3%
+  low skip precision: probs32/L3 tau=q0.2 at acc  81.25%  streams  2.53  lat_seq  1.42  lat_bat  1.20 prec_skip=16.0%
+
+--- best policy ---
+  meets a pre-registered criterion.
+  dataset=probs32 ladder=L1 config=tau_lo=q0.0 tau_hi=q0.1 (CV=loo)
+  full-data absolute thresholds: -inf, -3.2569
+  CV metrics: acc  81.25%  streams  1.72  lat_seq  1.33  lat_bat  1.09  esc  12.5%  prec_esc 25.0%  prec_skip 13.8%  flag_rec 80.0%  acc_esc 75.0%  acc_noesc 82.1%
+  endpoints on same data: E1 78.12%  E3 84.38%  E_full 84.38%
+  rung mix (in-sample, descriptive): full=3 stop1=28 stop3=1
+  typical easy (unanimous & full-majority right, n=17): acc 100.00%  streams  1.12  lat_seq  1.07  lat_bat  1.01
+  typical hard (split or wrong full-majority, n=15): acc  60.00%  streams  2.40  lat_seq  1.62  lat_bat  1.18
+
+
+==============================================================================
+TIE RULE: STRICT plurality (SENSITIVITY; ties -> abstain = wrong)
+==============================================================================
+
+--- endpoint baselines under this rule ---
+  probs32         E1  78.12% | E3  78.12% | E_full(N=8)  81.25% | full-plurality ties=1 file-label mismatches=1
+  disagree_n5     E1  74.00% | E3  77.00% | E_full(N=5)  82.00% | full-plurality ties=5 file-label mismatches=1
+  disagree30      E1  80.00% | E3  83.33% | E_full(N=8)  86.67% | full-plurality ties=1 file-label mismatches=1
+  reform30_join   E1  63.33% | E3  66.67% | E_full(N=5)  76.67% | full-plurality ties=0 file-label mismatches=0
+
+--- feature AUROC vs strict full-majority correctness ---
+  probs32         uni3=0.744  lp_min_reason_1=0.756  lp_min_1=0.756
+  disagree_n5     uni3=0.804
+  disagree30      uni3=0.827
+  reform30_join   uni3=0.683  stability=0.890
+
+--- ladders: CV frontiers (thresholds fitted inside CV) ---
+  dataset probs32 (n=32 N=8, CV=loo): E1=78.12% E_full=81.25%  budget=4.8 streams
+    ladder L1 selected-by-CV: acc  71.88%  streams  1.44  lat_seq  1.19  lat_bat  1.06  esc   6.2%  prec_esc 100.0%  prec_skip 13.3%  flag_rec 66.7%  acc_esc 0.0%  acc_noesc 76.7%
+      selected level-config mode: tau_lo=q0.0 tau_hi=q0.0 (30/32 folds)
+      CV-frontier tau_lo=q0.0 tau_hi=q0.0 acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00
+      CV-frontier tau_lo=q0.0 tau_hi=q1.0 acc  81.25%  streams  5.19  lat_seq  3.03  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau_lo=q0.0 tau_hi=q0.0 acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00  esc   0.0%  prec_esc n/a  prec_skip 18.8%  flag_rec 100.0%  acc_esc n/a  acc_noesc 78.1%
+        tau_lo=q0.0 tau_hi=q1.0 acc  81.25%  streams  5.19  lat_seq  3.03  lat_bat  1.51  esc 100.0%  prec_esc 18.8%  prec_skip 5.6%  flag_rec 16.7%  acc_esc 81.2%  acc_noesc n/a
+    ladder L2 selected-by-CV: acc  81.25%  streams  5.19  lat_seq  2.03  lat_bat  1.51  esc  43.8%  prec_esc 35.7%  prec_skip 5.6%  flag_rec 16.7%  acc_esc 64.3%  acc_noesc 94.4%
+      selected level-config mode: (no threshold) (32/32 folds)
+      CV-frontier (no threshold)         acc  81.25%  streams  5.19  lat_seq  2.03  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  81.25%  streams  5.19  lat_seq  2.03  lat_bat  1.51  esc  43.8%  prec_esc 35.7%  prec_skip 5.6%  flag_rec 16.7%  acc_esc 64.3%  acc_noesc 94.4%
+    ladder L3 selected-by-CV: acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00  esc   0.0%  prec_esc n/a  prec_skip 18.8%  flag_rec 100.0%  acc_esc n/a  acc_noesc 78.1%
+      selected level-config mode: tau=q0.0 (32/32 folds)
+      CV-frontier tau=q0.0               acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00
+      CV-frontier tau=q1.0               acc  81.25%  streams  8.00  lat_seq  2.92  lat_bat  1.92
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau=q0.0               acc  78.12%  streams  1.00  lat_seq  1.00  lat_bat  1.00  esc   0.0%  prec_esc n/a  prec_skip 18.8%  flag_rec 100.0%  acc_esc n/a  acc_noesc 78.1%
+        tau=q1.0               acc  81.25%  streams  8.00  lat_seq  2.92  lat_bat  1.92  esc 100.0%  prec_esc 18.8%  prec_skip n/a  flag_rec 0.0%  acc_esc 81.2%  acc_noesc n/a
+    ladder L4 selected-by-CV: acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26  esc   9.4%  prec_esc 66.7%  prec_skip 13.8%  flag_rec 66.7%  acc_esc 33.3%  acc_noesc 86.2%
+      selected level-config mode: (no threshold) (32/32 folds)
+      CV-frontier (no threshold)         acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26 <== meets ADVANCE-A (CV)
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26  esc   9.4%  prec_esc 66.7%  prec_skip 13.8%  flag_rec 66.7%  acc_esc 33.3%  acc_noesc 86.2%
+
+  dataset disagree_n5 (n=100 N=5, CV=fold5): E1=74.00% E_full=82.00%  budget=3.0 streams
+    ladder L2 selected-by-CV: acc  82.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29  esc  39.0%  prec_esc 41.0%  prec_skip 3.3%  flag_rec 11.1%  acc_esc 59.0%  acc_noesc 96.7%
+      selected level-config mode: (no threshold) (100/100 folds)
+      CV-frontier (no threshold)         acc  82.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  82.00%  streams  3.78  lat_seq  1.75  lat_bat  1.29  esc  39.0%  prec_esc 41.0%  prec_skip 3.3%  flag_rec 11.1%  acc_esc 59.0%  acc_noesc 96.7%
+    ladder L4 selected-by-CV: acc  82.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23  esc  16.0%  prec_esc 68.8%  prec_skip 8.3%  flag_rec 38.9%  acc_esc 31.2%  acc_noesc 91.7%
+      selected level-config mode: (no threshold) (100/100 folds)
+      CV-frontier (no threshold)         acc  82.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  82.00%  streams  3.32  lat_seq  1.42  lat_bat  1.23  esc  16.0%  prec_esc 68.8%  prec_skip 8.3%  flag_rec 38.9%  acc_esc 31.2%  acc_noesc 91.7%
+
+  dataset disagree30 (n=30 N=8, CV=loo): E1=80.00% E_full=86.67%  budget=4.8 streams
+    ladder L2 selected-by-CV: acc  86.67%  streams  5.17  lat_seq  2.02  lat_bat  1.51  esc  43.3%  prec_esc 30.8%  prec_skip 0.0%  flag_rec 0.0%  acc_esc 69.2%  acc_noesc 100.0%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  86.67%  streams  5.17  lat_seq  2.02  lat_bat  1.51
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  86.67%  streams  5.17  lat_seq  2.02  lat_bat  1.51  esc  43.3%  prec_esc 30.8%  prec_skip 0.0%  flag_rec 0.0%  acc_esc 69.2%  acc_noesc 100.0%
+    ladder L4 selected-by-CV: acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24  esc   6.7%  prec_esc 50.0%  prec_skip 10.7%  flag_rec 75.0%  acc_esc 50.0%  acc_noesc 89.3%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24 <== meets ADVANCE-A (CV)
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24  esc   6.7%  prec_esc 50.0%  prec_skip 10.7%  flag_rec 75.0%  acc_esc 50.0%  acc_noesc 89.3%
+
+  dataset reform30_join (n=30 N=5, CV=loo): E1=63.33% E_full=76.67%  budget=3.0 streams
+    ladder L2 selected-by-CV: acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+    ladder L2s selected-by-CV: acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+      selected level-config mode: tau=q0.0 (30/30 folds)
+      CV-frontier tau=q0.0               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      CV-frontier tau=q0.1               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30
+      in-sample Pareto (IN-SAMPLE, labelled):
+        tau=q0.0               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+        tau=q0.1               acc  76.67%  streams  3.87  lat_seq  1.81  lat_bat  1.30  esc  43.3%  prec_esc 38.5%  prec_skip 11.8%  flag_rec 28.6%  acc_esc 61.5%  acc_noesc 88.2%
+    ladder L4 selected-by-CV: acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23  esc  16.7%  prec_esc 40.0%  prec_skip 20.0%  flag_rec 71.4%  acc_esc 60.0%  acc_noesc 80.0%
+      selected level-config mode: (no threshold) (30/30 folds)
+      CV-frontier (no threshold)         acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23
+      in-sample Pareto (IN-SAMPLE, labelled):
+        (no threshold)         acc  76.67%  streams  3.33  lat_seq  1.43  lat_bat  1.23  esc  16.7%  prec_esc 40.0%  prec_skip 20.0%  flag_rec 71.4%  acc_esc 60.0%  acc_noesc 80.0%
+
+--- verdict vs pre-registered criteria (CV-validated points only) ---
+  probs32         L1   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(10)  [no]
+      closest to A: tau_lo=q0.0 tau_hi=q1.0  acc 81.25% at 5.19 streams (budget 4.8, gap +0.39)
+      closest to B: tau_lo=q0.0 tau_hi=q1.0  acc 81.25% at 5.19 streams (cap 3.0, gap +2.19)
+  probs32         L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 81.25% at 5.19 streams (budget 4.8, gap +0.39)
+      closest to B: (no threshold)  acc 81.25% at 5.19 streams (cap 3.0, gap +2.19)
+  probs32         L3   ADVANCE-A:no  ADVANCE-B:no  dominates-both:no  [no]
+      closest to A: tau=q1.0  acc 81.25% at 8.00 streams (budget 4.8, gap +3.20)
+      closest to B: tau=q1.0  acc 81.25% at 8.00 streams (cap 3.0, gap +5.00)
+  probs32         L4   ADVANCE-A:YES(1)  ADVANCE-B:no  dominates-both:YES(1)  [ADVANCE]
+      closest to A: (no threshold)  acc 81.25% at 3.47 streams (budget 4.8, gap -1.33)
+      closest to B: (no threshold)  acc 81.25% at 3.47 streams (cap 3.0, gap +0.47)
+  disagree_n5     L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 82.00% at 3.78 streams (budget 3.0, gap +0.78)
+      closest to B: (no threshold)  acc 82.00% at 3.78 streams (cap 3.0, gap +0.78)
+  disagree_n5     L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 82.00% at 3.32 streams (budget 3.0, gap +0.32)
+      closest to B: (no threshold)  acc 82.00% at 3.32 streams (cap 3.0, gap +0.32)
+  disagree30      L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 86.67% at 5.17 streams (budget 4.8, gap +0.37)
+      closest to B: (no threshold)  acc 86.67% at 5.17 streams (cap 3.0, gap +2.17)
+  disagree30      L4   ADVANCE-A:YES(1)  ADVANCE-B:no  dominates-both:YES(1)  [ADVANCE]
+      closest to A: (no threshold)  acc 86.67% at 3.33 streams (budget 4.8, gap -1.47)
+      closest to B: (no threshold)  acc 86.67% at 3.33 streams (cap 3.0, gap +0.33)
+  reform30_join   L2   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 76.67% at 3.87 streams (budget 3.0, gap +0.87)
+      closest to B: (no threshold)  acc 76.67% at 3.87 streams (cap 3.0, gap +0.87)
+  reform30_join   L2s  ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(10)  [no]
+      closest to A: tau=q0.0  acc 76.67% at 3.87 streams (budget 3.0, gap +0.87)
+      closest to B: tau=q0.0  acc 76.67% at 3.87 streams (cap 3.0, gap +0.87)
+  reform30_join   L4   ADVANCE-A:no  ADVANCE-B:no  dominates-both:YES(1)  [no]
+      closest to A: (no threshold)  acc 76.67% at 3.33 streams (budget 3.0, gap +0.33)
+      closest to B: (no threshold)  acc 76.67% at 3.33 streams (cap 3.0, gap +0.33)
+
+PHASE A VERDICT: ADVANCE — at least one CV-validated adaptive point
+meets a pre-registered criterion (see marks above).
+  NOTE: L2 Pareto-dominates the endpoints on (mean streams, accuracy) on
+  all four datasets (dominates-both:YES) but still misses the
+  40%-savings budget (mean_streams <= 0.6*N), so it does not meet
+  ADVANCE-A; both statements are true at once.
+  escalation-quality notes (always printed):
+  low skip precision: probs32/L4 (no threshold) at acc  81.25%  streams  3.47  lat_seq  1.37  lat_bat  1.26 prec_skip=13.8%
+  low skip precision: disagree30/L4 (no threshold) at acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24 prec_skip=10.7%
+
+--- best policy ---
+  meets a pre-registered criterion.
+  dataset=disagree30 ladder=L4 config=(no threshold) (CV=loo)
+  full-data absolute thresholds: 
+  CV metrics: acc  86.67%  streams  3.33  lat_seq  1.32  lat_bat  1.24  esc   6.7%  prec_esc 50.0%  prec_skip 10.7%  flag_rec 75.0%  acc_esc 50.0%  acc_noesc 89.3%
+  endpoints on same data: E1 80.00%  E3 83.33%  E_full 86.67%
+  rung mix (in-sample, descriptive): full=2 stop3=28
+  typical easy (unanimous & full-majority right, n=17): acc 100.00%  streams  3.00  lat_seq  1.19  lat_bat  1.19
+  typical hard (split or wrong full-majority, n=13): acc  69.23%  streams  3.77  lat_seq  1.49  lat_bat  1.30
+
+--- L4 = plurality@3 (pre-registered gate, all datasets, both rules) ---
+  escalation fallback returns maj@N under the active tie rule;
+  esc_recall = share of always-full-wrong cases that escalated.
+  bar = within 1pp of always-full AND mean streams <= 0.6*N
+  rule         dataset              acc  streams     esc  prec_esc  esc_recall  meets bar
+  first-seen   probs32           81.25%     3.47    9.4%     66.7%       40.0%  no
+  first-seen   disagree_n5       83.00%     3.32   16.0%     62.5%       58.8%  no
+  first-seen   disagree30        86.67%     3.33    6.7%     50.0%       33.3%  no
+  first-seen   reform30_join     76.67%     3.33   16.7%     40.0%       28.6%  no
+  strict       probs32           81.25%     3.47    9.4%     66.7%       33.3%  YES
+  strict       disagree_n5       82.00%     3.32   16.0%     68.8%       61.1%  no
+  strict       disagree30        86.67%     3.33    6.7%     50.0%       25.0%  YES
+  strict       reform30_join     76.67%     3.33   16.7%     40.0%       28.6%  no
+
+--- caveats ---
+  * small n: probs32 has 6 wrong full pluralities (1 tie); n=32 LP set
+    cannot resolve within-unanimous discrimination (row 40 follow-up).
+  * disagree30 duplicates probs32[0:30]; treat as a robustness check,
+    not a second sample.
+  * PRIMARY = first-seen plurality (matches the maj_ok labels in the
+    dumps); SENSITIVITY = strict plurality (ties counted wrong). Both
+    are recomputed end-to-end above; file-label mismatches should be 0
+    under first-seen, which validates the primary rule.
+  * 2/32 stream-1 texts lack the 'The answer is' marker; lp_min_reason_1
+    falls back to the all-token min for those (marker_missing column).
+  * reform stability has 1 None (p13 all-noop, excluded in row 39);
+    treated as gate-fail (escalate).
+  * latency multipliers are E0-DERIVED, not E2-measured: source is
+    results/e0_full.csv (all rows; median(step_ms|N)/median(step_ms|N=1)):
+    N=3 -> 1.19, N=5 -> 1.44, N=8 -> 1.92 raw (p50-tail range
+    1.70..2.06 for N=8 per results/e0_summary.txt). The old 'E2 sweep'
+    labels were wrong: results/e2_sweep200.csv has no N=3/N=5 rows.
+    These are descriptive; NO pass/fail gate depends on latency.
+  * thresholds selected per CV fold on quantile-level grids; fold-level
+    selection at n=32 with ~6 negatives is noisy — CIs not claimed.
+    L4 is parameter-free and therefore not cross-validated.
+  * unanimous-wrong is unfixable inside these ladders: the top rung is
+    maj@full, which is wrong whenever the full pool is unanimous-wrong.
+    The stability gate (L2s) can only spend more (escalate), never
+    rescue; the actual rescue arm is row 39's reform invocation (2nd
+    call), which sits outside both the ladders and the latency model.
+  * offline assumption: answers[0:k] of an N-stream run stand in for a
+    fresh k-stream batch (per-stream seeds are row-derived in the
+    harness, but batch-size dependence of the sampling chain was not
+    verified offline).
+
+wrote S:\Agent\QSExplore\RecycleLM\results\router_features.csv

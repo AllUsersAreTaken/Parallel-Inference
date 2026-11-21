@@ -59,5 +59,27 @@ __pycache__/
 /data/*.tsv
 /data/*.json
 /data/*.jsonl
+# Application materials (personal; references, essays, CV drafts - never published)
+/application/
+
+# per-example hidden-state dumps (regenerable, ~6 MB each, hundreds of files)
+/data/*.f16
+/data/_f5*
+
 # playground / probe scratch
 /app/_*
+# doc-streams output folders (created next to whatever folder you benchmark)
+**/_outputs/
+
+# curve cache (regenerable, machine-specific)
+/app/curves.json
+
+# QUBO ablation: pinned venv and derived caches (5.4 GB; rebuilt on demand)
+.venv/
+results/littlebit/_cache/
+
+# Large per-arm training checkpoints (model + Adam + RNG), reproducible from distill.py
+results/littlebit/runs/
+
+# Nested clone of the private Parallel-Inference repo (own .git; never publish)
+/Parallel Inference/

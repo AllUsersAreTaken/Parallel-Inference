@@ -14,7 +14,7 @@ are not extrapolated to other GPUs.
   by **25%**, with an **11%** increase in answer latency. The generated memory
   reduced subsequent context by **78%** and preserved the corrected facts in all
   ten tested conversations. Scope: Qwen2.5-3B Q4, ~1.3k-token histories, ten
-  conversations, one compaction pass. See `DEMO_context_compaction.md`.
+  conversations, one compaction pass. See `docs/DEMO_context_compaction.md`.
 
 - **Marginal decode cost is low but not free.** On a 3B Q4_K model, an extra
   batched token costs ~0.1-0.35 ms against a ~10 ms step. The 5% knee is
@@ -65,7 +65,7 @@ phone-sized-model accuracy, an N=1 cap caveat) are in `LIMITATIONS.md`.
   a 360M reaches ~22%, which is not usable. Ensemble diversity (different
   prompts per stream) is the natural next lever for tiny models.
 
-See `PREREGISTRATION.md` for the frozen gates and the dated amendment.
+See `docs/PREREGISTRATION.md` for the frozen gates and the dated amendments.
 
 ## Layout
 
@@ -87,7 +87,8 @@ scripts/    build + data prep
   run_phase1a.ps1        pure-batching sweep with a context-budget guard
 data/       small inputs (GSM8K subset)
 results/    summaries, pareto CSVs, E0 cost curves
-PREREGISTRATION.md   gates, frozen before runs
+docs/       research record: pre-registered gates, dated amendments,
+            demos, theory memo (start at docs/README.md)
 ```
 
 ## Build

@@ -28,6 +28,9 @@ limits.
   `build_tool.bat`, `prep_gsm8k.py`, `run_phase1a.ps1`, ...).
 - `data/` — small inputs (GSM8K subset).
 - `results/` — summaries, pareto CSVs, E0 cost curves, research log.
+- `docs/` — the written research record: frozen gates, dated amendments, demos,
+  theory memo. Start at `docs/README.md`. This is the "paper", kept out of the
+  repository root on purpose.
 - `models/` — fetched separately, not in this repo.
 
 ## Build and test
@@ -43,8 +46,8 @@ limits.
 
 ## Rules
 
-- `PREREGISTRATION.md` holds frozen gates. Do not change them silently; any
-  needed change is a dated amendment.
+- `docs/PREREGISTRATION*.md` hold frozen gates. Do not change them silently;
+  any needed change is a dated amendment appended below the frozen section.
 - Never hardcode or commit secrets or tokens.
 - Respect `LICENSE` and `NOTICE`.
 - Only real, observed runs count as evidence. Never fabricate metrics.

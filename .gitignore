@@ -83,3 +83,6 @@ results/littlebit/runs/
 
 # Nested clone of the private Parallel-Inference repo (own .git; never publish)
 /Parallel Inference/
+
+# scratch completion markers
+*.done

@@ -22,6 +22,11 @@ Read in this order if you want to judge the work rather than run it.
 Amendments are appended and dated, never edited into the original claim. Several
 results are negative, and three retract earlier results of mine:
 
+`PREREGISTRATION_QUBO_INIT.md` and `PREREGISTRATION_RERANKER.md` are implemented
+in a separate repository, [`littlebit-qubo`](https://github.com/AllUsersAreTaken/littlebit-qubo),
+so that the code being scored and the document that fixes the scoring are not
+edited in the same commits.
+
 - `PREREGISTRATION_QUBO_INIT.md` **A10** — a change improved the surrogate
   objective by 3.8% and made the metric the claim was written on 1.9x worse.
 - Same file, **A14** — a third model family falsified the mechanism claim made in
